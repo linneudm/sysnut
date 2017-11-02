@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container">
+  <nav class="navbar navbar-light bg-light">
+  <div class="navbar-header">
+    <a class="navbar-brand text-center" href="#">Detalhes</a>
+  </div>
+  <ul class="nav justify-content-end">
+    <li class"nav-item">
+      <a class="btn btn-outline-secondary float-right" href="{% url 'patient:consultation_list' %}">
+          Voltar
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>
+          <strong>Nome:</strong>
+          {{ object.name}}
+        </p>
+        <p>
+          <strong>Data de Nascimento:</strong>
+          {{ object.birth_date }} | {{ object.age }} anos. {{consultation.bodycirc.thorax_circ}}
+        </p>
+        <p>
+        <p>
+          <strong>Sexo:</strong>
+          {{ object.sex|safe }}
+        </p>
+          <strong>Estado Civil:</strong>
+          {{ object.marital_status }}
+        </p>
+        <p>
+          <strong>E-mail:</strong>
+          {{ object.email }}
+        </p>
+        <p>
+          <strong>Contato:</strong>
+          {{ object.phone }}
+        </p>
+        <p>
+          <strong>Cidade:</strong>
+          {{ object.exam }} - {{ object.address.state }}
+        </p>
+        <p>
+          <strong>Link:</strong>
+          {% for exame in object.exam_consultation.all %}
+          <a href="/media/{{exame.path}}" class="btn btn-primary">
+            <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
+            Download
+          </a>
+          {% endfor %}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

@@ -1,0 +1,97 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" href="http://getbootstrap.com/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+	<link rel="icon" href="http://getbootstrap.com/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+	<link rel="icon" href="http://getbootstrap.com/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+	<link rel="manifest" href="http://getbootstrap.com/assets/img/favicons/manifest.json">
+	<link rel="mask-icon" href="http://getbootstrap.com/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
+	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/formset.css' %}">
+
+	<link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+	<script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+	<title>SysNut - Sistema para Nutricionistas</title>
+</head>
+<body>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-dark bg-pink">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="{% url 'core:index' %}">SysNut</a>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'core:index' %}">Início <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled" href="#">Disabled</a>
+				</li>
+
+				<!-- ícone na navbar -->
+				{% if not user.is_authenticated %}
+				{% include "navbar_default.html" %}
+				{% elif user.is_authenticated and user.is_superuser %}
+				{% include "navbar_admin.html" %}
+				{% else %}
+				{% include "navbar_user.html" %}
+				{% endif %}
+			</ul>
+		</div>
+	</nav>
+	<!-- NAVBAR -->
+
+	<!-- Mensagens -->
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mt-2">
+				{% if messages %}
+				{% for message in messages %}
+				<div class="alert {{ message.tags }} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<strong>Atenção</strong>
+					<p>{{ message }}</p>
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	{% block body %}
+	{% endblock %}
+
+	<div class="pb-4">
+	</div>
+	<footer class="footer text-center">
+		<div class="container-fluid">
+			<span class="text-light">&copy 2017</span>
+		</div>
+	</footer>
+
+	{% block scripts %}
+	<script type="text/javascript" src="{% static 'formset/jquery.formset.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/chosen.jquery.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/inputmask.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/popper.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+	{% endblock %}
+</body>
+
+
+</html>

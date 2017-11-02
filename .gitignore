@@ -1,0 +1,5 @@
+*.pyc
+*.pyo
+*.json
+db.sqlite3
+sysnut/settings_local.py

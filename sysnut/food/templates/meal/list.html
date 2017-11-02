@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container-fluid">
+	<nav class="navbar navbar-light bg-light">
+		<div class="navbar-header">
+			<form class="form-horizontal" action="." method="get">
+				<div class="input-group">
+					<input id="search_box" name="search_box" type="text" placeholder="Informe o nome do Alimento" class="form-control" autofocus="true" value="{{ request.GET.search_box }}" style="width: 300px;">
+					<button type="submit" class="form-group input-group-addon btn btn-secondary" title="Clique para realizar a pesquisar">
+						<i class="fa fa-search" aria-hidden="true"></i>
+					</button>
+				</span>
+			</div>
+		</form>
+	</div>
+	<ul class="nav justify-content-end">
+		<li class"nav-item">
+			<a class="btn btn-outline-secondary float-right" href="{% url 'food:meal_add' %}">
+				<i class="fa fa-plus" aria-hidden="true"></i>
+				Novo
+			</a>
+		</li>
+	</ul>
+</nav>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		{% if object_list.count > 0 %}
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Descrição</th>
+						<th style="width: 165px;">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for meal in object_list %}
+					<tr>
+						<td>{{ meal.original_food.description|slice:":90" }}</td>
+						<td>
+							<a href="{% url 'food:meal_details' meal.id %}" class="btn btn-outline-secondary" title="Exibir">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+
+							<a href="{% url 'food:meal_edit' meal.id %}" class="btn btn-outline-secondary" title="meal_editar">
+								<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+							</a>
+
+							<a href="#modal-id-{{ meal.id }}" class="btn btn-outline-secondary" title="Remover" data-toggle="modal">
+								<i class="fa fa-trash-o" aria-hidden="true"></i>
+							</a>
+						</td>
+					</tr>
+
+					<!-- MODAL -->
+					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+						<div class="modal fade" id="modal-id-{{ meal.id }}">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title">Alerta!</h4>
+									</div>
+									<div class="modal-body">
+										<p>Deseja realmente remover esse usuário: <strong>{{ food.username }}</strong>?</p>
+									</div>
+									<div class="modal-footer">
+										<form action="{% url 'food:meal_delete' meal.pk %}" method="post">{%csrf_token%}
+											<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+											<button type="submit" class='btn btn-danger' title='Deletar'>
+												Delete
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /MODAL -->
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% else %}
+		<p><center>Não há alimentos registrados.</center></p>
+		{% endif %}
+	</div>
+		<!-- Paginação -->
+		{% if page_obj.has_other_pages %}
+		<nav>
+			<ul class="pagination justify-content-center">
+				{# Previous page link #}
+				{% if page_obj.has_previous %}
+				<li class="page-item">
+					<a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">
+						<span aria-hidden="true"><i class="fa fa-chevron-left"></i></span>
+					</a>
+				</li>
+				{% else %}
+				<li class="page-item disabled">
+					<a class="page-link" href="#"><i class="fa fa-chevron-left"></i></a>
+				</li>
+				{% endif %}
+
+				{# First page #}
+				{% if show_first %}
+				<li class="page-item">
+					<a class="page-link" href="?page=1">Primeiro</a>
+				</li>
+				{% endif %}
+
+				{# List of pages (with current "active") #}
+				{% for page in page_numbers %}
+				{% ifequal page page_obj.number %}
+				<li class="page-item active">
+					<a class="page-link" href="#">{{ page }}</a>
+				</li>
+				{% else %}
+				<li class="page-item">
+					<a class="page-link" href="?page={{ page }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">{{ page }}</a>
+				</li>
+				{% endifequal %}
+				{% endfor %}
+
+				{# Last page #}
+				{% if show_last %}
+				<li class="page-item">
+					<a class="page-link" href="?page=last">{{ page_obj.pages }}Último</a>
+				</li>
+				{% endif %}
+
+				{# Next page link #}
+				{% if page_obj.has_next %}
+				<li class="page-item">
+					<a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}"><i class="fa fa-chevron-right"></i></a>
+				</li>
+				{% else %}
+				<li class="page-item disabled">
+					<a class="page-link" href="#"><i class="fa fa-chevron-right"></i></a>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
+		{% endif %}
+		<!-- Fim da Paginação -->
+
+</div>
+
+{% endblock %}

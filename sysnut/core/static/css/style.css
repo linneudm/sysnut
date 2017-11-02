@@ -1,0 +1,60 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #49274a;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+
+.bg-pink{
+  background-color: #49274a;
+}
+
+.navbar-brand{
+  font-weight: bold;
+}
+
+.btn-primary{
+  background-color: #49274a;
+  border-color: #49274a;
+}
+.btn-primary:hover{
+  background-color: #94618e;
+  border-color: #94618e;
+}
+.btn-primary.focus{
+
+}
+
+.btn-primary:active,.btn-primary:focus, .btn-primary:visited{
+  box-shadow: 0 0 0 3px rgba(107, 2, 119, 0.5);
+  background-color: #94618e;
+  border-color: #94618e;
+}
+
+table .food th{
+    font-size: 5px;
+}

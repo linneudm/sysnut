@@ -1,0 +1,15 @@
+.add-row {
+    padding-left:18px;
+    background:url('../formset/images/add.png') no-repeat left center;
+}
+.delete-row {
+    display:block;
+    margin:6px 0 0 0;
+    padding-left:18px;
+    background:url('../formset/images/delete.png') no-repeat left center;
+}
+.dynamic-form {
+    margin-bottom:6px;
+    padding-bottom:6px;
+    border-bottom:1px dotted #ccc;
+}

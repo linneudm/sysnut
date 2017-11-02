@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block body %}
+
+  <div class="container-fluid">
+		<nav class="navbar navbar-light bg-light">
+    <div class="navbar-header">
+			<form class="form-horizontal" action="." method="get">
+				<div class="input-group">
+					<input id="search_box" name="search_box" type="text" placeholder="Informe o Paciente da Consulta" class="form-control" autofocus="true" value="{{ request.GET.search_box }}" style="width: 300px;">
+						<button type="submit" class="form-group input-group-addon btn btn-secondary" title="Clique para realizar a pesquisar">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</button>
+					</span>
+				</div>
+			</form>
+    </div>
+		<ul class="nav justify-content-end">
+			<li class"nav-item">
+				<a class="btn btn-outline-secondary float-right" href="{% url 'patient:analysis_create' %}">
+					<i class="fa fa-plus" aria-hidden="true"></i>
+						Novo
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+	{% if object_list.count > 0 %}
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>Nome do Paciente</th>
+						<th>Cardapio</th>
+						<th style="width: 205px;">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for analysis in object_list %}
+					<tr>
+						<td>{{ analysis.consultation.patient.name|slice:":100" }}</td>
+            <td>{{ analysis.description }}</td>
+						<td>
+							<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
+							<i class="fa fa-clone" aria-hidden="true"></i>
+							</a>
+							<a href="{% url 'patient:analysis_details' analysis.id %}" class="btn btn-outline-primary" title="Exibir">
+							<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+
+							<a href="{% url 'patient:analysis_edit' analysis.id %}" class="btn btn-outline-warning" title="Editar">
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+							</a>
+
+							<a href="#modal-id-{{ analysis.id }}" class="btn btn-outline-danger" title="Remover" data-toggle="modal">
+							<i class="fa fa-trash-o" aria-hidden="true"></i>
+							</a>
+						</td>
+					</tr>
+
+					<!-- MODAL -->
+					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+						<div class="modal fade" id="modal-id-{{ analysis.id }}">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title">Alerta!</h4>
+									</div>
+									<div class="modal-body">
+										<p>Deseja realmente remover essa consulta: <strong>{{ analysis.consultation.patient.name }}</strong>?</p>
+									</div>
+									<div class="modal-footer">
+										<form action="{% url 'patient:analysis_delete' analysis.pk %}" method="post">{%csrf_token%}
+											<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+											<button type="submit" class='btn btn-danger' title='Deletar'>
+												Delete
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /MODAL -->
+					{% endfor %}
+				</tbody>
+			</table>
+	{% else %}
+		<p><center>Não há consultas registradas.</center></p>
+	{% endif %}
+	</div>
+	<center>
+			<!-- Paginação -->
+			{% if page_obj.has_other_pages %}
+			<nav>
+				<ul class="pagination">
+					{# Previous page link #}
+					{% if page_obj.has_previous %}
+					<li>
+						<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					{% else %}
+					<li class="disabled">
+						<a href="#">&laquo;</a>
+					</li>
+					{% endif %}
+
+					{# First page #}
+					{% if show_first %}
+					<li>
+						<a href="?page=1">Primeiro</a>
+					</li>
+					{% endif %}
+
+					{# List of pages (with current "active") #}
+					{% for page in page_numbers %}
+					{% ifequal page page_obj.number %}
+					<li class="active">
+						<a href="#">{{ page }}</a>
+					</li>
+					{% else %}
+					<li>
+						<a href="?page={{ page }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">{{ page }}</a>
+					</li>
+					{% endifequal %}
+					{% endfor %}
+
+					{# Last page #}
+					{% if show_last %}
+					<li>
+						<a href="?page=last">{{ page_obj.pages }}Último</a>
+					</li>
+					{% endif %}
+
+					{# Next page link #}
+					{% if page_obj.has_next %}
+					<li>
+						<a href="?page={{ page_obj.next_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">&raquo;</a>
+					</li>
+					{% else %}
+					<li class="disabled">
+						<a href="#">&raquo;</a>
+					</li>
+					{% endif %}
+				</ul>
+			</nav>
+			{% endif %}
+			<!-- Fim da Paginação -->
+		</center>
+
+</div>
+
+{% endblock %}

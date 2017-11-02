@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container">
+  <nav class="navbar navbar-light bg-light">
+  <div class="navbar-header">
+    <a class="navbar-brand text-center" href="#">Detalhes</a>
+  </div>
+  <ul class="nav justify-content-end">
+    <li class"nav-item">
+      <a class="btn btn-outline-secondary float-right" href="{% url 'nutritionist:list' %}">
+          Voltar
+      </a>
+    </li>
+  </ul>
+</nav>
+</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p>
+          <strong>Usuário:</strong>
+          {{ object.username }}
+        </p>
+        <p>
+          <strong>Nome:</strong>
+          {{ object.first_name }}
+        </p>
+        <p>
+        <p>
+          <strong>Último Nome:</strong>
+          {{ object.last_name|safe }}
+        </p>
+          <strong>CRN:</strong>
+          {{ object.crn }}
+        </p>
+        <p>
+          <strong>Sexo:</strong>
+          {{ object.sex }}
+        </p>
+        <p>
+          <strong>Endereço:</strong>
+          {{ object.address.city }} - {{ object.address.state }}
+        </p>
+        <p>
+          <strong>CEP:</strong>
+          {{ object.address.zip_code }} 
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

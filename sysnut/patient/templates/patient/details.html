@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container">
+  <nav class="navbar navbar-light bg-light">
+    <div class="navbar-header">
+      <a class="navbar-brand text-center" href="#">Detalhes</a>
+    </div>
+    <ul class="nav justify-content-end">
+      <li class"nav-item">
+        <div class="btn-group">
+        <a class="btn btn-outline-secondary float-right" href="{% url 'patient:list' %}">
+          Voltar
+        </a>
+        <a class="btn btn-success"  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Progresso
+        </a>
+      </div>
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <p>
+        <strong>Nutricionista:</strong>
+        {{ object.user.first_name}} {{ object.user.last_name}} 
+      </p>
+      <p>
+        <strong>Nome:</strong>
+        {{ object.name}}
+      </p>
+      <p>
+        <strong>Data de Nascimento:</strong>
+        {{ object.birth_date }} | {{ object.age }} anos.
+      </p>
+      <p>
+        <p>
+          <strong>Sexo:</strong>
+          {{ object.sex|safe }}
+        </p>
+        <strong>Estado Civil:</strong>
+        {{ object.marital_status }}
+      </p>
+      <p>
+        <strong>E-mail:</strong>
+        {{ object.email }}
+      </p>
+      <p>
+        <strong>Contato:</strong>
+        {{ object.phone }}
+      </p>
+      <p>
+        <strong>Cidade:</strong>
+        {{ object.address.city }} - {{ object.address.state }}
+      </p>
+      <p>
+        <strong>CEP:</strong>
+        {{ object.address.zip_code }}
+      </p>
+      <div class="collapse" id="collapseExample">
+        <ul class="nav nav-tabs" role="tablist">
+          {% for cons in consultation %}
+          {% if forloop.first %}
+          <li class="nav-item"><a class="nav-link active" href="#tab-{{cons.objective}}" aria-controls="tab-{{cons.objective}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
+          {% else %}
+          <li class="nav-item"><a class="nav-link" href="#tab-{{cons.objective}}" aria-controls="tab-{{cons.objective}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          {% for cons in consultation %}
+          {% if forloop.first %}
+          <div role="tabpanel" class="tab-pane fade show active" id="tab-{{cons.objective}}">
+            <p>
+              <strong>Objetivo:</strong>
+              {{ cons.objective }}
+            </p>
+          </div>
+          {% else %}
+          <div role="tabpanel" class="tab-pane fade" id="tab-{{cons.objective}}">
+            <p>
+              <strong>Objetivo:</strong>
+              {{ cons.objective }}
+            </p>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

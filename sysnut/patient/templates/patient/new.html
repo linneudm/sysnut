@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block body %}
+
+<nav class="navbar navbar-light bg-light nav-item">
+  <div class="container-fluid justify-content-center align-items-center">
+    <div class="navbar-header">
+      <a class="navbar-brand text-center" href="#">Criar/Alterar dados do Paciente</a>
+    </div>
+    <ul class="navbar-nav navbar-right">
+      <li class"nav-item"><a class="btn btn-outline-secondary" href="{% url 'patient:list' %}">Voltar</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <!--Duplica, caso a requisição seja DUPLICATE -->
+      {% if "duplicate" in request.path|cut:"/" %}{% url "patient:create" as URL %}{% endif %}
+      <form action="{{URL}}" method="post">{% csrf_token %}
+        <fieldset>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item"><a class="nav-link active" href="#tab-dados" aria-controls="tab-dados" role="tab" data-toggle="tab">Dados</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-endereco" aria-controls="tab-endereco" role="tab" data-toggle="tab">Endereço</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade show active" id="tab-dados">
+              {% for field in form %}
+              {% if field.errors %}
+              <div class="form-group error" >
+                <label class="control-label" >{{ field.label }}</label>
+                {{ field|add_class:"form-control input-md" }}
+                {% for error in field.errors%}
+                <span class="help-inline error">{{ error}}</span>
+                {% endfor%}
+              </div>
+              {%else%}
+              <div class="form-group">
+                <label class="control-label" >{{ field.label }}</label>
+                {% if field.label == "Data de Nascimento" %}
+                <div class="input-group date datepicker">
+                  {{ field|add_class:"form-control input-md" }}
+                  <span class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </span>
+                </div>
+                {% else %}
+                {{ field|add_class:"form-control input-md" }}
+                {% endif %}
+              </div>
+              {%endif%}
+              {% endfor %}
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab-endereco">
+              {% for field in address_form %}
+              {% if field.errors %}
+              <div class="form-group error" >
+                <label class="control-label" >{{ field.label }}</label>
+                {{ field|add_class:"form-control input-md" }}
+                {% for error in field.errors%}
+                <span class="help-inline error">{{ error}}</span>
+                {% endfor%}
+              </div>
+              {%else%}
+              <div class="form-group">
+                <label class="control-label" >{{ field.label }}</label>
+                {{ field|add_class:"form-control input-md" }}
+              </div>
+              {%endif%}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" value="Salvar" class="btn btn-primary">
+              <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+              Salvar
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#id_birth_date").attr("readonly", "true");
+  $("#id_birth_date").datepicker({
+    format: "dd/mm/yyyy",
+    todayBtn: "linked",
+    language: "pt-BR",
+    autoclose: true,
+    todayHighlight: true
+  });
+
+  $("#id_phone").inputmask({"mask": "(99) 9 9999-9999"}); //specifying options
+  $("#id_zip_code").inputmask({"mask": "99999-999"}); //specifying options
+});
+</script>
+{% endblock %}

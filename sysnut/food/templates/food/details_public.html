@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <p class="header-title">
+          Documento:
+          {{ object.title }}
+        </p>
+        <div class="block-style">
+        <strong><p>Resumo:</p></strong>
+        {{ object.summary|safe|escape }}
+        <strong><p>Quantidade de pessoas presentes:</strong> {{ object.quantity_present }}</p>
+        <strong><p>Download da ata:</p></strong>
+        <td><a href="/media/{{ object.file}}" class="btn btn-primary"><span class="fa fa-download"></span> Download</a></td>
+        <span class="pull-right">
+        	<a class="btn btn-primary nav-dist-btn" href="javascript:window.history.go(-1)"><i class="fa fa-chevron-left" aria-hidden="true"></i>
+            Voltar</a>
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  
+  /* google analytics */
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-98912101-1', 'auto');
+    ga('send', 'pageview'); 
+
+</script>
+
+  {% endblock %}

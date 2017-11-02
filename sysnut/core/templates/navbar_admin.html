@@ -1,0 +1,71 @@
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			Nutricionista
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="{% url 'nutritionist:create' %}">
+				<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+				Novo
+			</a>
+			<a class="dropdown-item" href="{% url 'nutritionist:list' %}">
+				<i class="fa fa-list-ul" aria-hidden="true"></i>
+				Lista
+			</a>
+		</div>
+	</li>
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			Paciente
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="{% url 'patient:create' %}">
+				<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+				Novo
+			</a>
+			<a class="dropdown-item" href="{% url 'patient:list' %}">
+				<i class="fa fa-list-ul" aria-hidden="true"></i>
+				Lista
+			</a>
+			<a class="dropdown-item" href="{% url 'patient:consultation_list' %}">
+				<i class="fa fa-search" aria-hidden="true"></i>
+				Consultas
+			</a>
+		</div>
+	</li>
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			Alimento
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="{% url 'food:add' %}">
+				<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+				Novo
+			</a>
+			<a class="dropdown-item" href="{% url 'food:list' %}">
+				<i class="fa fa-list-ul" aria-hidden="true"></i>
+				Lista
+			</a>
+		</div>
+	</li>
+</ul>
+<ul class="navbar-nav navbar-dark mt-2 mt-lg-0">
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			<p class="fa fa-user-circle" aria-hidden="true"></p> {{ user.username }}
+			<b class="caret"></b>
+		</a>
+		<div class="dropdown-menu dropdown-menu-right">
+			<a class="dropdown-item" href="{% url 'account:edit' %}">
+				<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+				Editar
+			</a>
+				<a class="dropdown-item" href="{% url 'account:password_change' %}">
+					<i class="fa fa-key" aria-hidden="true"></i>
+					Altera senha
+				</a>
+				<a class="dropdown-item" href="{% url 'account:logout' %}">
+					<i class="fa fa-sign-out" aria-hidden="true"></i>
+					Sair
+				</a>
+		</div>
+	</li>
