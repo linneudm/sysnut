@@ -1,6 +1,6 @@
-# Project Title
+# SysNut
 
-One Paragraph of project description goes here
+This is a project made by Linneu Lopes. All rights reserved.
 
 ## Getting Started
 
@@ -11,7 +11,8 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 ```
-Give examples
+Python 2.7
+Django 1.11
 ```
 
 ### Installing
@@ -21,35 +22,7 @@ A step by step series of examples that tell you have to get a development env ru
 Say what the step will be
 
 ```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+pip install -r requirements.txt
 ```
 
 ## Deployment
@@ -60,10 +33,6 @@ Add additional notes about how to deploy this on a live system
 
 * [FontAwesome](http://fontawesome.io/) - Font Awesome 4.7.0
 * [Bootstrap](http://getbootstrap.com/) - Bootstrap 4.0 Alpha
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
