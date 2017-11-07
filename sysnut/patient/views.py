@@ -418,6 +418,7 @@ class FoodAnalysisList(ListView):
 
 	def get_queryset(self):
 		self.queryset = super(FoodAnalysisList, self).get_queryset()
+		self.queryset = self.queryset.filter(consultation = self.kwargs['consultation'])
 		if self.request.GET.get('search_box', False) :
 			self.queryset=self.queryset.filter(title__icontains = self.request.GET['search_box'])
 		return self.queryset
@@ -429,6 +430,8 @@ class FoodAnalysisList(ListView):
 		page_number = context['page_obj'].number
 		num_pages = context['paginator'].num_pages
 		startPage = max(page_number - adjacent_pages, 1)
+		#Define o ID da consulta para o Template.
+		context['consultation_id'] = self.kwargs['consultation']
 		if startPage <= 5:
 		    startPage = 1
 		endPage = page_number + adjacent_pages + 1
@@ -463,19 +466,22 @@ class FoodAnalysisCreate(CreateView):
 		self.object = None
 		form = self.get_form()
 		self.item_formset = ItemFormSet(self.request.POST)
-		if form.is_valid() and self.item_formset.is_valid():
+		if form.is_valid():
 			return self.form_valid(form)
 		else:
 			return self.form_invalid(form)
 
 	def form_valid(self, form):
-		self.object = form.save()
+		analysis = form.save(commit=False)
+		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
+		analysis.save()
 		self.item_formset.instance = self.object
 		self.item_formset.save()
 		return HttpResponseRedirect(reverse('patient:analysis_edit', self.pk))
 
 	def get_context_data(self, **kwargs):
 		context = super(FoodAnalysisCreate,self).get_context_data(**kwargs)
+		context['consultation_id'] = self.kwargs['consultation']
 		context['item_formset'] = self.item_formset
 		return context
 
@@ -498,9 +504,6 @@ class FoodAnalysisUpdate(UpdateView):
 			return self.form_valid(form)
 		else:
 			return self.form_invalid(form)
-			
-	def get_absolute_url(self):
-		return reverse('patient:analysis_edit' % self.id)
 
 	def form_valid(self,form):
 		self.object = form.save()
@@ -510,6 +513,7 @@ class FoodAnalysisUpdate(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		context = super(FoodAnalysisUpdate,self).get_context_data(**kwargs)
+		context['consultation_id'] = self.object.consultation.id
 		context['item_formset']=self.item_formset
 		return context
 
@@ -517,6 +521,13 @@ class FoodAnalysisUpdate(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisDelete(DeleteView):
 	model = FoodAnalysis
-	success_url = reverse_lazy('patient:analysis_list')
+	#success_url = reverse_lazy('patient:analysis_list')
 
+	def delete(self, request, *args, **kwargs):
+	    self.object = self.get_object()
+	    id_return = self.object.consultation.id
+	    #print(">>>>>>>", id_return)
+	    self.object.delete()
+	    messages.add_message(request, messages.SUCCESS, 'Cardápio removido com sucesso!')
+	    return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation': id_return}))
 # End FoodAnalysis CRUD

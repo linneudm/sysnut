@@ -225,7 +225,7 @@ class FoodAnalysis(models.Model):
 	description = models.CharField(u'Descrição', max_length=200, null=True, blank=True)
 	created_at = models.DateTimeField(u'Criado em', auto_now_add=True)
 	update_at = models.DateTimeField(u'Atualizado em', auto_now_add=True)
-	published = models.BooleanField()
+	published = models.BooleanField('Publicar?')
 
 	def get_absolute_url(self):
 		return reverse('patient:analysis_edit', kwargs={'pk': self.pk})

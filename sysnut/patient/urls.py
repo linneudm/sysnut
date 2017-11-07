@@ -23,10 +23,10 @@ urlpatterns = [
     url(r'^consultation/delete/(?P<pk>[0-9]+)/$',ConsultationDelete.as_view(), name='consultation_delete'),
 
     #FoodAnalysis
-    url(r'^analysis/add/$', FoodAnalysisCreate.as_view(), name='analysis_create'),
+    url(r'^analysis/add/(?P<consultation>[0-9]+)/$', FoodAnalysisCreate.as_view(), name='analysis_create'),
     url(r'^analysis/edit/(?P<pk>[0-9]+)/$', FoodAnalysisUpdate.as_view(), name='analysis_edit'),
     url(r'^analysis/duplicate/(?P<pk>[0-9]+)/$', FoodAnalysisUpdate.as_view(), name='analysis_duplicate'),
-    url(r'^analysis/list/$', FoodAnalysisList.as_view(), name='analysis_list'),
+    url(r'^analysis/list/(?P<consultation>[0-9]+)/$', FoodAnalysisList.as_view(), name='analysis_list'),
     url(r'^analysis/details/(?P<pk>[0-9]+)/$', FoodAnalysisDetail.as_view(), name='analysis_details'),
     url(r'^analysis/delete/(?P<pk>[0-9]+)/$',FoodAnalysisDelete.as_view(), name='analysis_delete')
 

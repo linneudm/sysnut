@@ -33,7 +33,7 @@
 					<tr>
 						<th>Nome do Paciente</th>
 						<th>Dt. Consulta</th>
-						<th style="width: 205px;">Ações</th>
+						<th style="width: 255px;">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,6 +42,9 @@
 						<td>{{ consultation.patient.name|slice:":100" }}</td>
             <td>{{ consultation.date }}</td>
 						<td>
+							<a href="{% url 'patient:analysis_list' consultation.id %}" class="btn btn-outline-success" title="Cardápios">
+							<i class="fa fa-heartbeat" aria-hidden="true"></i>
+							</a>
 							<a href="{% url 'patient:consultation_duplicate' consultation.id %}" class="btn btn-outline-info" title="Duplicar">
 							<i class="fa fa-clone" aria-hidden="true"></i>
 							</a>

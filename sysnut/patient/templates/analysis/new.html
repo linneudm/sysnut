@@ -8,7 +8,7 @@
     </div>
     <ul class="navbar-nav navbar-right">
       <li class"nav-item">
-        <a class="btn btn-outline-secondary" href="{% url 'patient:analysis_list' %}">Voltar</a>
+        <a class="btn btn-outline-secondary" href="{% url 'patient:analysis_list' consultation_id %}">Voltar</a>
         <a class="btn btn-success"  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
           Nutrientes
         </a>
@@ -17,11 +17,14 @@
   </ul>
 </div>
 </nav>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <!--Duplica, caso a requisição seja DUPLICATE -->
-      {% if "duplicate" in request.path|cut:"/" %}{% url "patient:analysis_create" as URL %}{% endif %}
+      {% if "duplicate" in request.path|cut:"/" %}
+        {% url 'patient:analysis_create' consultation_id as URL %}
+      {% endif %}
+      <a class="btn btn-outline-secondary" href="{{URL}}">Teste</a>
       <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
         <fieldset>
               {% for field in form %}
@@ -55,7 +58,7 @@
               </div>
               {%endif%}
               {% endfor %}
-              <h4>Anexos</h4>
+              <h4>Refeições</h4>
               {% for formset_error in item_formset.non_form_errors %}
               <div class="alert alert-error">
                 <button type="button" class="close" data-dismiss="alert">×</button>
@@ -103,7 +106,7 @@
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 Salvar
               </button>
-              <a class="btn btn-success" href="{% url 'patient:analysis_list' %}">Voltar</a>
+              <a class="btn btn-success" href="#">Voltar</a>
             </div>
           </fieldset>
         </form>
