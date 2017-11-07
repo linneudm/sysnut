@@ -380,9 +380,6 @@ class ConsultationUpdate(UpdateView):
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
-		print(self.object.energycalc)
-		print(self.object.energycalc.mbr)
-		print(self.object.energycalc.tee)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
 		return HttpResponseRedirect(self.get_success_url())
@@ -511,15 +508,17 @@ class FoodAnalysisUpdate(UpdateView):
 
 	def get_context_data(self, **kwargs):
 		self.object = self.get_object()
-		context = super(PatientUpdate, self).get_context_data(**kwargs)
+		context = super(FoodAnalysisUpdate, self).get_context_data(**kwargs)
+		context['consultation_id'] = self.object.consultation.id
 		if self.request.POST:
-			context['meal_form'] = self.second_form_class(self.request.POST, instance=self.object)
-			context['form'] = self.form_class(self.request.POST, instance=self.object.address)
+			#context['meal_form'] = self.second_form_class(self.request.POST, instance=self.object)
+			context['form'] = self.form_class(self.request.POST, instance=self.object)
 		else:
-			context['meal_form'] = self.second_form_class(instance=self.object.address)
+			#context['meal_form'] = self.second_form_class(instance=self.object)
 			context['form'] = self.form_class(instance=self.object)
 
 		return context
+
 
 
 	def get(self, request, *args, **kwargs):
@@ -537,24 +536,35 @@ class FoodAnalysisUpdate(UpdateView):
 		return self.render_to_response(self.get_context_data())
 
 	def post(self, request, *args, **kwargs):
+
 		self.object = self.get_object()
+		form = self.form_class(self.request.POST, instance=self.object)
+		meal_form = self.second_form_class(self.request.POST, instance=self.object.meal_analysis)
 
-		form = self.get_form()
-		if form.is_valid() and self.item_formset.is_valid():
-			return self.form_valid(form)
+		if form.is_valid() and meal_form.is_valid():
+			return self.form_valid(form, meal_form)
 		else:
-			return self.form_invalid(form)
+			return self.form_invalid(form, meal_form)
 
-	def form_valid(self,form):
-		self.object = form.save()
-		return HttpResponseRedirect(self.get_success_url())
+	def form_valid(self, form, address_form):
+		self.object = meal_form.save(commit=False)
+		analysis = form.save(commit=False)
+		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
+		analysis.save()
+		self.object.food_analysis = analysis
+		self.object.save()
+		return HttpResponseRedirect(reverse('patient:analysis_edit', self.pk))
 
-	def get_context_data(self, **kwargs):
-		context = super(FoodAnalysisUpdate,self).get_context_data(**kwargs)
-		context['consultation_id'] = self.object.consultation.id
+	def form_invalid(self, form, meal_form):
+		return self.render_to_response(
+			self.get_context_data(
+					form=form,
+                    meal_form=meal_form
+			)
+		)
 
-		return context
-
+	def get_success_url(self):
+		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation': id_return}))
 
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisDelete(DeleteView):

@@ -228,7 +228,7 @@ class FoodAnalysis(models.Model):
 	published = models.BooleanField('Publicar?')
 
 	def get_absolute_url(self):
-		return reverse('patient:analysis_edit', kwargs={'pk': self.pk})
+		return reverse('patient:analysis_edit', kwargs={'id': self.pk})
 
 	def __str__(self):
 		return self.description
