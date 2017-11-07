@@ -50,14 +50,14 @@ class Food(models.Model):
     selenium = models.DecimalField('Selênio (mcg)', default=0.00, decimal_places=2, max_digits=8)
 
     def __str__(self):
-        return self.description.encode('utf-8')
+        return self.description#.encode('utf-8')
 
     def get_absolute_url(self):
         return reverse('food:list')
 
-	class Meta:
-		verbose_name = 'Alimento'
-		verbose_name_plural = 'Alimentos'
+    class Meta:
+        verbose_name = 'Alimento'
+        verbose_name_plural = 'Alimentos'
 
 class Meal(models.Model):
     BREAKFAST = 'CAFÉ DA MANHÃ'
