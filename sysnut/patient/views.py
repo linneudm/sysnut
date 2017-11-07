@@ -539,7 +539,7 @@ class FoodAnalysisUpdate(UpdateView):
 
 		self.object = self.get_object()
 		form = self.form_class(self.request.POST, instance=self.object)
-		meal_form = self.second_form_class(self.request.POST, instance=self.object.meal_analysis)
+		meal_form = self.second_form_class(self.request.POST)
 
 		if form.is_valid() and meal_form.is_valid():
 			return self.form_valid(form, meal_form)
