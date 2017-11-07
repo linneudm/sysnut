@@ -41,6 +41,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors
 
 * **Linneu Lopes** - *Full development* - [LinneuDM](https://github.com/LinneuDM)
+* **Jonnison Lima** - *Project Manager* - [Jonnison](https://github.com/jonnison)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
