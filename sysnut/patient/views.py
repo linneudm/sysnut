@@ -487,7 +487,7 @@ class FoodAnalysisCreate(CreateView):
 		analysis.save()
 		self.object.food_analysis = analysis
 		self.object.save()
-		return HttpResponseRedirect(reverse('patient:analysis_edit', self.pk))
+		return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 
 	def form_invalid(self, form, meal_form):
 		return self.render_to_response(
