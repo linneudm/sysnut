@@ -57,4 +57,9 @@ class FoodAnalysisForm(ModelForm):
 	class Meta:
 		model = FoodAnalysis
 		fields = ['description', 'published']
-ItemFormSet = forms.inlineformset_factory(FoodAnalysis, Meal, fields=('meal', 'home_measure', 'original_food', 'weight'),extra=1)
+
+
+class MealForm(ModelForm):
+	class Meta:
+		model = Meal
+		fields = ['original_food', 'meal', 'weight', 'home_measure']

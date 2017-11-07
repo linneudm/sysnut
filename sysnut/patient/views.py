@@ -456,33 +456,50 @@ class FoodAnalysisCreate(CreateView):
 	model = FoodAnalysis
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
+	second_form_class = MealForm
 
 	def get(self, request, *args, **kwargs):
 		self.object = None
-		self.item_formset = ItemFormSet()
-		return super(FoodAnalysisCreate,self).get(request,*args,**kwargs)
+		form = self.form_class
+		meal_form = self.second_form_class
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+				meal_form=meal_form
+			)
+		)
 
 	def post(self, request, *args, **kwargs):
 		self.object = None
-		form = self.get_form()
-		self.item_formset = ItemFormSet(self.request.POST)
-		if form.is_valid():
-			return self.form_valid(form)
-		else:
-			return self.form_invalid(form)
+		meal_form = self.second_form_class(self.request.POST)
+		form = self.form_class(self.request.POST)
 
-	def form_valid(self, form):
+		if form.is_valid() and meal_form.is_valid():
+			messages.add_message(request, messages.SUCCESS, 'Cardápio adicionado com sucesso!')
+			return self.form_valid(form, meal_form)
+		else:
+			return self.form_invalid(form, meal_form)
+
+	def form_valid(self, form, meal_form):
+		self.object = meal_form.save(commit=False)
 		analysis = form.save(commit=False)
 		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
 		analysis.save()
-		self.item_formset.instance = self.object
-		self.item_formset.save()
+		self.object.food_analysis = analysis
+		self.object.save()
 		return HttpResponseRedirect(reverse('patient:analysis_edit', self.pk))
+
+	def form_invalid(self, form, meal_form):
+		return self.render_to_response(
+			self.get_context_data(
+					form=form,
+                    meal_form=meal_form
+			)
+		)
 
 	def get_context_data(self, **kwargs):
 		context = super(FoodAnalysisCreate,self).get_context_data(**kwargs)
 		context['consultation_id'] = self.kwargs['consultation']
-		context['item_formset'] = self.item_formset
 		return context
 
 @method_decorator(login_required, name='dispatch')
@@ -490,15 +507,38 @@ class FoodAnalysisUpdate(UpdateView):
 	model = FoodAnalysis
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
+	second_form_class = MealForm
+
+	def get_context_data(self, **kwargs):
+		self.object = self.get_object()
+		context = super(PatientUpdate, self).get_context_data(**kwargs)
+		if self.request.POST:
+			context['meal_form'] = self.second_form_class(self.request.POST, instance=self.object)
+			context['form'] = self.form_class(self.request.POST, instance=self.object.address)
+		else:
+			context['meal_form'] = self.second_form_class(instance=self.object.address)
+			context['form'] = self.form_class(instance=self.object)
+
+		return context
+
 
 	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		self.item_formset = ItemFormSet(instance = self.object)
+		super(FoodAnalysisUpdate, self).get(request, *args, **kwargs)
+		form = self.form_class
+		meal_form = self.second_form_class
+		return self.render_to_response(
+			self.get_context_data(
+				object=self.object,
+				form=form,
+				meal_form=meal_form
+			)
+		)
+
 		return self.render_to_response(self.get_context_data())
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		self.item_formset = ItemFormSet(self.request.POST,instance=self.object)
+
 		form = self.get_form()
 		if form.is_valid() and self.item_formset.is_valid():
 			return self.form_valid(form)
@@ -507,14 +547,12 @@ class FoodAnalysisUpdate(UpdateView):
 
 	def form_valid(self,form):
 		self.object = form.save()
-		self.item_formset.instance = self.object
-		self.item_formset.save()
 		return HttpResponseRedirect(self.get_success_url())
 
 	def get_context_data(self, **kwargs):
 		context = super(FoodAnalysisUpdate,self).get_context_data(**kwargs)
 		context['consultation_id'] = self.object.consultation.id
-		context['item_formset']=self.item_formset
+
 		return context
 
 
@@ -531,3 +569,4 @@ class FoodAnalysisDelete(DeleteView):
 	    messages.add_message(request, messages.SUCCESS, 'Cardápio removido com sucesso!')
 	    return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation': id_return}))
 # End FoodAnalysis CRUD
+
