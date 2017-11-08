@@ -403,6 +403,18 @@ class ConsultationDelete(DeleteView):
 	model = Consultation
 	success_url = reverse_lazy('patient:consultation_list')
 
+class FoodAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = Food.objects.all()
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+		print(qs)
+		return qs
+
 # FoodAnalysis CRUD
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisList(ListView):
@@ -457,6 +469,7 @@ class FoodAnalysisCreate(CreateView):
 
 	def get(self, request, *args, **kwargs):
 		self.object = None
+		self.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
 		form = self.form_class
 		meal_form = self.second_form_class
 		return self.render_to_response(
@@ -497,6 +510,7 @@ class FoodAnalysisCreate(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(FoodAnalysisCreate,self).get_context_data(**kwargs)
 		context['consultation_id'] = self.kwargs['consultation']
+		context['consultation'] = Consultation.objects.get(id = self.kwargs['consultation'])
 		return context
 
 @method_decorator(login_required, name='dispatch')
@@ -510,6 +524,7 @@ class FoodAnalysisUpdate(UpdateView):
 		self.object = self.get_object()
 		context = super(FoodAnalysisUpdate, self).get_context_data(**kwargs)
 		context['consultation_id'] = self.object.consultation.id
+		context['consultation'] = Consultation.objects.get(id = self.object.consultation.id)
 		if self.request.POST:
 			#context['meal_form'] = self.second_form_class(self.request.POST, instance=self.object)
 			context['form'] = self.form_class(self.request.POST, instance=self.object)
@@ -536,24 +551,23 @@ class FoodAnalysisUpdate(UpdateView):
 		return self.render_to_response(self.get_context_data())
 
 	def post(self, request, *args, **kwargs):
-
 		self.object = self.get_object()
-		form = self.form_class(self.request.POST, instance=self.object)
 		meal_form = self.second_form_class(self.request.POST)
+		form = self.form_class(self.request.POST, instance=self.object)
 
 		if form.is_valid() and meal_form.is_valid():
 			return self.form_valid(form, meal_form)
 		else:
 			return self.form_invalid(form, meal_form)
 
-	def form_valid(self, form, address_form):
+	def form_valid(self, form, meal_form):
 		self.object = meal_form.save(commit=False)
 		analysis = form.save(commit=False)
-		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
+#		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
 		analysis.save()
 		self.object.food_analysis = analysis
 		self.object.save()
-		return HttpResponseRedirect(reverse('patient:analysis_edit', self.pk))
+		return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 
 	def form_invalid(self, form, meal_form):
 		return self.render_to_response(

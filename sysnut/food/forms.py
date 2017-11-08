@@ -10,9 +10,3 @@ class FoodForm(ModelForm):
 	class Meta:
 		model = Food
 		fields = '__all__'
-
-class MealForm(ModelForm):
-
-	class Meta:
-		model = Meal
-		fields = '__all__'

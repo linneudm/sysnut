@@ -3,7 +3,7 @@
 from django.forms import ModelForm
 from django import forms
 from .models import *
-from sysnut.food.models import Meal
+from sysnut.food.models import Meal, Food
 from multiupload.fields import MultiFileField
 from dal import autocomplete
 
@@ -60,6 +60,10 @@ class FoodAnalysisForm(ModelForm):
 
 
 class MealForm(ModelForm):
+	original_food = forms.ModelChoiceField(
+			queryset=Food.objects.all(),
+			widget = autocomplete.ModelSelect2(url='patient:food_autocomplete')
+		)
 	class Meta:
 		model = Meal
-		fields = ['original_food', 'meal', 'weight', 'home_measure']
+		fields = ['meal', 'weight', 'home_measure', 'original_food']

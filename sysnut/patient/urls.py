@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^consultation/delete/(?P<pk>[0-9]+)/$',ConsultationDelete.as_view(), name='consultation_delete'),
 
     #FoodAnalysis
+    url(r'^food-autocomplete/$', FoodAutocomplete.as_view(), name='food_autocomplete'),
     url(r'^analysis/add/(?P<consultation>[0-9]+)/$', FoodAnalysisCreate.as_view(), name='analysis_create'),
     url(r'^analysis/edit/(?P<pk>[0-9]+)/$', FoodAnalysisUpdate.as_view(), name='analysis_edit'),
     url(r'^analysis/duplicate/(?P<pk>[0-9]+)/$', FoodAnalysisUpdate.as_view(), name='analysis_duplicate'),
