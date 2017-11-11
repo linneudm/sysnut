@@ -127,8 +127,8 @@ class BodyCircunference(models.Model):
 	hip_circ = models.DecimalField('Circ. Quadril', default=0.00, decimal_places=2, max_digits=8)
 
 	proximal_thigh_circ = models.DecimalField('Circ. Coxa Proximal', default=0.00, decimal_places=2, max_digits=8)
-	medial_tigh_circ = models.DecimalField('Circ. Coxa Medial', default=0.00, decimal_places=2, max_digits=8)
-	distal_tigh_circ = models.DecimalField('Circ. Coxa Distal', default=0.00, decimal_places=2, max_digits=8)
+	medial_thigh_circ = models.DecimalField('Circ. Coxa Medial', default=0.00, decimal_places=2, max_digits=8)
+	distal_thigh_circ = models.DecimalField('Circ. Coxa Distal', default=0.00, decimal_places=2, max_digits=8)
 	calf_circ = models.DecimalField('Circ. Panturrilha', default=0.00, decimal_places=2, max_digits=8)
 
 class SkinFold(models.Model):

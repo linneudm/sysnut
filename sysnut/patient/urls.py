@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^duplicate/(?P<pk>[0-9]+)/$', PatientUpdate.as_view(), name='duplicate'),
 	url(r'^list/$', PatientList.as_view(), name='list'),
     url(r'^details/(?P<pk>[0-9]+)/$', PatientDetail.as_view(), name='details'),
+    url(r'^report/(?P<pk>[0-9]+)/$', PatientReport.as_view(), name='report'),
     url(r'^delete/(?P<pk>[0-9]+)/$',PatientDelete.as_view(), name='delete'),
 
     #Consultation

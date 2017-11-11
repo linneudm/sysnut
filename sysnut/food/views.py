@@ -14,11 +14,98 @@ from .forms import *
 from django.shortcuts import render
 from os.path import join, dirname, abspath
 import xlrd
-from .models import Food, Meal
+from .models import Food, Meal, UploadSheet
 from dal import autocomplete
+import os
 
 # Create your views here.
 
+@method_decorator(login_required, name='dispatch')
+class UploadSheet(CreateView):
+    model = UploadSheet
+    template_name = 'uploadsheet/new.html'
+    form_class = UploadSheetForm
+    success_url = reverse_lazy('food:list')
+
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        #print(">>>>>> ", sheet.path)
+        self.object.save()
+        fname = join(dirname(abspath("media/" + str(self.object.path))),os.path.basename(str(self.object.path)))
+        try:
+            workbook = xlrd.open_workbook(fname)
+        except:
+            messages.add_message(self.request, messages.ERROR, 'Código 3! Formato de arquivo inválido!')
+            return HttpResponseRedirect(reverse('food:upload'))
+        worksheet = workbook.sheet_by_name('tabelaok')
+        worksheet = workbook.sheet_by_index(0)
+
+        #for row_num in range(worksheet.nrows):#le todas as linhas da planilha
+        for row_num in range(10):#le apenas as 10 primeiras linhas
+    # cabeçalho
+            if row_num == 0:
+                continue
+    # Lê as linhas
+            row = worksheet.row_values(row_num)
+            #Verifica se todos os números nas colunas da planilha são válidos
+            for col in range (34):
+                if(col != 0): #coluna 0 fica a descricao, portanto nao deve ser considerada
+                    if not(isinstance(row[col], float)) and not(isinstance(row[col], int)):
+                        print("Numero :", row[col])
+                        print("Tipo :", type(row[col]))
+                        messages.add_message(request, messages.ERROR, 'Código 1! Algo de errado não está certo! Contate o administrador')
+                        return HttpResponseRedirect(reverse('food:list'))
+
+            #print(row)
+    # Salva no banco
+            if(Food.objects.create(description=row[0],
+                weight=row[1],
+                energy=row[2],
+                carbohydrates=row[3],
+                total_fat=row[4],
+                poly_fat =row[5],
+                mono_fat =row[6],
+                sat_fat =row[7],
+                protein =row[8],
+                total_fibers =row[9],
+                sol_fibers=row[10],
+                insol_fibers=row[11],
+                cholesterol =row[12],
+                retinol =row[13],
+                ac_ascorbic=row[14],
+                tiamine =row[15],
+                riboflavin=row[16],
+                pyridoxine=row[17],
+                cobalamin=row[18],
+                dvitamin =row[19],
+                niacin =row[20],
+                ac_folic=row[21],
+                ac_pant =row[22],
+                tocopherol=row[23],
+                iodine =row[24],
+                sodium =row[25],
+                calcium=row[26],
+                magnesium=row[27],
+                zinc =row[28],
+                manganese=row[29],
+                potassium=row[30],
+                phosphor=row[31],
+                iron=row[32],
+                copper =row[33],
+                selenium=row[34])):
+                result = 1
+            else:
+                result = 0
+
+        if(result == 1):
+            messages.add_message(self.request, messages.SUCCESS, 'Alimentos importados com sucesso!')
+        else:
+            messages.add_message(self.request, messages.ERROR, 'Código 2! Algo de errado não está certo! Contate o administrador')
+        return HttpResponseRedirect(reverse('food:list'))
+            #return reverse('food:list')
+
+        return HttpResponseRedirect(self.get_success_url())
 
 # Importação planilha com o tombamento e descrição
 def import_sheet(request):
@@ -33,9 +120,18 @@ def import_sheet(request):
             continue
 # Lê as linhas
         row = worksheet.row_values(row_num)
+        #Verifica se todos os números nas colunas da planilha são válidos
+        for col in range (34):
+            if(col != 0): #coluna 0 fica a descricao
+                if not(isinstance(row[col], float)) and not(isinstance(row[col], int)):
+                    print("Numero :", row[col])
+                    print("Tipo :", type(row[col]))
+                    messages.add_message(request, messages.ERROR, 'Código 1! Algo de errado não está certo! Contate o administrador')
+                    return HttpResponseRedirect(reverse('food:list'))
+
         #print(row)
 # Salva no banco
-        Food.objects.create(description=row[0],
+        if(Food.objects.create(description=row[0],
             weight=row[1],
             energy=row[2],
             carbohydrates=row[3],
@@ -69,8 +165,16 @@ def import_sheet(request):
             phosphor=row[31],
             iron=row[32],
             copper =row[33],
-            selenium=row[34])
+            selenium=row[34])):
+            result = 1
+        else:
+            result = 0
+
+    if(result == 1):
         messages.add_message(request, messages.SUCCESS, 'Alimentos importados com sucesso!')
+    else:
+        messages.add_message(request, messages.ERROR, 'Código 2! Algo de errado não está certo! Contate o administrador')
+    return HttpResponseRedirect(reverse('food:list'))
         #return reverse('food:list')
 
 # Food CRUD

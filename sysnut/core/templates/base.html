@@ -36,12 +36,6 @@
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'core:index' %}">Início <span class="sr-only">(current)</span></a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#">Link</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link disabled" href="#">Disabled</a>
-				</li>
 
 				<!-- ícone na navbar -->
 				{% if not user.is_authenticated %}
@@ -80,7 +74,13 @@
 	</div>
 	<footer class="footer text-center">
 		<div class="container-fluid">
-			<span class="text-light">&copy 2017</span>
+			<div class="mt-4"></div>
+			<span class="text-light">
+				&copy Copyright 2017
+				<span class="pull-right">
+					<a class="badge badge-primary" href="#"><i class="fa fa-gitlab"></i> Linneu Lopes</a> <br> <a class="badge badge-primary" href="#"><i class="fa fa-gitlab"></i> Jonnison Lima</a>
+				</span>
+			</span>
 		</div>
 	</footer>
 

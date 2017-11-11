@@ -1,0 +1,285 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container-fluid">
+  <nav class="navbar navbar-light bg-light">
+    <div class="navbar-header">
+      <a class="navbar-brand text-center" href="#">Relatório</a>
+    </div>
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="btn btn-outline-secondary float-right" href="{% url 'patient:list' %}">
+          Voltar
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="control-label">Paciente</label>
+            <input class="form-control input-md" type="text" id="disabledTextInput" value="{{object.name}}" disabled>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group">
+            <label class="control-label">Nutricionista</label>
+            <input class="form-control input-md" type="text" id="disabledTextInput" value="{{object.user.first_name}}" disabled>
+          </div>
+        </div>
+      </div>
+
+
+      <ul class="nav nav-tabs" role="tablist">
+        {% for cons in consultation %}
+        {% if forloop.first %}
+        <li class="nav-item"><a class="nav-link active" href="#tab-{{cons.objective}}" aria-controls="tab-{{cons.objective}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
+        {% else %}
+        <li class="nav-item"><a class="nav-link" href="#tab-{{cons.objective}}" aria-controls="tab-{{cons.objective}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        {% for cons in consultation %}
+        {% if forloop.first %}
+        <div role="tabpanel" class="tab-pane fade show active" id="tab-{{cons.objective}}">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Dobras Cutâneas</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Massa corporal</td>
+                          <td>{{cons.skinfold.body_mass}}</td>
+                        </tr>
+                        <tr>
+                          <td>Altura sentado</td>
+                          <td>{{cons.skinfold.seated_height}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra tricipital</td>
+                          <td>{{cons.skinfold.tricipital_fold}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h4>Cálculos Energéticos</h4>
+                    <p>Título do cálculo: {{cons.energycalc.calc_title}}</p>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <p>Peso: {{cons.energycalc.weight}}</p>
+                        <p>Altura: {{cons.energycalc.height}}</p>
+                        <p>Massa livre: {{cons.energycalc.lean_mass}}</p>
+                        <p>Fórmula: {{cons.energycalc.formula}}</p>
+                        <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
+                      </div>
+                      <div class="col-lg-6">
+                        <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
+                        <p>Método MET: {{cons.energycalc.met_method}}</p>
+                        <p>Programa de Peso: {{cons.energycalc.weight_program}}</p>
+                        <p>Gasto Energético Total: {{cons.energycalc.tee}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Circ. Corporal</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Circunferência do Tórax</td>
+                          <td>{{cons.bodycirc.thorax_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Ombro</td>
+                          <td>{{cons.bodycirc.shoulder_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Braço Relaxado</td>
+                          <td>{{cons.bodycirc.relaxed_arm_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Braço Contraído</td>
+                          <td>{{cons.bodycirc.contracted_arm_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Antebraço</td>
+                          <td>{{cons.bodycirc.forearm_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Cintura</td>
+                          <td>{{cons.bodycirc.waist_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Abdomen</td>
+                          <td>{{cons.bodycirc.abdomen_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Quadril</td>
+                          <td>{{cons.bodycirc.hip_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Coxa Proximal</td>
+                          <td>{{cons.bodycirc.proximal_thigh_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Coxa Medial</td>
+                          <td>{{cons.bodycirc.medial_thigh_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Coxa Distal</td>
+                          <td>{{cons.bodycirc.distal_thigh_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Panturrilha</td>
+                          <td>{{cons.bodycirc.calf_circ}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div role="tabpanel" class="tab-pane fade" id="tab-{{cons.objective}}">
+         <div class="card">
+            <div class="card-body">
+              <p class="card-text">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Dobras Cutâneas</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Massa corporal</td>
+                          <td>{{cons.skinfold.body_mass}}</td>
+                        </tr>
+                        <tr>
+                          <td>Altura sentado</td>
+                          <td>{{cons.skinfold.seated_height}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra tricipital</td>
+                          <td>{{cons.skinfold.tricipital_fold}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h4>Cálculos Energéticos</h4>
+                    <p>Título do cálculo: {{cons.energycalc.calc_title}}</p>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <p>Peso: {{cons.energycalc.weight}}</p>
+                        <p>Altura: {{cons.energycalc.height}}</p>
+                        <p>Massa livre: {{cons.energycalc.lean_mass}}</p>
+                        <p>Fórmula: {{cons.energycalc.formula}}</p>
+                        <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
+                      </div>
+                      <div class="col-lg-6">
+                        <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
+                        <p>Método MET: {{cons.energycalc.met_method}}</p>
+                        <p>Programa de Peso: {{cons.energycalc.weight_program}}</p>
+                        <p>Gasto Energético Total: {{cons.energycalc.tee}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Circ. Corporal</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Circunferência do Tórax</td>
+                          <td>{{cons.bodycirc.thorax_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Ombro</td>
+                          <td>{{cons.bodycirc.shoulder_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Braço Relaxado</td>
+                          <td>{{cons.bodycirc.relaxed_arm_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Braço Contraído</td>
+                          <td>{{cons.bodycirc.contracted_arm_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Antebraço</td>
+                          <td>{{cons.bodycirc.forearm_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Cintura</td>
+                          <td>{{cons.bodycirc.waist_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Abdomen</td>
+                          <td>{{cons.bodycirc.abdomen_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência do Quadril</td>
+                          <td>{{cons.bodycirc.hip_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Coxa Proximal</td>
+                          <td>{{cons.bodycirc.proximal_thigh_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Coxa Medial</td>
+                          <td>{{cons.bodycirc.medial_thigh_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Coxa Distal</td>
+                          <td>{{cons.bodycirc.distal_thigh_circ}}</td>
+                        </tr>
+                        <tr>
+                          <td>Circunferência da Panturrilha</td>
+                          <td>{{cons.bodycirc.calf_circ}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  {% endblock %}

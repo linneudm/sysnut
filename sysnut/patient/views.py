@@ -203,6 +203,24 @@ class PatientDetail(DetailView):
 			return 0
 
 @method_decorator(login_required, name='dispatch')
+class PatientReport(DetailView):
+	model = Patient
+	template_name = 'patient/report.html'
+
+	def get_context_data(self,**kwargs): 
+		if Consultation.objects.count() > 0:
+			context = super(PatientReport, self).get_context_data(**kwargs)
+			context['consultation'] = []
+			#Adiciona a consulta do paciente a uma lista
+			for cons in self.object.patient_consultation.all():
+				if(cons.patient.id == self.object.id):
+					context['consultation'].append(cons)
+			return context
+		else:
+			return 0
+
+
+@method_decorator(login_required, name='dispatch')
 class PatientDelete(DeleteView):
 	model = Patient
 	success_url = reverse_lazy('patient:list')

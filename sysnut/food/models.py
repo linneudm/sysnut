@@ -10,6 +10,10 @@ from datetime import date
 from django.core.urlresolvers import reverse
 from sysnut.patient.models import FoodAnalysis
 
+class UploadSheet(models.Model):
+    description = models.CharField('Descrição da Tabela', max_length=255)
+    created_at = models.DateTimeField(u'Criado em', auto_now_add=True)
+    path = models.FileField(u'Tabela', upload_to='upload/table', blank=True, null=True)
 
 class Food(models.Model):
     #Micro nutrientes
