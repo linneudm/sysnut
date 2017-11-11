@@ -1,5 +1,8 @@
 *.pyc
 *.pyo
 *.json
+*.xls
+*.xlsx
+*.pdf
 db.sqlite3
 sysnut/settings_local.py
