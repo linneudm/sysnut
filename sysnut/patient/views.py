@@ -134,7 +134,7 @@ class PatientUpdate(UpdateView):
 		self.object = address_form.save()
 		patient = form.save(commit=False)
 		patient.address = self.object
-		patient.user = request.user
+		patient.user = self.request.user
 		patient.save()
 		return HttpResponseRedirect(self.get_success_url())
 
@@ -269,13 +269,14 @@ class ConsultationCreate(CreateView):
 
 	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form):
 		self.object = form.save(commit=False)
+		self.object.patient = Patient.objects.get(id = self.kwargs['patient'])
 		self.object.bodycirc = bodycirc_form.save()
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
-		return super(ConsultationCreate, self).form_valid(form)
+		return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient':self.kwargs['patient']}))
 
 	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form):
 		return self.render_to_response(
@@ -290,6 +291,8 @@ class ConsultationCreate(CreateView):
 	def get_context_data(self, **kwargs):
 		context = super(ConsultationCreate,self).get_context_data(**kwargs)
 		context['exam_formset'] = self.exam_formset
+		context['patient_id'] = self.kwargs['patient']
+		context['patient'] = Patient.objects.get(id = self.kwargs['patient'])
 		return context
 
 
@@ -304,6 +307,7 @@ class ConsultationList(ListView):
 
 	def get_queryset(self):
 		self.queryset = super(ConsultationList, self).get_queryset()
+		self.queryset = self.queryset.filter(patient = self.kwargs['patient'])
 		if self.request.GET.get('search_box', False):
 			self.queryset=self.queryset.filter(patient__name__icontains = self.request.GET['search_box'])
 		return self.queryset
@@ -315,6 +319,8 @@ class ConsultationList(ListView):
 		page_number = context['page_obj'].number
 		num_pages = context['paginator'].num_pages
 		startPage = max(page_number - adjacent_pages, 1)
+		#Define o ID da consulta para o Template.
+		context['patient_id'] = self.kwargs['patient']
 		if startPage <= 5:
 		    startPage = 1
 		endPage = page_number + adjacent_pages + 1
@@ -349,6 +355,8 @@ class ConsultationUpdate(UpdateView):
 		self.exam_formset = ExamFormSet(instance = self.object)
 		context = super(ConsultationUpdate, self).get_context_data(**kwargs)
 		context['exam_formset']=self.exam_formset
+		context['patient_id'] = self.object.patient.id
+		context['patient'] = Patient.objects.get(id = self.object.patient.id)
 		if self.request.POST:
 			context['skinfold_form'] = self.fourth_form_class(self.request.POST, instance=self.object)
 			context['energycalc_form'] = self.third_form_class(self.request.POST, instance=self.object)
@@ -419,8 +427,14 @@ class ConsultationUpdate(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class ConsultationDelete(DeleteView):
 	model = Consultation
-	success_url = reverse_lazy('patient:consultation_list')
 
+	def delete(self, request, *args, **kwargs):
+	    self.object = self.get_object()
+	    id_return = self.object.patient.id
+	    #print(">>>>>>>", id_return)
+	    self.object.delete()
+	    messages.add_message(request, messages.SUCCESS, 'Consulta removido com sucesso!')
+	    return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient': id_return}))
 class FoodAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
 		# Don't forget to filter out results depending on the visitor !
@@ -610,5 +624,18 @@ class FoodAnalysisDelete(DeleteView):
 	    self.object.delete()
 	    messages.add_message(request, messages.SUCCESS, 'Cardápio removido com sucesso!')
 	    return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation': id_return}))
+
+def meal_delete(request, pk):
+	meal = get_object_or_404(Meal,id=pk)
+	id_return = meal.food_analysis.id
+	success_url = reverse('patient:analysis_edit', kwargs={'pk': id_return})
+
+	if not request.user.is_superuser:
+		messages.add_message(request, messages.INFO, 'Você precisa ser administrador para realizar esta ação.')
+	else:
+		meal.delete()
+		messages.add_message(request, messages.SUCCESS, 'Refeição removida com sucesso!')
+	return HttpResponseRedirect(success_url)
+
 # End FoodAnalysis CRUD
 

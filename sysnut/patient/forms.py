@@ -45,7 +45,7 @@ class ConsultationForm(ModelForm):
 		)
 	class Meta:
 		model = Consultation
-		exclude = ['bodycirc', 'energycalc', 'skinfold']
+		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold']
 ExamFormSet = forms.inlineformset_factory(Consultation, Exam, fields=('description','path'),extra=1)
 
 class PatologyForm(ModelForm):

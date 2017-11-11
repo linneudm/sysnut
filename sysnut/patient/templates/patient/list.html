@@ -34,7 +34,7 @@
 					<th>Nome</th>
 					<th>Idade</th>
 					<th>Sexo</th>
-					<th style="width: 245px;">Ações</th>
+					<th style="width: 295px;">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,6 +44,9 @@
 					<td>{{ patient.age}}</td>
 					<td>{{ patient.sex }}</td>
 					<td>
+						<a href="{% url 'patient:consultation_list' patient.id %}" class="btn btn-outline-dark" title="Consultas">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</a>
 						<a href="{% url 'patient:report' patient.id %}" class="btn btn-outline-success" title="Relatório">
 							<i class="fa fa-file-text" aria-hidden="true"></i>
 						</a>

@@ -24,7 +24,7 @@
         <ul class="list-group list-group-flush">
           {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "CAFÉ DA MANHÃ" %}
-          <li class="list-group-item">{{meal.original_food}}</li>
+          <li class="list-group-item">{{meal.original_food}} <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a></li>
           {% endif %}
           {% endfor %}
         </ul>
@@ -38,7 +38,7 @@
         <ul class="list-group list-group-flush">
           {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "LANCHE I" %}
-          <li class="list-group-item">{{meal.original_food}}</li>
+          <li class="list-group-item">{{meal.original_food}} <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a></li>
           {% endif %}
           {% endfor %}
         </ul>
@@ -52,7 +52,7 @@
         <ul class="list-group list-group-flush">
           {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "ALMOÇO" %}
-          <li class="list-group-item">{{meal.original_food}}</li>
+          <li class="list-group-item">{{meal.original_food}} <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a></li>
           {% endif %}
           {% endfor %}
         </ul>
@@ -69,7 +69,7 @@
         <ul class="list-group list-group-flush">
           {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "LANCHE II" %}
-          <li class="list-group-item">{{meal.original_food}}</li>
+          <li class="list-group-item">{{meal.original_food}} <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a></li>
           {% endif %}
           {% endfor %}
         </ul>
@@ -83,7 +83,7 @@
         <ul class="list-group list-group-flush">
           {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "JANTAR" %}
-          <li class="list-group-item">{{meal.original_food}}</li>
+          <li class="list-group-item">{{meal.original_food}} <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a></li>
           {% endif %}
           {% endfor %}
         </ul>
@@ -97,7 +97,7 @@
         <ul class="list-group list-group-flush">
           {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "CEIA" %}
-          <li class="list-group-item">{{meal.original_food}}</li>
+          <li class="list-group-item">{{meal.original_food}} <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a></li>
           {% endif %}
           {% endfor %}
         </ul>

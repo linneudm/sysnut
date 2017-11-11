@@ -16,7 +16,7 @@
     </div>
 		<ul class="nav justify-content-end">
 			<li class"nav-item">
-				<a class="btn btn-outline-secondary float-right" href="{% url 'patient:consultation_create' %}">
+				<a class="btn btn-outline-secondary float-right" href="{% url 'patient:consultation_create' patient_id %}">
 					<i class="fa fa-plus" aria-hidden="true"></i>
 						Novo
 				</a>
@@ -31,7 +31,7 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>Nome do Paciente</th>
+						<th>Objetivo</th>
 						<th>Dt. Consulta</th>
 						<th style="width: 255px;">Ações</th>
 					</tr>
@@ -39,7 +39,7 @@
 				<tbody>
 					{% for consultation in object_list %}
 					<tr>
-						<td>{{ consultation.patient.name|slice:":100" }}</td>
+						<td>{{ consultation.objective|slice:":100" }}</td>
             <td>{{ consultation.date }}</td>
 						<td>
 							<a href="{% url 'patient:analysis_list' consultation.id %}" class="btn btn-outline-success" title="Cardápios">

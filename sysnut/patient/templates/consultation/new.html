@@ -7,7 +7,7 @@
       <a class="navbar-brand text-center" href="#">Criar/Alterar dados de Consulta</a>
     </div>
     <ul class="navbar-nav navbar-right">
-      <li class"nav-item"><a class="btn btn-outline-secondary" href="{% url 'patient:consultation_list' %}">Voltar</a></li>
+      <li class"nav-item"><a class="btn btn-outline-secondary" href="{% url 'patient:consultation_list' patient_id %}">Voltar</a></li>
     </ul>
   </div>
 </nav>
@@ -16,7 +16,7 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
      
-      {% if "duplicate" in request.path|cut:"/" %}{% url "patient:consultation_create" as URL %}{% endif %}
+      {% if "duplicate" in request.path|cut:"/" %}{% url "patient:consultation_create" patient_id as URL %}{% endif %}
       <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
         <fieldset>
           <!-- Nav tabs -->
@@ -30,6 +30,10 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade show active" id="tab-dados">
+              <div class="form-group">
+                <label class="control-label">Paciente</label>
+                <input class="form-control input-md" type="text" id="disabledTextInput" value="{{patient.name}}" disabled>
+              </div>
               {% for field in form %}
               {% if field.errors %}
               <div class="form-group error" >
