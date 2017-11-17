@@ -4,7 +4,8 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div style="margin-top: 3em;">
+    <div class="pt-4"></div>
+      <div class="align-content-center" style="">
         <DIV class="slide-in-fwd-center">
         <center>
           <img src="{% static 'img/logo-index.png' %}" class='img-responsive'>
@@ -18,3 +19,9 @@
   </div>
 </div>
 {% endblock %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>

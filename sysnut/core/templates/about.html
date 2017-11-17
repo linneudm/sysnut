@@ -1,15 +1,106 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+{% endblock %}
 {% block body %}
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div style="margin-top: 3em;">
-        <DIV class="slide-in-fwd-center">
+
         
-          <img src="{% static 'img/jonnison.jpg' %}" class='img-circle'>
-          <img src="{% static 'img/linneu.jpg' %}" class='rounded mx-auto d-block'>
-        </DIV>
+        <!-- Start: Features Section 6
+        ================================== -->
+        <section class="features-section-6 relative background-semi-dark">
+          <div class="container">
+            <div class="row section-separator">
+              <div class="clearfix"></div>
+              <div class="features-item col-xs-12">
+                <div class="row">
+                  
+                  <div class="each-features col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="inner background-light text-center">
+                      <div class="features-hover">
+                        <img style="width:100%;" src="{% static 'img/linneu.jpg' %}" alt="Our Members" class="img-responsive">
+                        <div class="mask">
+                          <div class="mask-inner">
+                            <div class="title"></div>
+                            <ul class="nav social-icon">
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                              <li><a href="#"><i class="fa fa-github"></i></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                      <div class="detail">
+                        <h6 class="name">Linneu Lopes</h6>
+                        <p class="position">Desenvolvedor</p>
+                      </div>
+                      
+                    </div> <!-- End: .inner -->
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+                  </div> <!-- End: .each-features -->
+                  <div class="each-features col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="inner background-light text-center">
+                      <div class="features-hover">
+                        <img style="width:100%;" src="{% static 'img/jonnison.jpg' %}" alt="Our Members" class="img-responsive">
+                        <div class="mask">
+                          <div class="mask-inner">
+                            <div class="title"></div>
+                            <ul class="nav social-icon" style="text-align: center;">
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                              <li><a href="#"><i class="fa fa-github"></i></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                      <div class="detail">
+                        <h6 class="name">Jonnison Lima</h6>
+                        <p class="position">Desenvolvedor</p>
+                      </div>
+                      
+                    </div> <!-- End: .inner -->
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+                  </div> <!-- End: .each-features -->
+                  <div class="each-features col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="inner background-light text-center">
+                      <div class="features-hover">
+                        <img style="width:100%;" src="{% static 'img/mayara.jpg' %}" alt="Our Members" class="img-responsive">
+                        <div class="mask">
+                          <div class="mask-inner">
+                            <div class="title"></div>
+                            <ul class="nav social-icon" style="text-align: center;">
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                      <div class="detail">
+                        <h6 class="name">Mayara Carvalho</h6>
+                        <p class="position">Nutricionista</p>
+                      </div>
+                      
+                    </div> <!-- End: .inner -->
+                    <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
+                  </div> <!-- End: .each-features -->
+                </div>
+
+              </div> <!-- End: .col-md-8 -->
+
+            </div> <!-- End: .row -->
+          </div> <!-- End: .container -->
+        </section>
+        <!-- End: Features Section 6
+        ================================== -->
+
       </div>
     </div>
   </div>

@@ -13,6 +13,7 @@
 	<link rel="mask-icon" href="http://getbootstrap.com/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
 	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
+	{% block styles %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
@@ -21,6 +22,7 @@
 
 	<link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" />
 	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+	{% endblock %}
 	<script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	<title>SysNut - Sistema para Nutricionistas</title>
 </head>
@@ -77,9 +79,6 @@
 			<div class="mt-4"></div>
 			<span class="text-light">
 				&copy Copyright 2017
-				<span class="pull-right">
-					<a class="badge badge-primary" href="#"><i class="fa fa-gitlab"></i> Linneu Lopes</a> <br> <a class="badge badge-primary" href="#"><i class="fa fa-gitlab"></i> Jonnison Lima</a>
-				</span>
 			</span>
 		</div>
 	</footer>

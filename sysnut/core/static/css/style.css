@@ -13,11 +13,16 @@ body {
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 90px;
+  height: 70px;
   line-height: 20px; /* Vertically center the text there */
   background-color: #49274a;
+  background-repeat: repeat;
 }
 
+.img-circle{
+  width: 20%;
+  border-radius: 50%;
+}
 
 /* Custom page CSS
 -------------------------------------------------- */
@@ -30,10 +35,14 @@ body {
 }
 
 .bg-pink{
+  padding: 0 10px;
   background-color: #49274a;
 }
 
+
 .navbar-brand{
+  padding: 15px 0px;
+  height: 100%;
   font-weight: bold;
 }
 
@@ -58,3 +67,4 @@ body {
 table .food th{
     font-size: 5px;
 }
+
