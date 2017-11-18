@@ -208,16 +208,14 @@ class PatientReport(DetailView):
 	template_name = 'patient/report.html'
 
 	def get_context_data(self,**kwargs): 
+		context = super(PatientReport, self).get_context_data(**kwargs)
 		if Consultation.objects.count() > 0:
-			context = super(PatientReport, self).get_context_data(**kwargs)
 			context['consultation'] = []
 			#Adiciona a consulta do paciente a uma lista
 			for cons in self.object.patient_consultation.all():
 				if(cons.patient.id == self.object.id):
 					context['consultation'].append(cons)
-			return context
-		else:
-			return 0
+		return context
 
 
 @method_decorator(login_required, name='dispatch')
