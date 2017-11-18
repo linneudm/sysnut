@@ -1,3 +1,5 @@
+psycopg2
+dj-database-url
 Django==1.11.6
 django-autocomplete-light==3.2.10
 django-bootstrap3==9.0.0
