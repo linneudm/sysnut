@@ -56,9 +56,6 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
-                {% elif field.label == "Patologia" %}
-                {{ field|add_class:"form-control input-md" }}
-                <a href="#modal" class="badge badge-info" data-toggle="modal">Patologia nova? Clique aqui para cadastrar.</a>
                 {% else %}
                 {{ field|add_class:"form-control input-md" }}
                 {% endif %}
@@ -203,7 +200,8 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-  $("#id_date").attr("readonly", "true");
+  //$("#id_date").attr("readonly", "true");
+  $("#id_date").inputmask({"mask": "99/99/9999"}); //specifying options
   $("#id_date").datepicker({
     format: "dd/mm/yyyy",
     todayBtn: "linked",

@@ -34,8 +34,6 @@ class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 
 		return qs
 
-
-
 # CRUD Patient
 
 @method_decorator(login_required, name='dispatch')

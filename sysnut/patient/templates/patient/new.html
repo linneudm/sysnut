@@ -88,7 +88,7 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
-  $("#id_birth_date").attr("readonly", "true");
+  //$("#id_birth_date").attr("readonly", "true");
   $("#id_birth_date").datepicker({
     format: "dd/mm/yyyy",
     todayBtn: "linked",
@@ -98,6 +98,7 @@ $(document).ready(function(){
   });
 
   $("#id_phone").inputmask({"mask": "(99) 9 9999-9999"}); //specifying options
+  $("#id_birth_date").inputmask({"mask": "99/99/9999"}); //specifying options
   $("#id_zip_code").inputmask({"mask": "99999-999"}); //specifying options
 });
 </script>
