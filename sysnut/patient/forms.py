@@ -39,13 +39,12 @@ class SkinFoldForm(ModelForm):
 		fields = '__all__'
 
 class ConsultationForm(ModelForm):
-	patology = forms.ModelChoiceField(
-			queryset=Patology.objects.all(),
-			widget = autocomplete.ModelSelect2(url='patient:patology_autocomplete')
-		)
 	class Meta:
 		model = Consultation
 		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold']
+		widgets = {
+    		'patology': autocomplete.ModelSelect2Multiple(url='patient:patology_autocomplete')
+		}
 ExamFormSet = forms.inlineformset_factory(Consultation, Exam, fields=('description','path'),extra=1)
 
 class PatologyForm(ModelForm):

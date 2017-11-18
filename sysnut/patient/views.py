@@ -198,9 +198,7 @@ class PatientDetail(DetailView):
 			for cons in self.object.patient_consultation.all():
 				if(cons.patient.id == self.object.id):
 					context['consultation'].append(cons)
-			return context
-		else:
-			return 0
+		return context
 
 @method_decorator(login_required, name='dispatch')
 class PatientReport(DetailView):
@@ -227,6 +225,7 @@ class PatientDelete(DeleteView):
 
 
 # CRUD Consultation
+
 @method_decorator(login_required, name='dispatch')
 class ConsultationCreate(CreateView):
 	model = Consultation
@@ -272,8 +271,12 @@ class ConsultationCreate(CreateView):
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
+		for item in form.cleaned_data['patology']:
+			#print(item)
+			self.object.patology.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
+		messages.add_message(self.request, messages.SUCCESS, 'Consulta criada com sucesso!')
 		return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient':self.kwargs['patient']}))
 
 	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form):
@@ -394,7 +397,7 @@ class ConsultationUpdate(UpdateView):
 		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and self.exam_formset.is_valid():
 			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form)
 		else:
-			return self.form_invalid(form, bodycirc_form), energycalc_form, skinfold_form
+			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form)
 
 	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form):
 		self.object = form.save(commit=False)
@@ -404,13 +407,15 @@ class ConsultationUpdate(UpdateView):
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
+		self.object.patology = {}
+		for item in form.cleaned_data['patology']:
+			self.object.patology.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
-		return HttpResponseRedirect(self.get_success_url())
+		messages.add_message(self.request, messages.SUCCESS, 'Consulta atualizada com sucesso!')
+		return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient':self.object.patient.id}))
 
 	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form):
-		context = super(ConsultationUpdate,self).get_context_data(**kwargs)
-		context['exam_formset']=self.exam_formset
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
@@ -420,7 +425,6 @@ class ConsultationUpdate(UpdateView):
 			)
 		)
 
-	success_url = reverse_lazy('patient:consultation_list')
 
 @method_decorator(login_required, name='dispatch')
 class ConsultationDelete(DeleteView):
@@ -431,7 +435,7 @@ class ConsultationDelete(DeleteView):
 	    id_return = self.object.patient.id
 	    #print(">>>>>>>", id_return)
 	    self.object.delete()
-	    messages.add_message(request, messages.SUCCESS, 'Consulta removido com sucesso!')
+	    messages.add_message(self.request, messages.SUCCESS, 'Consulta removida com sucesso!')
 	    return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient': id_return}))
 class FoodAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):

@@ -14,7 +14,7 @@ from sysnut.account.models import Nutritionist
 # Create your models here.
 
 class Address(models.Model):
-	city = models.CharField('Cidade', max_length=255)
+	city = models.CharField('Cidade', max_length=255, blank=True, null=True)
 	UF_CHOICES = (
 	    ('AC', 'Acre'),
 	    ('AL', 'Alagoas'),
@@ -44,12 +44,12 @@ class Address(models.Model):
 	    ('TO', 'Tocantins')
 	)
 	state = models.CharField('UF', max_length=2, choices=UF_CHOICES, default='PI')
-	street = models.CharField('Rua',max_length=255)
-	number = models.CharField('Número', max_length=20)
+	street = models.CharField('Rua',max_length=255, blank=True, null=True)
+	number = models.CharField('Número', max_length=20, blank=True, null=True)
 	complement = models.CharField('Complemento', max_length=255, blank=True, null=True)
 	zip_code = models.CharField('CEP', max_length=10, blank=True, null=True)
 	reference_point = models.CharField('Ponto de Referência', max_length=255, blank=True, null=True)
-	neighborhood = models.CharField('Bairro', max_length=255)
+	neighborhood = models.CharField('Bairro', max_length=255, blank=True, null=True)
 	country = models.CharField('País', max_length=255, default='Brasil')
 
 
@@ -108,7 +108,7 @@ class Patient(models.Model):
 		verbose_name_plural = 'Pacientes'
 		ordering = ['-created_at']
 
-# Exclui o endereço depois que o funcionario for excluido
+# Exclui o endereço depois que o paciente for excluido
 def post_delete_patient(instance, **kwargs):
 	address = Address.objects.get(pk=instance.address_id)
 	address.delete()
@@ -138,7 +138,7 @@ class SkinFold(models.Model):
 	
 
 class EnergyCalc(models.Model):
-	calc_title = models.CharField('Título do Cálculo',max_length=255)
+	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True)
 	weight = models.DecimalField('Peso (kg)', default=0.00, decimal_places=2, max_digits=8)
 	height = models.DecimalField('Altura (cm)', default=0.00, decimal_places=2, max_digits=8)
 	lean_mass = models.DecimalField('Massa livre (kg)', default=0.00, decimal_places=2, max_digits=8)
@@ -148,14 +148,14 @@ class EnergyCalc(models.Model):
 	CUNNINGHAN = 'CUNNINGHAN(1996)'
 	FORMULA_CHOICES = ((HARRIS_BENEDICT_OLD, 'Harris-Benedict(1919)'),(HARRIS_BENEDICT_NEW, 'Harris-Benedict(1984)'),(CUNNINGHAN, 'Cunninghan(1996)'),)
 	formula = models.CharField('Fórmula', max_length=30, choices=FORMULA_CHOICES, default=None, blank=True, null=True)
-	activity_factor = models.CharField('Fator de Atividade',max_length=255)
-	met_method = models.CharField('Método MET',max_length=255)
-	weight_program = models.CharField('Programa de Peso',max_length=255)
-	mbr = models.CharField('Taxa Metabólica Basal',max_length=255)
-	tee = models.CharField('Gasto Energético Total',max_length=255)
+	activity_factor = models.CharField('Fator de Atividade',max_length=255, blank=True, null=True)
+	met_method = models.CharField('Método MET',max_length=255, blank=True, null=True)
+	weight_program = models.CharField('Programa de Peso',max_length=255, blank=True, null=True)
+	mbr = models.CharField('Taxa Metabólica Basal',max_length=255, blank=True, null=True)
+	tee = models.CharField('Gasto Energético Total',max_length=255, blank=True, null=True)
 
 class Patology(models.Model):
-	description = models.CharField('Descrição da Patologia', max_length=255, blank=True, null=True)
+	description = models.CharField('Patologia', max_length=255, blank=True, null=True)
 
 	def __str__(self):
 		return self.description
@@ -165,13 +165,13 @@ class Consultation(models.Model):
 	objective = models.CharField('Objetivo',max_length=255)
 	observation = models.CharField('Observações gerais',max_length=255)
 	date = models.DateField('Data da consulta')
-	patology = models.ForeignKey(Patology, verbose_name='Patologia', related_name='consultation_patology', on_delete=models.CASCADE, null=True, blank=True)
+	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology')
 	family_history = models.CharField('Histórico Familiar',max_length=255)
-	drugs = models.CharField('Fármacos',max_length=255)
-	life_style = models.CharField('Estilo de vida',max_length=255)
-	feed_preferences = models.CharField('Preferências Alimentares',max_length=255)
-	prognostic = models.CharField('Prognóstico',max_length=255)
-	evaluation = models.CharField('Avaliação',max_length=255)
+	drugs = models.CharField('Fármacos',max_length=255, blank=True, null=True)
+	life_style = models.CharField('Estilo de vida',max_length=255, blank=True, null=True)
+	feed_preferences = models.CharField('Preferências Alimentares',max_length=255, blank=True, null=True)
+	prognostic = models.CharField('Prognóstico',max_length=255, blank=True, null=True)
+	evaluation = models.CharField('Avaliação',max_length=255, blank=True, null=True)
 	bodycirc = models.ForeignKey(BodyCircunference, verbose_name='Circunferência Corporal', related_name='consultation_bodycirc', on_delete=models.CASCADE)
 	energycalc = models.ForeignKey(EnergyCalc, verbose_name='Calculos Energéticos', related_name='consultation_energcalc', on_delete=models.CASCADE,null=True, blank=True)
 	skinfold = models.ForeignKey(SkinFold, verbose_name='Dobras Corporais', related_name='consultation_skinfold', on_delete=models.CASCADE)
@@ -194,9 +194,11 @@ class Consultation(models.Model):
 				return (decimal.Decimal('447.593') + (decimal.Decimal('9.247') * w) + (decimal.Decimal('3.098') * (h)) - (decimal.Decimal('4.330') * a))
 		elif(formula == "CUNNINGHAN(1996)"):
 			return (370 + decimal.Decimal('21.6') * lm)
+		else:
+			return 0
 
 	def get_absolute_url(self):
-		return reverse('patient:consultation_list')
+		return reverse('patient:consultation_list', kwargs={'id': self.pk})
 
 	def __str__(self):
 		return self.patient.name

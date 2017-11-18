@@ -9,7 +9,7 @@
   </div>
   <ul class="nav justify-content-end">
     <li class"nav-item">
-      <a class="btn btn-outline-secondary float-right" href="{% url 'patient:consultation_list' %}">
+      <a class="btn btn-outline-secondary float-right" href="{% url 'patient:consultation_list' object.id %}">
           Voltar
       </a>
     </li>
@@ -29,8 +29,10 @@
         </p>
         <p>
         <p>
-          <strong>Sexo:</strong>
-          {{ object.sex|safe }}
+          <strong>Patologias:</strong>
+          {% for pat in object.patology.all %}
+          {{ pat }}
+          {% endfor %}
         </p>
           <strong>Estado Civil:</strong>
           {{ object.marital_status }}
