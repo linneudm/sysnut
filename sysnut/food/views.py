@@ -41,8 +41,8 @@ class UploadSheet(CreateView):
         worksheet = workbook.sheet_by_name('tabelaok')
         worksheet = workbook.sheet_by_index(0)
 
-        #for row_num in range(worksheet.nrows):#le todas as linhas da planilha
-        for row_num in range(10):#le apenas as 10 primeiras linhas
+        for row_num in range(worksheet.nrows):#le todas as linhas da planilha
+        #for row_num in range(10):#le apenas as 10 primeiras linhas
     # cabeçalho
             if row_num == 0:
                 continue
@@ -249,5 +249,11 @@ class FoodUpdate(UpdateView):
 class FoodDelete(DeleteView):
 	model = Food
 	success_url = reverse_lazy('food:list')
+
+@login_required
+def remove_all(request):
+    food = Food.objects.all().delete()
+    return HttpResponseRedirect(reverse('food:list'))
+
 
 # End Food
