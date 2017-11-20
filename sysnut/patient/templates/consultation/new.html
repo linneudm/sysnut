@@ -150,8 +150,14 @@
                 {% endfor %}
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="control-label" >MBR</label>
+                    <label class="control-label" >TMB</label>
                     <input type="text" name="mbr" value="{{consultation.energycalc.mbr|floatformat:2}}" id="id_mbr" required="" class="form-control input-md" maxlength="255">
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="control-label" >GET</label>
+                    <input type="text" name="tee" value="{{consultation.energycalc.tee|floatformat:2}}" id="id_tee" required="" class="form-control input-md" maxlength="255">
                   </div>
                 </div>
               </div>
@@ -221,6 +227,7 @@ $(document).ready(function(){
         });
     });
   $("#id_mbr").attr("readonly", "true");
+  $("#id_tee").attr("readonly", "true");
   //$("#id_resultmbr").text('MBR: {{consultation.energycalc.mbr}}');
 });
 </script>

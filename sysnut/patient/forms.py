@@ -30,7 +30,7 @@ class EnergyCalcForm(ModelForm):
 
 	class Meta:
 		model = EnergyCalc
-		exclude = ['mbr']
+		exclude = ['mbr', 'tee']
 
 class SkinFoldForm(ModelForm):
 
