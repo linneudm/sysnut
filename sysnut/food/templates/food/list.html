@@ -6,7 +6,7 @@
 		<div class="navbar-header">
 			<form class="form-horizontal" action="." method="get">
 				<div class="input-group">
-					<input id="search_box" name="search_box" type="text" placeholder="Informe o nome do Alimento" class="form-control" autofocus="true" value="{{ request.GET.search_box }}" style="width: 300px;">
+					<input id="search_box" name="search_box" type="text" placeholder="Informe o nome do Alimento" class="form-control" autofocus="true" value="{{ request.GET.search_box }}">
 					<button type="submit" class="form-group input-group-addon btn btn-secondary" title="Clique para realizar a pesquisar">
 						<i class="fa fa-search" aria-hidden="true"></i>
 					</button>
@@ -17,7 +17,7 @@
 	<ul class="nav justify-content-end">
 		<li class"nav-item">
 			<a class="btn btn-danger float-right" href="{% url 'food:remove_all' %}">
-				<i class="fa fa-plus" aria-hidden="true"></i>
+				<i class="fa fa-trash" aria-hidden="true"></i>
 				Remover Todos
 			</a>
 		</li>

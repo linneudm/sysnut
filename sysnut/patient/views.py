@@ -279,7 +279,11 @@ class ConsultationCreate(StaffRequiredMixin, CreateView):
 		self.object = form.save(commit=False)
 		self.object.patient = Patient.objects.get(id = self.kwargs['patient'])
 		self.object.bodycirc = bodycirc_form.save()
+		self.object.energycalc = energycalc_form.save(commit=False)
+		self.object.energycalc.mbr = decimal.Decimal(self.object.mbr())
+		self.object.energycalc.tee = decimal.Decimal(self.object.tee())
 		self.object.energycalc = energycalc_form.save()
+
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
 		for item in form.cleaned_data['patology']:
@@ -415,6 +419,7 @@ class ConsultationUpdate(StaffRequiredMixin, UpdateView):
 		self.object.bodycirc = bodycirc_form.save()
 		self.object.energycalc = energycalc_form.save(commit=False)
 		self.object.energycalc.mbr = decimal.Decimal(self.object.mbr())
+		self.object.energycalc.tee = self.object.tee()
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()

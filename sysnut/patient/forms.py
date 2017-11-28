@@ -31,7 +31,7 @@ class EnergyCalcForm(ModelForm):
 
 	class Meta:
 		model = EnergyCalc
-		exclude = ['mbr']
+		exclude = ['mbr', 'tee']
 
 class SkinFoldForm(ModelForm):
 
@@ -60,10 +60,10 @@ class FoodAnalysisForm(ModelForm):
 
 
 class MealForm(ModelForm):
-	original_food = forms.ModelChoiceField(
-			queryset=Food.objects.all(),
-			widget = autocomplete.ModelSelect2(url='patient:food_autocomplete')
-		)
+
 	class Meta:
 		model = Meal
 		fields = ['meal', 'weight', 'home_measure', 'original_food']
+		widgets = {
+    		'original_food': autocomplete.ModelSelect2(url='patient:food_autocomplete')
+		}

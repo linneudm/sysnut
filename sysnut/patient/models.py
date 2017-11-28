@@ -147,10 +147,15 @@ class EnergyCalc(models.Model):
 	HARRIS_BENEDICT_NEW = 'HARRIS-BENEDICT(1984)'
 	CUNNINGHAN = 'CUNNINGHAN(1996)'
 	FORMULA_CHOICES = ((HARRIS_BENEDICT_OLD, 'Harris-Benedict(1919)'),(HARRIS_BENEDICT_NEW, 'Harris-Benedict(1984)'),(CUNNINGHAN, 'Cunninghan(1996)'),)
-	formula = models.CharField('Fórmula', max_length=30, choices=FORMULA_CHOICES, default=None, blank=True, null=True)
-	activity_factor = models.CharField('Fator de Atividade',max_length=255, blank=True, null=True)
-	met_method = models.CharField('Método MET',max_length=255, blank=True, null=True)
-	weight_program = models.CharField('Programa de Peso',max_length=255, blank=True, null=True)
+	formula = models.CharField('Fórmula', max_length=30, choices=FORMULA_CHOICES, default=HARRIS_BENEDICT_OLD, blank=False, null=True)
+	ACTIVITY_CHOICES = (
+	    ('1.2', 'Sedentário'),
+	    ('1.375', 'Exercício Leve'),
+	    ('1.55', 'Exercício Moderado'),
+	    ('1.725', 'Exercício Pesado'),
+	    ('1.9', 'Exercício Muito Pesado')
+	)
+	activity_factor = models.CharField('Fator de Atividade', max_length=30, choices=ACTIVITY_CHOICES, default='1.2', blank=False, null=True)
 	mbr = models.CharField('Taxa Metabólica Basal',max_length=255, blank=True, null=True)
 	tee = models.CharField('Gasto Energético Total',max_length=255, blank=True, null=True)
 
@@ -196,6 +201,10 @@ class Consultation(models.Model):
 			return (370 + decimal.Decimal('21.6') * lm)
 		else:
 			return 0
+
+	def tee(self):
+		result  = self.mbr() * decimal.Decimal(self.energycalc.activity_factor)
+		return result
 
 	def get_absolute_url(self):
 		return reverse('patient:consultation_list', kwargs={'id': self.pk})
