@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 from django.core.urlresolvers import  reverse, reverse_lazy
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib import messages
@@ -19,8 +20,20 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
 from django.db.models import Q
 from dal import autocomplete
+from sysnut.settings import LOGIN_URL
+
 import decimal
 # Create your views here.
+
+class StaffRequiredMixin(object):
+	#@method_decorator(login_required)
+	def dispatch(self, request, *args, **kwargs):
+		if not request.user.is_staff:
+			messages.error(
+				request,
+				'Você não tem permissão para acessar esse link.')
+			return redirect('core:index')
+		return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
@@ -37,7 +50,7 @@ class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 # CRUD Patient
 
 @method_decorator(login_required, name='dispatch')
-class PatientCreate(CreateView):
+class PatientCreate(StaffRequiredMixin, CreateView):
 
 	model = Patient
 	template_name = 'patient/new.html'
@@ -86,7 +99,7 @@ class PatientCreate(CreateView):
 		return reverse('patient:list')
 
 @method_decorator(login_required, name='dispatch')
-class PatientUpdate(UpdateView):
+class PatientUpdate(StaffRequiredMixin, UpdateView):
 
 	model = Patient
 	template_name = 'patient/new.html'
@@ -148,7 +161,7 @@ class PatientUpdate(UpdateView):
 		return reverse('patient:list')
 
 @method_decorator(login_required, name='dispatch')
-class PatientList(ListView):
+class PatientList(StaffRequiredMixin, ListView):
 
 	model = Patient
 	http_method_names = ['get']
@@ -184,7 +197,7 @@ class PatientList(ListView):
 		return context
 
 @method_decorator(login_required, name='dispatch')
-class PatientDetail(DetailView):
+class PatientDetail(StaffRequiredMixin, DetailView):
 	model = Patient
 	template_name = 'patient/details.html'
 
@@ -215,7 +228,7 @@ class PatientReport(DetailView):
 
 
 @method_decorator(login_required, name='dispatch')
-class PatientDelete(DeleteView):
+class PatientDelete(StaffRequiredMixin, DeleteView):
 	model = Patient
 	success_url = reverse_lazy('patient:list')
 
@@ -225,7 +238,7 @@ class PatientDelete(DeleteView):
 # CRUD Consultation
 
 @method_decorator(login_required, name='dispatch')
-class ConsultationCreate(CreateView):
+class ConsultationCreate(StaffRequiredMixin, CreateView):
 	model = Consultation
 	template_name = 'consultation/new.html'
 	form_class = ConsultationForm
@@ -296,7 +309,7 @@ class ConsultationCreate(CreateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ConsultationList(ListView):
+class ConsultationList(StaffRequiredMixin, ListView):
 
 	model = Consultation
 	http_method_names = ['get']
@@ -340,7 +353,7 @@ class ConsultationDetail(DetailView):
 	template_name = 'consultation/details.html'
 
 @method_decorator(login_required, name='dispatch')
-class ConsultationUpdate(UpdateView):
+class ConsultationUpdate(StaffRequiredMixin, UpdateView):
 
 	model = Consultation
 	template_name = 'consultation/new.html'
@@ -425,7 +438,7 @@ class ConsultationUpdate(UpdateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ConsultationDelete(DeleteView):
+class ConsultationDelete(StaffRequiredMixin, DeleteView):
 	model = Consultation
 
 	def delete(self, request, *args, **kwargs):
@@ -449,7 +462,7 @@ class FoodAutocomplete(autocomplete.Select2QuerySetView):
 
 # FoodAnalysis CRUD
 @method_decorator(login_required, name='dispatch')
-class FoodAnalysisList(ListView):
+class FoodAnalysisList(StaffRequiredMixin, ListView):
 
 	model = FoodAnalysis
 	http_method_names = ['get']
@@ -488,12 +501,12 @@ class FoodAnalysisList(ListView):
 		return context
 
 #@method_decorator(login_required, name='dispatch')
-class FoodAnalysisDetail(DetailView):
+class FoodAnalysisDetail(StaffRequiredMixin, DetailView):
 	model = FoodAnalysis
 	template_name = 'analysis/details.html'
 
 @method_decorator(login_required, name='dispatch')
-class FoodAnalysisCreate(CreateView):
+class FoodAnalysisCreate(StaffRequiredMixin, CreateView):
 	model = FoodAnalysis
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
@@ -546,7 +559,7 @@ class FoodAnalysisCreate(CreateView):
 		return context
 
 @method_decorator(login_required, name='dispatch')
-class FoodAnalysisUpdate(UpdateView):
+class FoodAnalysisUpdate(StaffRequiredMixin, UpdateView):
 	model = FoodAnalysis
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
@@ -613,7 +626,7 @@ class FoodAnalysisUpdate(UpdateView):
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation': id_return}))
 
 @method_decorator(login_required, name='dispatch')
-class FoodAnalysisDelete(DeleteView):
+class FoodAnalysisDelete(StaffRequiredMixin, DeleteView):
 	model = FoodAnalysis
 	#success_url = reverse_lazy('patient:analysis_list')
 

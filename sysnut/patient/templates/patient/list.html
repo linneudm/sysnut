@@ -40,7 +40,7 @@
 			<tbody>
 				{% for patient in object_list %}
 				<tr>
-					<td>{{ patient.name|slice:":100" }}</td>
+					<td>{{ patient.first_name|slice:":100" }}</td>
 					<td>{{ patient.age}}</td>
 					<td>{{ patient.sex }}</td>
 					<td>

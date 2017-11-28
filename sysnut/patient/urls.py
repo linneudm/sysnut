@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import *
-
+from django.contrib.auth.decorators import permission_required
 
 urlpatterns = [
     # Autocomplete

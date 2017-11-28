@@ -44,6 +44,8 @@
 				{% include "navbar_default.html" %}
 				{% elif user.is_authenticated and user.is_superuser %}
 				{% include "navbar_admin.html" %}
+				{% elif user.is_authenticated and user.is_staff %}
+				{% include "navbar_nutritionist.html" %}
 				{% else %}
 				{% include "navbar_user.html" %}
 				{% endif %}

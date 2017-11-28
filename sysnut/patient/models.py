@@ -53,7 +53,7 @@ class Address(models.Model):
 	country = models.CharField('País', max_length=255, default='Brasil')
 
 
-class Patient(models.Model):
+class Patient(User):
 	name = models.CharField('Nome', max_length=150)
 	MALE = 'M'
 	FEMALE  = 'F'
@@ -86,8 +86,8 @@ class Patient(models.Model):
 	MULATTO = 'MULATO'
 	OTHER = 'OUTRO'
 	ETHNICITY_CHOICES = ((WHITE, 'Branco'), (BLACK, 'Negro'), (INDIGENOUS, 'Indígena'), (BROWN, 'Pardo'), (MULATTO, 'Mulato'), (OTHER, 'Outro'),)
-	ethnicity = models.CharField('Etnia', max_length=10, choices=ETHNICITY_CHOICES, default=None, blank=True, null=True)
-	email = models.EmailField('E-mail', blank=True, null=True)
+	ethnicity = models.CharField('Etnia', max_length=10, choices=ETHNICITY_CHOICES, default=None, blank=False, null=False)
+	#email = models.EmailField('E-mail', blank=True, null=True)
 	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='patient_address', on_delete=models.CASCADE, null=True)
 	user = models.ForeignKey(User, verbose_name=u'Usuário', related_name='patient_users', on_delete=models.CASCADE)
 	created_at = models.DateTimeField(u'Criado em', auto_now_add=True)
@@ -98,7 +98,7 @@ class Patient(models.Model):
 		return self.created_at.year - self.birth_date.year
 
 	def __str__(self):
-		return self.name
+		return self.first_name
 
 	def get_absolute_url(self):
 		return reverse('patient:list')

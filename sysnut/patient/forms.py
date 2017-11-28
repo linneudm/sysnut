@@ -3,16 +3,17 @@
 from django.forms import ModelForm
 from django import forms
 from .models import *
+from django.contrib.auth.forms import UserCreationForm,PasswordResetForm
 from sysnut.food.models import Meal, Food
 from multiupload.fields import MultiFileField
 from dal import autocomplete
 
 
-class PatientForm(ModelForm):
+class PatientForm(UserCreationForm):
 
 	class Meta:
 		model = Patient
-		exclude = ['address', 'user']
+		fields = ['username', 'first_name', 'last_name', 'email', 'sex', 'birth_date', 'marital_status', 'phone', 'ocupation', 'observation', 'ethnicity']
 
 class AddressForm(ModelForm):
 

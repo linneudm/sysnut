@@ -13,6 +13,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.forms import formset_factory
@@ -71,6 +72,7 @@ class NutritionistCreate(CreateView):
 		self.object = address_form.save()
 		nutritionist = form.save(commit=False)
 		nutritionist.address = self.object
+		nutritionist.is_staff = True
 		nutritionist.save()
 		return HttpResponseRedirect(self.get_success_url())
 
@@ -145,7 +147,6 @@ class NutritionistUpdate(UpdateView):
 
 	def get_success_url(self):
 		return reverse('nutritionist:list')
-
 
 @method_decorator(login_required, name='dispatch')
 class NutritionistList(ListView):
