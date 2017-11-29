@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import *
-from sysnut.patient.views import StaffRequiredMixin
+#from sysnut.patient.views import StaffRequiredMixin
 from django.shortcuts import render
 from os.path import join, dirname, abspath
 import xlrd
@@ -22,7 +22,7 @@ import os
 # Create your views here.
 
 @method_decorator(login_required, name='dispatch')
-class UploadSheet(StaffRequiredMixin, CreateView):
+class UploadSheet(CreateView):
     model = UploadSheet
     template_name = 'uploadsheet/new.html'
     form_class = UploadSheetForm
@@ -109,7 +109,7 @@ class UploadSheet(StaffRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 # Importação planilha com o tombamento e descrição
-def import_sheet(StaffRequiredMixin, request):
+def import_sheet(request):
     fname = join(dirname(dirname(abspath(__file__))), 'food', 'tabela-essencial.xlsx')
     workbook = xlrd.open_workbook(fname)
     worksheet = workbook.sheet_by_name('tabelaok')
@@ -193,7 +193,7 @@ class FoodAutocomplete(autocomplete.Select2QuerySetView):
 
 
 @method_decorator(login_required, name='dispatch')
-class FoodList(StaffRequiredMixin, ListView):
+class FoodList(ListView):
 
 	model = Food
 	http_method_names = ['get']
@@ -229,30 +229,30 @@ class FoodList(StaffRequiredMixin, ListView):
 		return context
 
 @method_decorator(login_required, name='dispatch')
-class FoodDetail(StaffRequiredMixin, DetailView):
+class FoodDetail(DetailView):
 	model = Food
 	template_name = 'food/details.html'
 
 @method_decorator(login_required, name='dispatch')
-class FoodCreate(StaffRequiredMixin, CreateView):
+class FoodCreate(CreateView):
 	model = Food
 	template_name = 'food/new.html'
 	form_class = FoodForm
 
 @method_decorator(login_required, name='dispatch')
-class FoodUpdate(StaffRequiredMixin, UpdateView):
+class FoodUpdate(UpdateView):
 	model = Food
 	template_name = 'food/new.html'
 	form_class = FoodForm
 	success_url = reverse_lazy('food:list')
 
 @method_decorator(login_required, name='dispatch')
-class FoodDelete(StaffRequiredMixin, DeleteView):
+class FoodDelete(DeleteView):
 	model = Food
 	success_url = reverse_lazy('food:list')
 
 @login_required
-def remove_all(StaffRequiredMixin, request):
+def remove_all(request):
     food = Food.objects.all().delete()
     return HttpResponseRedirect(reverse('food:list'))
 

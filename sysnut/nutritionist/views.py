@@ -13,7 +13,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-
+from django.contrib.auth.models import Permission
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth import logout
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.forms import formset_factory
@@ -23,6 +24,14 @@ from .forms import NutritionistForm, AddressForm
 from dal import autocomplete
 #from .decorators import odontology_required, Nutritionist_show_required
 from django.template.response import TemplateResponse
+
+from django.contrib.auth.decorators import user_passes_test
+from django.core.urlresolvers import reverse_lazy
+
+
+#is_nutritionist = user_passes_test(
+#    lambda u: u.has_perm('patient.add_patients'), login_url=reverse_lazy('account:login'))
+
 
 # Autocomplete Nutritionist na consulta
 class NutritionistAutocomplete(autocomplete.Select2QuerySetView):
@@ -38,10 +47,8 @@ class NutritionistAutocomplete(autocomplete.Select2QuerySetView):
 
 # Signup nutritionist ---------------------------------------------------------------------------------#
 
-# New e Edit - Nutritionist
-@method_decorator(login_required, name='dispatch')
-class NutritionistCreate(CreateView):
 
+class NutritionistCreate(CreateView):
 	model = Nutritionist
 	template_name = 'nutritionist/new.html'
 	form_class = NutritionistForm
@@ -72,7 +79,9 @@ class NutritionistCreate(CreateView):
 		self.object = address_form.save()
 		nutritionist = form.save(commit=False)
 		nutritionist.address = self.object
-		nutritionist.is_staff = True
+		#nutritionist.is_staff = True
+		permission = Permission.objects.get(codename='add_patient')
+		nutritionist.user_permissions.add(permission)
 		nutritionist.save()
 		return HttpResponseRedirect(self.get_success_url())
 
@@ -134,7 +143,10 @@ class NutritionistUpdate(UpdateView):
 		self.object = address_form.save()
 		nutritionist = form.save(commit=False)
 		nutritionist.address = self.object
+		permission = Permission.objects.get(codename='add_patient')
+		nutritionist.user_permissions.add(permission)
 		nutritionist.save()
+		print(">>>>>>>>> ", nutritionist.has_perm('patient.add_patient'))
 		return HttpResponseRedirect(self.get_success_url())
 
 	def form_invalid(self, form, address_form):

@@ -62,6 +62,7 @@ class Address(models.Model):
 #Nutritionist infos
 class Nutritionist(User, AuditModel):
 
+
 	MALE = 'M'
 	FEMALE  = 'F'
 	SEX_CHOICES = ((MALE, 'Masculino'), (FEMALE, 'Feminino'),)
@@ -74,6 +75,12 @@ class Nutritionist(User, AuditModel):
 	crn = models.CharField('CRN', max_length=6, null=False,)
 	phone = models.CharField('Telefone', max_length=16)
 	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='employees_address', on_delete=models.CASCADE)
+
+	class Meta:
+		permissions = (
+			("can_create_nut", "Can create NutritionistN"),
+		)
+
 
 	def __str__(self):
 		return self.first_name

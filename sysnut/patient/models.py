@@ -133,15 +133,13 @@ class BodyCircunference(models.Model):
 
 class SkinFold(models.Model):
 	body_mass = models.DecimalField('Massa Corporal (kg)', default=0.00, decimal_places=2, max_digits=8)
-	seated_height = models.DecimalField('Estatura sentado (cm)', default=0.00, decimal_places=2, max_digits=8)
+	
 	tricipital_fold = models.DecimalField('Dobra tricipital (mm)', default=0.00, decimal_places=2, max_digits=8)
 	
 
 class EnergyCalc(models.Model):
 	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True)
-	weight = models.DecimalField('Peso (kg)', default=0.00, decimal_places=2, max_digits=8)
-	height = models.DecimalField('Altura (cm)', default=0.00, decimal_places=2, max_digits=8)
-	lean_mass = models.DecimalField('Massa livre (kg)', default=0.00, decimal_places=2, max_digits=8)
+	knee_height = models.DecimalField('Altura do Joelho (cm)', default=0.00, decimal_places=2, max_digits=8)
 	#Formulas de calculo energetico, consultar a bibliografia
 	HARRIS_BENEDICT_OLD = 'HARRIS-BENEDICT(1919)'
 	HARRIS_BENEDICT_NEW = 'HARRIS-BENEDICT(1984)'
@@ -167,6 +165,8 @@ class Patology(models.Model):
 
 class Consultation(models.Model):
 	patient = models.ForeignKey(Patient, verbose_name='Paciente', related_name='patient_consultation', on_delete=models.CASCADE)
+	weight = models.DecimalField('Peso (kg)', default=0.00, decimal_places=2, max_digits=8)
+	height = models.DecimalField('Altura (cm)', default=0.00, decimal_places=2, max_digits=8)
 	objective = models.CharField('Objetivo',max_length=255)
 	observation = models.CharField('Observações gerais',max_length=255)
 	date = models.DateField('Data da consulta')
@@ -182,10 +182,11 @@ class Consultation(models.Model):
 	skinfold = models.ForeignKey(SkinFold, verbose_name='Dobras Corporais', related_name='consultation_skinfold', on_delete=models.CASCADE)
 
 	def mbr(self):
-		w = (self.energycalc.weight)#peso
-		h = (self.energycalc.height)#altura
+		w = (self.weight)#peso
+		h = (self.height)#altura
 		a = (self.patient.created_at.year - self.patient.birth_date.year)#idade
-		lm = (self.energycalc.lean_mass)#massa livre
+		#lm = (self.energycalc.lean_mass)#massa livre
+		lm = 0
 		formula = self.energycalc.formula
 		if(formula == "HARRIS-BENEDICT(1919)"):
 			if(self.patient.sex == "M"):
