@@ -71,10 +71,10 @@ class Meal(models.Model):
     DINNER = 'JANTAR'
     SUPPER = 'CEIA'
     MEAL_CHOICES = ((BREAKFAST, 'Café da Manhã'),(SNACK_I, 'Lanche I'),(LUNCH, 'Almoço'),(SNACK_II, 'Lanche II'),(DINNER, 'Jantar'),(SUPPER, 'Ceia'))
-    meal = models.CharField('Refeição', max_length=40, choices=MEAL_CHOICES, default=None, blank=True, null=True)
-    home_measure = models.CharField('Med. Caseira', max_length=255)
+    meal = models.CharField('Refeição', max_length=40, choices=MEAL_CHOICES, default=None, blank=False, null=True)
+    home_measure = models.CharField('Med. Caseira', max_length=255, blank=True, null=True)
     #PESO DO MICRONUTRIENTE = peso_micro_original  * peso_refeição / 100
-    original_food = models.ForeignKey(Food, verbose_name='Alimento', related_name='meal_food', on_delete=models.CASCADE)
+    original_food = models.ForeignKey(Food, verbose_name='Alimento', related_name='meal_food', on_delete=models.CASCADE, blank=True, null=True)
     #Infos
     weight = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
 

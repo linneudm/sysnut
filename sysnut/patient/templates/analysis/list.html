@@ -4,15 +4,13 @@
   <div class="container-fluid">
 		<nav class="navbar navbar-light bg-light">
     <div class="navbar-header">
-			<form class="form-horizontal" action="." method="get">
-				<div class="input-group">
-					<input id="search_box" name="search_box" type="text" placeholder="Informe o Paciente da Consulta" class="form-control" autofocus="true" value="{{ request.GET.search_box }}">
-						<button type="submit" class="form-group input-group-addon btn btn-secondary" title="Clique para realizar a pesquisar">
-							<i class="fa fa-search" aria-hidden="true"></i>
-						</button>
-					</span>
-				</div>
-			</form>
+	<strong>Paciente</strong> 
+	<br>
+    <b>{{consultation.patient.first_name}} {{consultation.patient.last_name}}</b>
+    <br>
+    Idade: <b> {{consultation.patient.age }} </b> anos
+    <br>
+    Data da consulta: <b>{{consultation.date|date:"d/m/Y"}} </b>
     </div>
 		<ul class="nav justify-content-end">
 			<li class"nav-item">
@@ -31,16 +29,20 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>Nome do Paciente</th>
 						<th>Cardapio</th>
+						<th>Publicado</th>
 						<th style="width: 205px;">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for analysis in object_list %}
 					<tr>
-						<td>{{ analysis.consultation.patient.name|slice:":100" }}</td>
             <td>{{ analysis.description }}</td>
+            			{% if analysis.published %}
+						<td>Sim</td>
+						{% else %}
+						<td>Não</td>
+						{% endif %}
 						<td>
 							<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
 							<i class="fa fa-clone" aria-hidden="true"></i>

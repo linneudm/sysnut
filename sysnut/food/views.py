@@ -53,8 +53,8 @@ class UploadSheet(CreateView):
             for col in range (34):
                 if(col != 0): #coluna 0 fica a descricao, portanto nao deve ser considerada
                     if not(isinstance(row[col], float)) and not(isinstance(row[col], int)):
-                        print("Numero :", row[col])
-                        print("Tipo :", type(row[col]))
+                        #print("Numero :", row[col])
+                        #print("Tipo :", type(row[col]))
                         messages.add_message(request, messages.ERROR, 'Código 1! Algo de errado não está certo! Contate o administrador')
                         return HttpResponseRedirect(reverse('food:list'))
 
@@ -125,8 +125,8 @@ def import_sheet(request):
         for col in range (34):
             if(col != 0): #coluna 0 fica a descricao
                 if not(isinstance(row[col], float)) and not(isinstance(row[col], int)):
-                    print("Numero :", row[col])
-                    print("Tipo :", type(row[col]))
+                    #print("Numero :", row[col])
+                    #print("Tipo :", type(row[col]))
                     messages.add_message(request, messages.ERROR, 'Código 1! Algo de errado não está certo! Contate o administrador')
                     return HttpResponseRedirect(reverse('food:list'))
 

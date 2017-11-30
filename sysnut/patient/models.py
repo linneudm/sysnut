@@ -234,7 +234,7 @@ class Exam(models.Model):
 
 class FoodAnalysis(models.Model):
 	consultation = models.ForeignKey(Consultation, verbose_name='Consulta', related_name='analysis_consultation', on_delete=models.CASCADE)
-	description = models.CharField(u'Descrição', max_length=200, null=True, blank=True)
+	description = models.CharField(u'Descrição', max_length=200, blank=False, null=False)
 	created_at = models.DateTimeField(u'Criado em', auto_now_add=True)
 	update_at = models.DateTimeField(u'Atualizado em', auto_now_add=True)
 	published = models.BooleanField('Publicar?')

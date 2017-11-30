@@ -463,7 +463,7 @@ class FoodAutocomplete(autocomplete.Select2QuerySetView):
 		# Pesquisa pela Descrição
 		if self.q:
 			qs = qs.filter(Q(description__icontains=self.q))
-		print(qs)
+		#print(qs)
 		return qs
 
 # FoodAnalysis CRUD
@@ -492,6 +492,7 @@ class FoodAnalysisList(ListView):
 		startPage = max(page_number - adjacent_pages, 1)
 		#Define o ID da consulta para o Template.
 		context['consultation_id'] = self.kwargs['consultation']
+		context['consultation'] = Consultation.objects.get(id=context['consultation_id'])
 		if startPage <= 5:
 		    startPage = 1
 		endPage = page_number + adjacent_pages + 1
@@ -547,9 +548,12 @@ class FoodAnalysisCreate(CreateView):
 		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
 		analysis.save()
 		self.object.food_analysis = analysis
-		self.object.save()
-		return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
-
+		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
+		if self.object.home_measure is not None and self.object.original_food is not None:
+			self.object.save()
+			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
+		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
+		
 	def form_invalid(self, form, meal_form):
 		return self.render_to_response(
 			self.get_context_data(
@@ -617,8 +621,11 @@ class FoodAnalysisUpdate(UpdateView):
 #		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
 		analysis.save()
 		self.object.food_analysis = analysis
-		self.object.save()
-		return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
+		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
+		if self.object.home_measure is not None and self.object.original_food is not None:
+			self.object.save()
+			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
+		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
 
 	def form_invalid(self, form, meal_form):
 		return self.render_to_response(
