@@ -80,8 +80,14 @@ class NutritionistCreate(CreateView):
 		nutritionist = form.save(commit=False)
 		nutritionist.address = self.object
 		#nutritionist.is_staff = True
+		permission_list = []
 		permission = Permission.objects.get(codename='add_patient')
-		nutritionist.user_permissions.add(permission)
+		permission_list.append(permission)
+		permission = Permission.objects.get(codename='add_patology')
+		permission_list.append(permission)
+		permission = Permission.objects.get(codename='add_food')
+		permission_list.append(permission)
+		nutritionist.user_permissions.set(permission_list)
 		nutritionist.save()
 		return HttpResponseRedirect(self.get_success_url())
 
@@ -143,9 +149,14 @@ class NutritionistUpdate(UpdateView):
 		self.object = address_form.save()
 		nutritionist = form.save(commit=False)
 		nutritionist.address = self.object
+		permission_list = []
 		permission = Permission.objects.get(codename='add_patient')
-		nutritionist.user_permissions.add(permission)
-		nutritionist.save()
+		permission_list.append(permission)
+		permission = Permission.objects.get(codename='add_patology')
+		permission_list.append(permission)
+		permission = Permission.objects.get(codename='add_food')
+		permission_list.append(permission)
+		nutritionist.user_permissions.set(permission_list)
 		print(">>>>>>>>> ", nutritionist.has_perm('patient.add_patient'))
 		return HttpResponseRedirect(self.get_success_url())
 
