@@ -23,7 +23,7 @@
         <div class="col-lg-6">
           <div class="form-group">
             <label class="control-label">Paciente</label>
-            <input class="form-control input-md" type="text" id="disabledTextInput" value="{{object.name}}" disabled>
+            <input class="form-control input-md" type="text" id="disabledTextInput" value="{{object.first_name}} {{object.last_name}}" disabled>
           </div>
         </div>
         <div class="col-lg-6">
@@ -68,10 +68,6 @@
                           <td>{{cons.skinfold.body_mass}}</td>
                         </tr>
                         <tr>
-                          <td>Altura sentado</td>
-                          <td>{{cons.skinfold.seated_height}}</td>
-                        </tr>
-                        <tr>
                           <td>Dobra tricipital</td>
                           <td>{{cons.skinfold.tricipital_fold}}</td>
                         </tr>
@@ -81,13 +77,20 @@
                     <p>Título do cálculo: {{cons.energycalc.calc_title}}</p>
                     <div class="row">
                       <div class="col-lg-6">
-                        <p>Peso: {{cons.energycalc.weight}}</p>
-                        <p>Altura: {{cons.energycalc.height}}</p>
+                        <p>Peso: {{cons.weight}} kg</p>
+                        <p>Altura: {{cons.height}} cm</p>
+                        <p>Altura do joelho: {{cons.energycalc.knee_height}}</p>
                         <p>Massa livre: {{cons.energycalc.lean_mass}}</p>
                         <p>Fórmula: {{cons.energycalc.formula}}</p>
                         <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
                       </div>
                       <div class="col-lg-6">
+                        <p>
+                          IMC: {{cons.imc.val|floatformat:"2"}}
+                            {% if  cons.imc.result == 3 %}
+                           <span class="badge badge-danger">Acima do peso</span>
+                            {% endif %}
+                        </p> 
                         <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
                         <p>Método MET: {{cons.energycalc.met_method}}</p>
                         <p>Programa de Peso: {{cons.energycalc.weight_program}}</p>

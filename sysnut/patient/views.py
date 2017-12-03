@@ -49,6 +49,18 @@ class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 
 		return qs
 
+class BiochemicalAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = Biochemical.objects.all()
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+
+		return qs
+
 # CRUD Patient
 #@method_decorator(is_nutritionist, name='dispatch')
 class PatientCreate(CreateView):
@@ -203,6 +215,7 @@ class PatientDetail(DetailView):
 	template_name = 'patient/details.html'
 
 	def get_context_data(self,**kwargs): 
+		context = super(PatientDetail, self).get_context_data(**kwargs)
 		if Consultation.objects.count() > 0:
 			context = super(PatientDetail, self).get_context_data(**kwargs)
 			context['consultation'] = []
@@ -246,6 +259,9 @@ class ConsultationCreate(CreateView):
 	second_form_class = BodyCircunferenceForm
 	third_form_class = EnergyCalcForm
 	fourth_form_class = SkinFoldForm
+	fifth_form_class = BioimpedanceForm
+	sixth_form_class = BoneDiameterForm
+	seventh_form_class = BiochemicalForm
 
 	def get(self, request, *args, **kwargs):
 		self.object = None
@@ -254,12 +270,18 @@ class ConsultationCreate(CreateView):
 		bodycirc_form = self.second_form_class
 		energycalc_form = self.third_form_class
 		skinfold_form = self.fourth_form_class
+		bioimpedance_form = self.fifth_form_class
+		bonediameter_form = self.sixth_form_class
+		biochemical_form = self.seventh_form_class
 		return self.render_to_response(
 			self.get_context_data(
 				form=form,
 				bodycirc_form=bodycirc_form,
 				energycalc_form=energycalc_form,
-				skinfold_form=skinfold_form
+				skinfold_form=skinfold_form,
+				bioimpedance_form=bioimpedance_form,
+				bonediameter_form=bonediameter_form,
+				biochemical_form=biochemical_form
 			)
 		)
 
@@ -269,17 +291,23 @@ class ConsultationCreate(CreateView):
 		bodycirc_form = self.second_form_class(self.request.POST)
 		energycalc_form = self.third_form_class(self.request.POST)
 		skinfold_form = self.fourth_form_class(self.request.POST)
+		bioimpedance_form = self.fifth_form_class(self.request.POST)
+		bonediameter_form = self.sixth_form_class(self.request.POST)
+		biochemical_form = self.seventh_form_class(self.request.POST)
 		form = self.get_form()
 		self.exam_formset = ExamFormSet(self.request.POST, self.request.FILES)
-		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and self.exam_formset.is_valid():
-			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form)
+		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and bioimpedance_form.is_valid() and bonediameter_form.is_valid() and self.exam_formset.is_valid():
+			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)
 		else:
-			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form)
+			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form)
 
-	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form):
+	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form):
 		self.object = form.save(commit=False)
 		self.object.patient = Patient.objects.get(id = self.kwargs['patient'])
 		self.object.bodycirc = bodycirc_form.save()
+		self.object.bioimpedance = bioimpedance_form.save()
+		self.object.bonediameter = bonediameter_form.save()
+		self.object.biochemical = biochemical_form.save(commit=False)
 		self.object.energycalc = energycalc_form.save(commit=False)
 		self.object.energycalc.mbr = decimal.Decimal(self.object.mbr())
 		self.object.energycalc.tee = decimal.Decimal(self.object.tee())
@@ -287,21 +315,26 @@ class ConsultationCreate(CreateView):
 
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
+		self.object.biochemical.consultation = self.object
+		self.object.biochemical = biochemical_form.save()
 		for item in form.cleaned_data['patology']:
 			#print(item)
 			self.object.patology.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
 		messages.add_message(self.request, messages.SUCCESS, 'Consulta criada com sucesso!')
-		return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient':self.kwargs['patient']}))
+		return HttpResponseRedirect(reverse('patient:consultation_edit', kwargs={'pk':self.object.pk}))
 
-	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form):
+	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form):
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
                     bodycirc_form=bodycirc_form,
 					energycalc_form=energycalc_form,
-					skinfold_form=skinfold_form
+					skinfold_form=skinfold_form,
+					bioimpedance_form=bioimpedance_form,
+					bonediameter_form=bonediameter_form,
+					biochemical_form=biochemical_form
 			)
 		)
 
@@ -338,6 +371,7 @@ class ConsultationList(ListView):
 		startPage = max(page_number - adjacent_pages, 1)
 		#Define o ID da consulta para o Template.
 		context['patient_id'] = self.kwargs['patient']
+		context['patient'] = Patient.objects.get(id=self.kwargs['patient'])
 		if startPage <= 5:
 		    startPage = 1
 		endPage = page_number + adjacent_pages + 1
@@ -366,6 +400,10 @@ class ConsultationUpdate(UpdateView):
 	second_form_class = BodyCircunferenceForm
 	third_form_class = EnergyCalcForm
 	fourth_form_class = SkinFoldForm
+	fifth_form_class = BioimpedanceForm
+	sixth_form_class = BoneDiameterForm
+	seventh_form_class = BiochemicalForm
+
 
 	def get_context_data(self, **kwargs):
 		self.object = self.get_object()
@@ -375,11 +413,15 @@ class ConsultationUpdate(UpdateView):
 		context['patient_id'] = self.object.patient.id
 		context['patient'] = Patient.objects.get(id = self.object.patient.id)
 		if self.request.POST:
+			context['bonediameter_form'] = self.sixth_form_class(self.request.POST, instance=self.object)
+			context['bioimpedance_form'] = self.fifth_form_class(self.request.POST, instance=self.object)
 			context['skinfold_form'] = self.fourth_form_class(self.request.POST, instance=self.object)
 			context['energycalc_form'] = self.third_form_class(self.request.POST, instance=self.object)
 			context['bodycirc_form'] = self.second_form_class(self.request.POST, instance=self.object)
 			context['form'] = self.form_class(self.request.POST, instance=self.object.bodycirc)
 		else:
+			context['bonediameter_form'] = self.sixth_form_class(instance=self.object.bonediameter)
+			context['bioimpedance_form'] = self.fifth_form_class(instance=self.object.bioimpedance)
 			context['skinfold_form'] = self.fourth_form_class(instance=self.object.skinfold)
 			context['energycalc_form'] = self.third_form_class(instance=self.object.energycalc)
 			context['bodycirc_form'] = self.second_form_class(instance=self.object.bodycirc)
@@ -393,13 +435,19 @@ class ConsultationUpdate(UpdateView):
 		bodycirc_form = self.second_form_class
 		energycalc_form = self.third_form_class
 		skinfold_form = self.fourth_form_class
+		bioimpedance_form = self.fifth_form_class
+		bonediameter_form = self.sixth_form_class
+		biochemical_form = self.seventh_form_class
 		return self.render_to_response(
 			self.get_context_data(
 				object=self.object,
 				form=form,
 				bodycirc_form=bodycirc_form,
 				energycalc_form=energycalc_form,
-				skinfold_form=skinfold_form
+				skinfold_form=skinfold_form,
+				bioimpedance_form=bioimpedance_form,
+				bonediameter_form=bonediameter_form,
+				biochemical_form=biochemical_form
 			)
 		)
 
@@ -409,36 +457,48 @@ class ConsultationUpdate(UpdateView):
 		bodycirc_form = self.second_form_class(self.request.POST)
 		energycalc_form = self.third_form_class(self.request.POST)
 		skinfold_form = self.fourth_form_class(self.request.POST)
+		bioimpedance_form = self.fifth_form_class(self.request.POST)
+		bonediameter_form = self.sixth_form_class(self.request.POST)
+		biochemical_form = self.seventh_form_class(self.request.POST)
 		form = self.get_form()
-		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and self.exam_formset.is_valid():
-			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form)
+		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and bioimpedance_form.is_valid() and bonediameter_form.is_valid() and biochemical_form.is_valid() and self.exam_formset.is_valid():
+			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)
 		else:
-			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form)
+			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)
 
-	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form):
+	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form):
 		self.object = form.save(commit=False)
 		self.object.bodycirc = bodycirc_form.save()
+		self.object.bioimpedance = bioimpedance_form.save()
+		self.object.bonediameter = bonediameter_form.save()
+		self.object.biochemical = biochemical_form.save(commit=False)
+		self.object.biochemical.consultation = self.object
 		self.object.energycalc = energycalc_form.save(commit=False)
 		self.object.energycalc.mbr = decimal.Decimal(self.object.mbr())
 		self.object.energycalc.tee = self.object.tee()
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
+		self.object.biochemical = biochemical_form.save()
+
 		self.object.patology = {}
 		for item in form.cleaned_data['patology']:
 			self.object.patology.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
 		messages.add_message(self.request, messages.SUCCESS, 'Consulta atualizada com sucesso!')
-		return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient':self.object.patient.id}))
+		return HttpResponseRedirect(reverse('patient:consultation_edit', kwargs={'pk':self.object.pk}))
 
-	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form):
+	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form):
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
                     bodycirc_form=bodycirc_form,
                     energycalc_form=energycalc_form,
-                    skinfold_form=skinfold_form
+                    skinfold_form=skinfold_form,
+                    bioimpedance_form=bioimpedance_form,
+                    bonediameter_form=bonediameter_form,
+                    biochemical_form=biochemical_form
 			)
 		)
 
@@ -454,6 +514,19 @@ class ConsultationDelete(DeleteView):
 	    self.object.delete()
 	    messages.add_message(self.request, messages.SUCCESS, 'Consulta removida com sucesso!')
 	    return HttpResponseRedirect(reverse('patient:consultation_list', kwargs={'patient': id_return}))
+
+def biochemical_delete(request, pk):
+	biochemical = get_object_or_404(BiochemicalExam,id=pk)
+	id_return = biochemical.consultation.id
+	success_url = reverse('patient:consultation_edit', kwargs={'pk': id_return})
+
+	if not request.user.is_superuser:
+		messages.add_message(request, messages.INFO, 'Você precisa ser administrador para realizar esta ação.')
+	else:
+		biochemical.delete()
+		messages.add_message(request, messages.SUCCESS, 'Exame removido com sucesso!')
+	return HttpResponseRedirect(success_url)
+
 class FoodAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
 		# Don't forget to filter out results depending on the visitor !
@@ -622,6 +695,7 @@ class FoodAnalysisUpdate(UpdateView):
 		analysis.save()
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
+		messages.add_message(self.request, messages.SUCCESS, 'Dados alterados com sucesso!')
 		if self.object.home_measure is not None and self.object.original_food is not None:
 			self.object.save()
 			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))

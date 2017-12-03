@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load sass_tags %}
+{% load compress %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -14,15 +16,18 @@
 	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
 	{% block styles %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/formset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% sass_src 'css/bootstrap.scss' %}">
+	{% compress css %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	{% endcompress %}
 
-	<link rel="stylesheet" href="{% static 'css/font-awesome.css' %}" />
+	
+	
 	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
-	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/material-icons.css' %}" />
 
 	<script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	{% endblock %}
@@ -94,6 +99,8 @@
 	<script type="text/javascript" src="{% static 'js/inputmask.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/popper.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/popover.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/tooltip.js' %}"></script>
 
 
 

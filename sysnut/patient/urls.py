@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import permission_required
 urlpatterns = [
     # Autocomplete
     url(r'^patology-autocomplete/$', PatologyAutocomplete.as_view(create_field='description'), name='patology_autocomplete'),
+    url(r'^biochemical-autocomplete/$', BiochemicalAutocomplete.as_view(create_field='description'), name='biochemical_autocomplete'),
     # Patient
     url(r'^add/$', permission_required('patient.add_patient', raise_exception=True)(PatientCreate.as_view()), name='create'),
     url(r'^edit/(?P<pk>[0-9]+)/$',permission_required('patient.add_patient', raise_exception=True)(PatientUpdate.as_view()), name='edit'),
@@ -22,6 +23,7 @@ urlpatterns = [
 	url(r'^consultation/list/(?P<patient>[0-9]+)/$', ConsultationList.as_view(), name='consultation_list'),
     url(r'^consultation/details/(?P<pk>[0-9]+)/$', ConsultationDetail.as_view(), name='consultation_details'),
     url(r'^consultation/delete/(?P<pk>[0-9]+)/$',ConsultationDelete.as_view(), name='consultation_delete'),
+    url(r'^consultation/delete-biochemical/(?P<pk>[0-9]+)/$', biochemical_delete, name='biochemical_delete'),
 
     #FoodAnalysis
     url(r'^food-autocomplete/$', FoodAutocomplete.as_view(), name='food_autocomplete'),

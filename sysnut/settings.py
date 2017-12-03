@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #Other apps
+    'sass_processor',
+    "compressor",
     'widget_tweaks',
     'xlrd',
     'multiupload',
@@ -55,6 +57,25 @@ INSTALLED_APPS = [
     'sysnut.patient',
     'sysnut.food',
 ]
+
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    os.path.join(BASE_DIR, 'sysnut/sysnut/core/static/css'),
+    #os.path.join(BASE_DIR, 'sysnut/core/node_modules'),
+]
+
+COMPRESS_ENABLED = True
+SASS_PROCESSOR_AUTO_INCLUDE = False
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+    'compressor.finders.CompressorFinder',
+]
+
+SASS_PRECISION = 8
+SASS_OUTPUT_STYPE = 'compact'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -142,9 +163,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'sysnut/core/static')
+print(STATIC_ROOT)
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
