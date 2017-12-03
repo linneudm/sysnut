@@ -171,6 +171,38 @@
     </div>
   </div>
 </div>
+<hr>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="alert alert-info alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Necessidades Calóricas</strong>: {{consultation.tee}}
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="alert 
+        {% if object.result.val == 0 %}
+          alert-success 
+        {% elif object.result.val == -1 or object.result.val == 1 %}
+          alert-danger
+        {% else %}
+          alert-secondary
+        {% endif %}
+        alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Calorias encontradas</strong>: {{object.energy}}
+          {% if object.result.val == 0 or object.result.val > 0 %}
+            <p>
+              <strong>Percentual de adequação:</strong> 
+              {{object.result.percent|floatformat:"1"}}%
+            </p>
+          {% endif %}
+          <p><strong>Situação:</strong> {{object.result.msg}}</p>
+        </div>
+    </div>
+  </div>
+</div>
 <div class="pb-4"></div>
 <div class="container-fluid">
 <div class="card card-body">

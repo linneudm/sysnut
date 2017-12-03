@@ -725,6 +725,25 @@ class FoodAnalysisDelete(DeleteView):
 	    messages.add_message(request, messages.SUCCESS, 'Cardápio removido com sucesso!')
 	    return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation': id_return}))
 
+def publish_analysis(request, pk):
+	analysis = get_object_or_404(FoodAnalysis,id=pk)
+	id_return = analysis.consultation.id
+	success_url = reverse('patient:analysis_list', kwargs={'consultation': id_return})
+	val = ""
+
+	if not request.user.is_superuser:
+		messages.add_message(request, messages.INFO, 'Você precisa ser administrador para realizar esta ação.')
+	else:
+		if(analysis.published == False):
+			analysis.published = True
+			val = "publicado"
+		else:
+			val = "despublicado"
+			analysis.published = False
+		analysis.save()
+		messages.add_message(request, messages.SUCCESS, "Cardápio " + val + " com sucesso!")
+	return HttpResponseRedirect(success_url)
+
 def meal_delete(request, pk):
 	meal = get_object_or_404(Meal,id=pk)
 	id_return = meal.food_analysis.id

@@ -30,19 +30,25 @@
 				<thead>
 					<tr>
 						<th>Cardapio</th>
-						<th>Publicado</th>
-						<th style="width: 205px;">Ações</th>
+						<th class="text-center">Publicado</th>
+						<th class="text-center" style="width: 205px;">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for analysis in object_list %}
 					<tr>
             <td>{{ analysis.description }}</td>
+            			<td class="text-center" width="10%">
+							<a href="{% url 'patient:publish_analysis' analysis.id %}"
             			{% if analysis.published %}
-						<td>Sim</td>
+            			 	class="btn btn-outline-success" title="Despublicar">
+							<i class="fa fa-check-square" aria-hidden="true"></i>
 						{% else %}
-						<td>Não</td>
+							class="btn btn-outline-dark" title="Publicar">
+							<i class="fa fa-square" aria-hidden="true"></i>
 						{% endif %}
+							</a>
+            			</td>
 						<td>
 							<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
 							<i class="fa fa-clone" aria-hidden="true"></i>

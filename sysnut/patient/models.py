@@ -319,6 +319,32 @@ class FoodAnalysis(models.Model):
 			total += item.energy()
 		return total
 
+	def result(self):
+		tee = decimal.Decimal(self.consultation.tee())
+		energy = decimal.Decimal(self.energy())
+		percent = 0
+		result = 2
+		msg = "Nada cadastrado"
+		if(energy > 0):
+			percent = (energy * 100) / tee
+			if (percent >= 90 and percent <= 110):
+				result = 0
+				msg = "Adequado."
+			elif (percent < 90):
+				result = -1
+				msg = "Inadequado. Abaixo do recomendado."
+			elif (percent > 100):
+				result = 1
+				msg = "Inadequado. Acima do recomendado."
+
+		result = {
+			'val': result,
+			'percent': percent,
+			'msg': msg
+		}
+		return result
+
+
 	def carb(self):
 		total = 0
 		for item in self.meal_analysis.all():
