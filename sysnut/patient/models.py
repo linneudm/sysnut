@@ -115,27 +115,52 @@ def post_delete_patient(instance, **kwargs):
 
 models.signals.post_delete.connect(post_delete_patient, sender=Patient, dispatch_uid='post_delete_patient')
 
+class Bioimpedance(models.Model):
+	fat_percentage = models.DecimalField('Percentual de Gordura', default=0.00, decimal_places=2, max_digits=8)
+	bone_weight = models.DecimalField('Peso ósseo (kg)', default=0.00, decimal_places=2, max_digits=8)
+	metabolic_age = models.IntegerField('Idade metabólica (anos)', default=0)
+
+	lean_mass = models.DecimalField('Massa magra (kg)', default=0.00, decimal_places=2, max_digits=8)
+	fat_free_mass = models.DecimalField('Massa livre de gordura (kg)', default=0.00, decimal_places=2, max_digits=8)
+	total_body_water = models.DecimalField('Água corporal total (kg)', default=0.00, decimal_places=2, max_digits=8)
+
+	visceral_fat = models.DecimalField('Gordura visceral (grau)', default=0.00, decimal_places=2, max_digits=8)
+
+
 class BodyCircunference(models.Model):
-	thorax_circ = models.DecimalField('Circ. do Tórax', default=0.00, decimal_places=2, max_digits=8)
-	shoulder_circ = models.DecimalField('Circ. do Ombro', default=0.00, decimal_places=2, max_digits=8)
-	relaxed_arm_circ = models.DecimalField('Circ. Braço Relaxado', default=0.00, decimal_places=2, max_digits=8)
-	contracted_arm_circ = models.DecimalField('Circ. Braço Contraído', default=0.00, decimal_places=2, max_digits=8)
+	thorax_circ = models.DecimalField('Circ. do Tórax (cm)', default=0.00, decimal_places=2, max_digits=8)
+	shoulder_circ = models.DecimalField('Circ. do Ombro (cm)', default=0.00, decimal_places=2, max_digits=8)
+	relaxed_arm_circ = models.DecimalField('Circ. Braço Relaxado (cm)', default=0.00, decimal_places=2, max_digits=8)
+	contracted_arm_circ = models.DecimalField('Circ. Braço Contraído (cm)', default=0.00, decimal_places=2, max_digits=8)
 
-	forearm_circ = models.DecimalField('Circ. do Antebraço', default=0.00, decimal_places=2, max_digits=8)
-	waist_circ = models.DecimalField('Circ. Cintura', default=0.00, decimal_places=2, max_digits=8)
-	abdomen_circ = models.DecimalField('Circ. do Abdomen', default=0.00, decimal_places=2, max_digits=8)
-	hip_circ = models.DecimalField('Circ. Quadril', default=0.00, decimal_places=2, max_digits=8)
+	forearm_circ = models.DecimalField('Circ. do Antebraço (cm)', default=0.00, decimal_places=2, max_digits=8)
+	waist_circ = models.DecimalField('Circ. Cintura (cm)', default=0.00, decimal_places=2, max_digits=8)
+	abdomen_circ = models.DecimalField('Circ. do Abdomen (cm)', default=0.00, decimal_places=2, max_digits=8)
+	hip_circ = models.DecimalField('Circ. Quadril (cm)', default=0.00, decimal_places=2, max_digits=8)
 
-	proximal_thigh_circ = models.DecimalField('Circ. Coxa Proximal', default=0.00, decimal_places=2, max_digits=8)
-	medial_thigh_circ = models.DecimalField('Circ. Coxa Medial', default=0.00, decimal_places=2, max_digits=8)
-	distal_thigh_circ = models.DecimalField('Circ. Coxa Distal', default=0.00, decimal_places=2, max_digits=8)
-	calf_circ = models.DecimalField('Circ. Panturrilha', default=0.00, decimal_places=2, max_digits=8)
+	proximal_thigh_circ = models.DecimalField('Circ. Coxa Proximal (cm)', default=0.00, decimal_places=2, max_digits=8)
+	medial_thigh_circ = models.DecimalField('Circ. Coxa Medial (cm)', default=0.00, decimal_places=2, max_digits=8)
+	distal_thigh_circ = models.DecimalField('Circ. Coxa Distal (cm)', default=0.00, decimal_places=2, max_digits=8)
+	calf_circ = models.DecimalField('Circ. Panturrilha (cm)', default=0.00, decimal_places=2, max_digits=8)
 
 class SkinFold(models.Model):
-	body_mass = models.DecimalField('Massa Corporal (kg)', default=0.00, decimal_places=2, max_digits=8)
-	
 	tricipital_fold = models.DecimalField('Dobra tricipital (mm)', default=0.00, decimal_places=2, max_digits=8)
+	subscapular_fold = models.DecimalField('Dobra subescapular (mm)', default=0.00, decimal_places=2, max_digits=8)
+	chest_fold = models.DecimalField('Dobra torácica (mm)', default=0.00, decimal_places=2, max_digits=8)
+	bicipital_fold = models.DecimalField('Dobra bicipital (mm)', default=0.00, decimal_places=2, max_digits=8)
+	mean_axillary_fold = models.DecimalField('Dobra axilar média (mm)', default=0.00, decimal_places=2, max_digits=8)
+	suprailiathic_fold = models.DecimalField('Dobra suprailíaca (mm)', default=0.00, decimal_places=2, max_digits=8)
+	abdominal_fold = models.DecimalField('Dobra abdominal (mm)', default=0.00, decimal_places=2, max_digits=8)
+	thigh_fold = models.DecimalField('Dobra da coxa (mm)', default=0.00, decimal_places=2, max_digits=8)
+	calf_fold = models.DecimalField('Dobra da panturrilha (mm)', default=0.00, decimal_places=2, max_digits=8)
 	
+
+class BoneDiameter(models.Model):
+	humeros_diameter = models.DecimalField('Diâmetro do úmero (cm)', default=0.00, decimal_places=2, max_digits=8)
+	wrist_diameter = models.DecimalField('Diâmetro do úmero (cm)', default=0.00, decimal_places=2, max_digits=8)
+	femoral_diameter = models.DecimalField('Diâmetro do fêmur (cm)', default=0.00, decimal_places=2, max_digits=8)
+
+
 
 class EnergyCalc(models.Model):
 	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True)
@@ -168,7 +193,6 @@ class Consultation(models.Model):
 	weight = models.DecimalField('Peso (kg)', default=0.00, decimal_places=2, max_digits=8)
 	height = models.DecimalField('Altura (cm)', default=0.00, decimal_places=2, max_digits=8)
 	objective = models.CharField('Objetivo',max_length=255)
-	observation = models.CharField('Observações gerais',max_length=255)
 	date = models.DateField('Data da consulta')
 	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology')
 	family_history = models.CharField('Histórico Familiar',max_length=255)
@@ -177,16 +201,36 @@ class Consultation(models.Model):
 	feed_preferences = models.CharField('Preferências Alimentares',max_length=255, blank=True, null=True)
 	prognostic = models.CharField('Prognóstico',max_length=255, blank=True, null=True)
 	evaluation = models.CharField('Avaliação',max_length=255, blank=True, null=True)
+	observation = models.CharField('Observações gerais',max_length=255)
 	bodycirc = models.ForeignKey(BodyCircunference, verbose_name='Circunferência Corporal', related_name='consultation_bodycirc', on_delete=models.CASCADE)
 	energycalc = models.ForeignKey(EnergyCalc, verbose_name='Calculos Energéticos', related_name='consultation_energcalc', on_delete=models.CASCADE,null=True, blank=True)
 	skinfold = models.ForeignKey(SkinFold, verbose_name='Dobras Corporais', related_name='consultation_skinfold', on_delete=models.CASCADE)
+	bioimpedance = models.ForeignKey(Bioimpedance, verbose_name='Bioimpedância', related_name='consultation_bioimpedance', on_delete=models.CASCADE)
+	bonediameter = models.ForeignKey(BoneDiameter, verbose_name='Diâmetro ósseo', related_name='consultation_bone_diameter', on_delete=models.CASCADE)
+
+	def imc(self):
+		w = float(self.weight)
+		h = float(self.height) / 100
+		if w != 0 and h != 0:
+			imc = w / (h * h)
+		else:
+			imc = 0
+
+		if imc != 0 and imc > 24:
+			result = 3
+
+		imc = {
+			'val': imc,
+			'result': result
+		}
+		return imc
 
 	def mbr(self):
 		w = (self.weight)#peso
 		h = (self.height)#altura
 		a = (self.patient.created_at.year - self.patient.birth_date.year)#idade
-		#lm = (self.energycalc.lean_mass)#massa livre
-		lm = 0
+		lm = (self.bioimpedance.lean_mass)#massa livre
+		#lm = 0
 		formula = self.energycalc.formula
 		if(formula == "HARRIS-BENEDICT(1919)"):
 			if(self.patient.sex == "M"):
@@ -232,6 +276,30 @@ class Exam(models.Model):
 		self.path.delete()
 		return super(Exam, self).delete()
 
+class Biochemical(models.Model):
+	description = models.CharField('Descricao',max_length=200)
+
+	def __str__(self):
+		return self.description
+
+
+	def instruction(self):
+		if(self.condiction == "Alto"):
+			return self.condiction
+		elif(self.condiction == "Baixo"):
+			return self.condiction
+
+
+class BiochemicalExam(models.Model):
+	exam = models.ForeignKey(Biochemical, verbose_name='Descrição', related_name='value_biochemical', on_delete=models.CASCADE)
+	CONDICTION_CHOICES = (
+	    ('Alto', 'Alto'),
+	    ('Normal', 'Normal'),
+	    ('Baixo', 'Baixo')
+	)
+	condiction = models.CharField('Condição', max_length=10, choices=CONDICTION_CHOICES, default=None)
+	consultation = models.ForeignKey(Consultation, verbose_name='Exame Bioquímico', related_name='consultation_biochemical', on_delete=models.CASCADE)
+	
 class FoodAnalysis(models.Model):
 	consultation = models.ForeignKey(Consultation, verbose_name='Consulta', related_name='analysis_consultation', on_delete=models.CASCADE)
 	description = models.CharField(u'Descrição', max_length=200, blank=False, null=False)
@@ -250,6 +318,32 @@ class FoodAnalysis(models.Model):
 		for item in self.meal_analysis.all():
 			total += item.energy()
 		return total
+
+	def result(self):
+		tee = decimal.Decimal(self.consultation.tee())
+		energy = decimal.Decimal(self.energy())
+		percent = 0
+		result = 2
+		msg = "Nada cadastrado"
+		if(energy > 0):
+			percent = (energy * 100) / tee
+			if (percent >= 90 and percent <= 110):
+				result = 0
+				msg = "Adequado."
+			elif (percent < 90):
+				result = -1
+				msg = "Inadequado. Abaixo do recomendado."
+			elif (percent > 100):
+				result = 1
+				msg = "Inadequado. Acima do recomendado."
+
+		result = {
+			'val': result,
+			'percent': percent,
+			'msg': msg
+		}
+		return result
+
 
 	def carb(self):
 		total = 0

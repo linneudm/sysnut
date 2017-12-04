@@ -3,6 +3,7 @@
 
 from django.shortcuts import render
 from django.contrib.auth import login
+#from sysnut.settings import *
 
 # Página inicial
 def index(request):

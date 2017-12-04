@@ -12,10 +12,10 @@
   </div>
 </nav>
 
-<div class="container">
+<div class="container" style="max-width: 930px">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-     
+
       {% if "duplicate" in request.path|cut:"/" %}{% url "patient:consultation_create" patient_id as URL %}{% endif %}
       <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
         <fieldset>
@@ -25,6 +25,9 @@
             <li class="nav-item"><a class="nav-link" href="#tab-bodycirc" aria-controls="tab-bodycirc" role="tab" data-toggle="tab">Circ. Corp.</a></li>
             <li class="nav-item"><a class="nav-link" href="#tab-energycalc" aria-controls="tab-energycalc" role="tab" data-toggle="tab">Calc. Energ.</a></li>
             <li class="nav-item"><a class="nav-link" href="#tab-skinfold" aria-controls="tab-skinfold" role="tab" data-toggle="tab">Dobras Corp.</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-bioimpedance" aria-controls="tab-bioimpedance" role="tab" data-toggle="tab">Biomipedância</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-bonediameter" aria-controls="tab-bonediameter" role="tab" data-toggle="tab">Diâmetro Ósseo</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab-biochemical" aria-controls="tab-biochemical" role="tab" data-toggle="tab">Exame Bioquímico</a></li>
           </ul>
 
           <!-- Tab panes -->
@@ -32,7 +35,7 @@
             <div role="tabpanel" class="tab-pane fade show active" id="tab-dados">
               <div class="form-group">
                 <label class="control-label">Paciente</label>
-                <input class="form-control input-md" type="text" id="disabledTextInput" value="{{patient.name}}" disabled>
+                <input class="form-control input-md" type="text" id="disabledTextInput" value="{{patient.first_name}} {{patient.last_name}}" disabled>
               </div>
               {% for field in form %}
               {% if field.errors %}
@@ -46,10 +49,7 @@
               {%else%}
               <div class="form-group">
                 <label class="control-label" >{{ field.label }}</label>
-                {% if field.label == "Paciente" %}
-                {{ field|add_class:"form-control input-md" }}
-                <a class="badge badge-primary" href="{% url 'patient:create' %}">Paciente novo? Clique aqui para cadastrar.</a>
-                {% elif field.label == "Data da consulta" %}
+                {% if field.label == "Data da consulta" %}
                 <div class="input-group date datepicker">
                   {{ field|add_class:"form-control input-md" }}
                   <span class="input-group-addon">
@@ -63,20 +63,20 @@
               {%endif%}
               {% endfor %}
               <h4>Anexos</h4>
-      				{% for formset_error in exam_formset.non_form_errors %}
-      				<div class="alert alert-error">
-      				    <button type="button" class="close" data-dismiss="alert">×</button>
-      				    {{formset_error}}
-      				</div>
-      				{% endfor %}
-      				{% for dict in exam_formset.errors %}
-      				{% for formset_error in dict.values %}
-      				<div class="alert alert-error">
-      				    <button type="button" class="close" data-dismiss="alert">×</button>
-      				    {{formset_error}}
-      				</div>
-      				{% endfor %}
-      				{% endfor %}
+              {% for formset_error in exam_formset.non_form_errors %}
+              <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{formset_error}}
+              </div>
+              {% endfor %}
+              {% for dict in exam_formset.errors %}
+              {% for formset_error in dict.values %}
+              <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{formset_error}}
+              </div>
+              {% endfor %}
+              {% endfor %}
               <div class="table-responsive">
                 <table class="table table-striped" id="items_table">
                   <thead>
@@ -89,11 +89,12 @@
                   </thead>
                   <tbody>
                     {% for form_item in exam_formset.forms %}
+
                     <tr id="{{ form_item.prefix }}-row">
                       {{form_item.id}}
                       <td>{% if form_item.instance.id %} {{form_item.instance.id}}{{form_item.DELETE}} {%endif%}</td>
-                      <td>{% if form_item.description.errors %}{{form_item.description.errors}}{{form_item.description|add_class:"form-control  has-error has-feedback"}}{%else%}{{form_item.description|add_class:"form-control"}}{%endif%}</td>
-                      <td>{% if form_item.path.errors %}{{form_item.path.errors}}{{form_item.path|add_class:"form-control  has-error has-feedback"}}{%else%}{{form_item.path|add_class:"form-control"}}{%endif%}</td>
+                      <td>{% if form_item.path.errors %}{{form_item.path.errors}}{{form_item.path|add_class:"form-control has-error has-feedback"}}{%else%}{{form_item.path|add_class:"col-lg-2"}}{%endif%}</td>
+                      <td>{% if form_item.description.errors %}{{form_item.description.errors}}{{form_item.description|add_class:"form-control  has-error has-feedback"}}{%else%}{{form_item.description|add_class:"form-control col-lg-12"}}{%endif%}</td>
                       <td></td>
                     </tr>
                     {% endfor %}
@@ -186,17 +187,115 @@
                 {% endfor %}
               </div>
             </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab-bioimpedance">
+              <div class="form-row">
+                {% for field in bioimpedance_form %}
+                {% if field.errors %}
+                <div class="col-lg-6">
+                  <div class="form-group error" >
+                    <label class="control-label" >{{ field.label }}</label>
+                    {{ field|add_class:"form-control input-md" }}
+                    {% for error in field.errors%}
+                    <span class="help-inline error">{{ error}}</span>
+                    {% endfor%}
+                  </div>
+                </div>
+                {%else%}
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="control-label" >{{ field.label }}</label>
+                    {{ field|add_class:"form-control input-md" }}
+                  </div>
+                </div>
+                {%endif%}
+                {% endfor %}
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab-bonediameter">
+              <div class="form-row">
+                {% for field in bonediameter_form %}
+                {% if field.errors %}
+                <div class="col-lg-6">
+                  <div class="form-group error" >
+                    <label class="control-label" >{{ field.label }}</label>
+                    {{ field|add_class:"form-control input-md" }}
+                    {% for error in field.errors%}
+                    <span class="help-inline error">{{ error}}</span>
+                    {% endfor%}
+                  </div>
+                </div>
+                {%else%}
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="control-label" >{{ field.label }}</label>
+                    {{ field|add_class:"form-control input-md" }}
+                  </div>
+                </div>
+                {%endif%}
+                {% endfor %}
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tab-biochemical">
+              
+              <table class="table table-hover table-responsive-lg">
+                <thead>
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Condição</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+              <tbody>
+              {% for item in object.consultation_biochemical.all %}
+                <tr>
+                  <td>{{ item.exam.description }}</td>
+                  <td>{{item.condiction}}</td>
+                  <td width="5%"><a class="btn btn-danger " href="{% url 'patient:biochemical_delete' item.id %}"><i class="fa fa-trash"></i></a></td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <hr>
+            <div class="form-row">
+              {% for field in biochemical_form %}
+              {% if field.errors %}
+              <div class="col-lg-6">
+                <div class="form-group error" >
+                  <label class="control-label" >{{ field.label }}</label>
+                  {{ field|add_class:"form-control input-md" }}
+                  {% for error in field.errors%}
+                  <span class="help-inline error">{{ error}}</span>
+                  {% endfor%}
+                </div>
+              </div>
+              {%else%}
+              <div class="col-lg-6">
+                <div class="form-group">
+                  {% if field.label == "Descrição" %}
+                  <label class="control-label" style="margin-top: 35px;">{{ field.label }}</label>
+                  {{ field|add_class:"form-control input-md" }}
+                  {% else %}
+                  <label class="control-label" >{{ field.label }}</label>
+                  {{ field|add_class:"form-control input-md" }}
+                  {% endif %}
+
+                </div>
+              </div>
+              {%endif%}
+              {% endfor %}
+            </div>
           </div>
-          <div class="form-group">
-            <button type="submit" value="Salvar" class="btn btn-primary">
-              <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-              Salvar
-            </button>
-          </div>
-        </fieldset>
-      </form>
-    </div>
+        </div>
+        <div class="form-group">
+          <button type="submit" value="Salvar" class="btn btn-primary">
+            <span class="fa fa-save" aria-hidden="true"></span>
+            Salvar
+          </button>
+        </div>
+      </fieldset>
+    </form>
   </div>
+</div>
 </div>
 {% endblock %}
 
@@ -204,8 +303,9 @@
 {{ block.super }}
 {{ form.media }}
 
+
 <script type="text/javascript">
-$(document).ready(function(){
+  $(document).ready(function(){
   //$("#id_date").attr("readonly", "true");
   $("#id_date").inputmask({"mask": "99/99/9999"}); //specifying options
   $("#id_date").datepicker({
@@ -216,18 +316,20 @@ $(document).ready(function(){
     todayHighlight: true
   });
   $(function() {
-        $('#items_table tbody tr').formset({
+    $('#items_table tbody tr').formset({
             // For inline formsets, be sure to set the prefix, as the default prefix
             // ('form') isn't correct.
             // Django appears to generate the prefix from the lowercase plural
             // name of the related model, with camel-case converted to underscores.
             prefix: '{{ exam_formset.prefix }}',
             addText: 'Novo',          // Text for the add link
-          deleteText: 'Remover',
-        });
-    });
+            deleteText: 'Remover',
+          });
+  });
   $("#id_mbr").attr("readonly", "true");
   $("#id_tee").attr("readonly", "true");
+  $('b[role="presentation"]').hide();
+  $('.select2-selection__arrow').append('<i class="fa fa-angle-down" style=""></i>');
   //$("#id_resultmbr").text('MBR: {{consultation.energycalc.mbr}}');
 });
 </script>

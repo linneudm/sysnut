@@ -21,6 +21,11 @@
     <table class="table table-hover table-responsive-lg">
       <thead>
         <tr>
+          <th>Refeição</th>
+        </tr>
+      </thead>
+      <thead>
+        <tr>
           <th>Café</th>
           <th>Quantidade</th>
           <th>Medida Caseira</th>
@@ -133,164 +138,6 @@
         </tr>
       </tbody>
     </table>
-    <div class="col-lg-6">
-      <table class="table table-bordered table-responsive-lg">
-        <thead>
-          <tr>
-            <th>Micro</th>
-            <th>TOTAL</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Energia</th>
-            <td>{{object.energy|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Carboidratos</th>
-            <td>{{object.carb|floatformat:"2"}}</td>
-          </tr>            
-          <tr>
-            <th>G. Total</th>
-            <td>{{object.total_fat|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>G. Poli</th>
-            <td>{{object.poly_fat|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>G. Mono</th>
-            <td>{{object.mono_fat|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>G. Sat.</th>
-            <td>{{object.sat_fat|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Proteina</th>
-            <td>{{object.protein|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Fib. Total</th>
-            <td>{{object.total_fibers|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Fib. Sol.</th>
-            <td>{{object.sol_fibers|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Fib. Insol.</th>
-            <td>{{object.insol_fibers|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Colesterol</th>
-            <td>{{object.cholesterol|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Retinol (A)</th>
-            <td>{{object.retinol|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Ac. Ascórbico (C)</th>
-            <td>{{object.ac_ascorbic|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Tiamina (B1)</th>
-            <td>{{object.tiamine|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Riboflavina (B2)</th>
-            <td>{{object.riboflavin|floatformat:"2"}}</td>
-          </tr>          
-          <tr>
-            <th>Piridoxina (B6)</th>
-            <td>{{object.pyridoxine|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Cobalamina</th>
-            <td>{{object.cobalamin|floatformat:"2"}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col-lg-6">
-      <table class="table table-bordered table-responsive-lg">
-        <thead>
-          <tr>
-            <th>Micro</th>
-            <th>TOTAL</th>
-          </tr>
-        </thead>
-        <tbody> 
-          <tr>
-            <th>Vitamina D</th>
-            <td>{{object.dvitamin|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Niacina (B3)</th>
-            <td>{{object.niacin|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Ác. Fólico</th>
-            <td>{{object.ac_folic|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Ác. Pantotênico (B5)</th>
-            <td>{{object.ac_pant|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Tocoferol (E)</th>
-            <td>{{object.tocopherol|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Iodo</th>
-            <td>{{object.iodine|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Sódio</th>
-            <td>{{object.sodium|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Cálcio</th>
-            <td>{{object.calcium|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Magnésio</th>
-            <td>{{object.magnesium|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Zinco</th>
-            <td>{{object.zinc|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Manganês</th>
-            <td>{{object.manganese|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Potássio</th>
-            <td>{{object.potassium|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Fósforo</th>
-            <td>{{object.phosphor|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Ferro</th>
-            <td>{{object.iron|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Cobre</th>
-            <td>{{object.copper|floatformat:"2"}}</td>
-          </tr>
-          <tr>
-            <th>Selênio</th>
-            <td>{{object.selenium|floatformat:"2"}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
   </div>
-
 </div>
 {% endblock %}

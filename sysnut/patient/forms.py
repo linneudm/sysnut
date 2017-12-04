@@ -27,6 +27,27 @@ class BodyCircunferenceForm(ModelForm):
 		model = BodyCircunference
 		fields = '__all__'
 
+class BoneDiameterForm(ModelForm):
+
+	class Meta:
+		model = BoneDiameter
+		fields = '__all__'
+
+class BioimpedanceForm(ModelForm):
+
+	class Meta:
+		model = Bioimpedance
+		fields = '__all__'
+
+class BiochemicalForm(ModelForm):
+
+	class Meta:
+		model = BiochemicalExam
+		exclude = ['consultation']
+		widgets = {
+			'exam': autocomplete.ModelSelect2(url='patient:biochemical_autocomplete')
+		}
+
 class EnergyCalcForm(ModelForm):
 
 	class Meta:
@@ -42,7 +63,7 @@ class SkinFoldForm(ModelForm):
 class ConsultationForm(ModelForm):
 	class Meta:
 		model = Consultation
-		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold']
+		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold', 'bioimpedance', 'bonediameter', 'biochemical']
 		widgets = {
     		'patology': autocomplete.ModelSelect2Multiple(url='patient:patology_autocomplete')
 		}
