@@ -79,6 +79,10 @@ class FoodAnalysisForm(ModelForm):
 		model = FoodAnalysis
 		fields = ['description', 'published']
 
+class GuidanceForm(ModelForm):
+	class Meta:
+		model = Guidance
+		exclude = ['analysis']
 
 class MealForm(ModelForm):
 

@@ -165,7 +165,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'sysnut/core/static')
-print(STATIC_ROOT)
+#print(STATIC_ROOT)
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )

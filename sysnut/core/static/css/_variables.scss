@@ -64,6 +64,7 @@ $colors: map-merge((
   "gray-dark":  $gray-800
 ), $colors);
 
+$sysnut:        $blue !default;
 $primary:       $sysnut !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;

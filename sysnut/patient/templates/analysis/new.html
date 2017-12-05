@@ -17,231 +17,279 @@
     </div>
   </ul>
 </nav>
-<div class="pt-4"></div>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-4 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Café da Manhã
-        </div>
-        <ul class="list-group list-group-flush">
-          {% for meal in object.meal_analysis.all %}
-          {% if meal.meal == "CAFÉ DA MANHÃ" %}
-          <li class="list-group-item">{{meal.original_food}} 
-            <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
-            <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </li>
-          {% endif %}
-          <!-- MODAL -->
-          <div class="modal fade" id="modal-id-{{ meal.id }}">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title">{{meal.original_food}}</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <p>Peso: {{meal.weight}}</p>
-                      <p>Energia: {{meal.energy}}</p>
-                      <p>Carboidratos: {{meal.carbohydrates}}</p>
-                      <p>Proteína: {{meal.protein}}</p>
-                    </div>
-                    <div class="col-lg-6">
-                      <p>G. Total: {{meal.total_fat}}</p>
-                      <p>Cálcio: {{meal.calcium}}</p>
-                      <p>Ferro: {{meal.iron}}</p>
-                      <p>Retinol (Vit. A): {{meal.retinol}}</p>
-                      <p>Ácido Ascórbico (Vit. C): {{meal.ac_ascorbic}}</p>
-                    </div>  
-                  </div>    
-                </div>
-                <div class="modal-footer">
 
-                </div>
-              </div>
+<div class="container-fluid">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item"><a class="nav-link active" href="#tab-cardapio" aria-controls="tab-cardapio" role="tab" data-toggle="tab">Cardápio</a></li>
+    <li class="nav-item"><a class="nav-link" href="#tab-orientacao" aria-controls="tab-orientacao" role="tab" data-toggle="tab">Orientações</a></li>
+  </ul>
+</div>
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade show active" id="tab-cardapio">
+    <div class="pt-4"></div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Café da Manhã
             </div>
-          </div>       
-          <!-- /MODAL -->
-          {% endfor %}
-        </ul>
+            <ul class="list-group list-group-flush">
+              {% for meal in object.meal_analysis.all %}
+              {% if meal.meal == "CAFÉ DA MANHÃ" %}
+              <li class="list-group-item">{{meal.original_food}} 
+                <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              </li>
+              {% endif %}
+              <!-- MODAL -->
+              <div class="modal fade" id="modal-id-{{ meal.id }}">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">{{meal.original_food}}</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <p>Peso: {{meal.weight}}</p>
+                          <p>Energia: {{meal.energy}}</p>
+                          <p>Carboidratos: {{meal.carbohydrates}}</p>
+                          <p>Proteína: {{meal.protein}}</p>
+                        </div>
+                        <div class="col-lg-6">
+                          <p>G. Total: {{meal.total_fat}}</p>
+                          <p>Cálcio: {{meal.calcium}}</p>
+                          <p>Ferro: {{meal.iron}}</p>
+                          <p>Retinol (Vit. A): {{meal.retinol}}</p>
+                          <p>Ácido Ascórbico (Vit. C): {{meal.ac_ascorbic}}</p>
+                        </div>  
+                      </div>    
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                  </div>
+                </div>
+              </div>       
+              <!-- /MODAL -->
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Lanche I
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for meal in object.meal_analysis.all %}
+              {% if meal.meal == "LANCHE I" %}
+              <li class="list-group-item">{{meal.original_food}} 
+                <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Almoço
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for meal in object.meal_analysis.all %}
+              {% if meal.meal == "ALMOÇO" %}
+              <li class="list-group-item">{{meal.original_food}} 
+                <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pb-4"></div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Lanche II
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for meal in object.meal_analysis.all %}
+              {% if meal.meal == "LANCHE II" %}
+              <li class="list-group-item">{{meal.original_food}} 
+                <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Jantar
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for meal in object.meal_analysis.all %}
+              {% if meal.meal == "JANTAR" %}
+              <li class="list-group-item">{{meal.original_food}} 
+                <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              Ceia
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for meal in object.meal_analysis.all %}
+              {% if meal.meal == "CEIA" %}
+              <li class="list-group-item">{{meal.original_food}} 
+                <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Lanche I
+    <hr>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Necessidades Calóricas</strong>: {{consultation.tee}}
+          </div>
         </div>
-        <ul class="list-group list-group-flush">
-          {% for meal in object.meal_analysis.all %}
-          {% if meal.meal == "LANCHE I" %}
-          <li class="list-group-item">{{meal.original_food}} 
-            <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
-            <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </li>
+        <div class="col-lg-12">
+          <div class="alert 
+          {% if object.result.val == 0 %}
+          alert-success 
+          {% elif object.result.val == -1 or object.result.val == 1 %}
+          alert-danger
+          {% else %}
+          alert-secondary
           {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Almoço
+          alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Calorias encontradas</strong>: {{object.energy}}
+          {% if object.result.val == 0 or object.result.val > 0 %}
+          <p>
+            <strong>Percentual de adequação:</strong> 
+            {{object.result.percent|floatformat:"1"}}%
+          </p>
+          {% endif %}
+          <p><strong>Situação:</strong> {{object.result.msg}}</p>
         </div>
-        <ul class="list-group list-group-flush">
-          {% for meal in object.meal_analysis.all %}
-          {% if meal.meal == "ALMOÇO" %}
-          <li class="list-group-item">{{meal.original_food}} 
-            <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
-            <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
       </div>
     </div>
   </div>
   <div class="pb-4"></div>
-  <div class="row">
-    <div class="col-lg-4 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Lanche II
-        </div>
-        <ul class="list-group list-group-flush">
-          {% for meal in object.meal_analysis.all %}
-          {% if meal.meal == "LANCHE II" %}
-          <li class="list-group-item">{{meal.original_food}} 
-            <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
-            <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
+  <div class="container-fluid">
+    <div class="card card-body">
+      <div class="card-text">
+        <a class="btn btn-info pull-right"  data-toggle="collapse" href="#dados-cardapio" aria-expanded="false" aria-controls="dados-cardapio">
+          Info
+        </a>
       </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Jantar
-        </div>
-        <ul class="list-group list-group-flush">
-          {% for meal in object.meal_analysis.all %}
-          {% if meal.meal == "JANTAR" %}
-          <li class="list-group-item">{{meal.original_food}} 
-            <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
-            <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <div class="col-lg-4 col-md-6">
-      <div class="card">
-        <div class="card-header">
-          Ceia
-        </div>
-        <ul class="list-group list-group-flush">
-          {% for meal in object.meal_analysis.all %}
-          {% if meal.meal == "CEIA" %}
-          <li class="list-group-item">{{meal.original_food}} 
-            <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
-            <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
-              <i class="fa fa-eye" aria-hidden="true"></i>
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-<hr>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-12">
-        <div class="alert alert-info alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <strong>Necessidades Calóricas</strong>: {{consultation.tee}}
-        </div>
-    </div>
-    <div class="col-lg-12">
-        <div class="alert 
-        {% if object.result.val == 0 %}
-          alert-success 
-        {% elif object.result.val == -1 or object.result.val == 1 %}
-          alert-danger
+
+
+      {% if "add" in request.path|cut:"/" %}
+      <div class="collapse show" id="dados-cardapio">
         {% else %}
-          alert-secondary
-        {% endif %}
-        alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <strong>Calorias encontradas</strong>: {{object.energy}}
-          {% if object.result.val == 0 or object.result.val > 0 %}
-            <p>
-              <strong>Percentual de adequação:</strong> 
-              {{object.result.percent|floatformat:"1"}}%
-            </p>
+        <div class="collapse" id="dados-cardapio">
           {% endif %}
-          <p><strong>Situação:</strong> {{object.result.msg}}</p>
-        </div>
-    </div>
-  </div>
-</div>
-<div class="pb-4"></div>
-<div class="container-fluid">
-<div class="card card-body">
-<div class="card-text">
-<a class="btn btn-info pull-right"  data-toggle="collapse" href="#dados-cardapio" aria-expanded="false" aria-controls="dados-cardapio">
-  Info
-</a>
-</div>
 
-
-  {% if "add" in request.path|cut:"/" %}
-  <div class="collapse show" id="dados-cardapio">
-  {% else %}
-  <div class="collapse" id="dados-cardapio">
-  {% endif %}
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <!--Duplica, caso a requisição seja DUPLICATE -->
-        {% if "duplicate" in request.path|cut:"/" %}
-        {% url 'patient:analysis_create' consultation_id as URL %}
-        {% endif %}
-        <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
-          <fieldset>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="control-label">Paciente</label>
-                  <input class="form-control input-md" type="text" id="disabledTextInput" value="{{consultation.patient.name}}" disabled>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="form-group">
-                  <label class="control-label">Data da Consulta</label>
-                  <input class="form-control input-md" type="text" id="disabledTextInput" value="{{consultation.date|date:"d/m/Y"}}" disabled>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <!--Duplica, caso a requisição seja DUPLICATE -->
+              {% if "duplicate" in request.path|cut:"/" %}
+              {% url 'patient:analysis_create' consultation_id as URL %}
+              {% endif %}
+              <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <fieldset>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="control-label">Paciente</label>
+                        <input class="form-control input-md" type="text" id="disabledTextInput" value="{{consultation.patient.name}}" disabled>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="control-label">Data da Consulta</label>
+                        <input class="form-control input-md" type="text" id="disabledTextInput" value="{{consultation.date|date:"d/m/Y"}}" disabled>
+                      </div>
+                    </div>
+                  </div>
+                  {% for field in form %}
+                  {% if field.errors %}
+                  <div class="form-group error" >
+                    <label class="control-label" >{{ field.label }}</label>
+                    {{ field|add_class:"form-control input-md" }}
+                    {% for error in field.errors%}
+                    <span class="help-inline error">{{ error}}</span>
+                    {% endfor%}
+                  </div>
+                  {%else%}
+                  <div class="form-group">
+                    <label class="control-label" >{{ field.label }}</label>
+                    {% if field.label == "Paciente" %}
+                    {{ field|add_class:"form-control input-md" }}
+                    <a class="badge badge-primary" href="{% url 'patient:create' %}">Paciente novo? Clique aqui para cadastrar.</a>
+                    {% elif field.label == "Data da consulta" %}
+                    <div class="input-group date datepicker">
+                      {{ field|add_class:"form-control input-md" }}
+                      <span class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                    </div>
+                    {% elif field.label == "Patologia" %}
+                    {{ field|add_class:"form-control input-md" }}
+                    <a href="#modal" class="badge badge-info" data-toggle="modal">Patologia nova? Clique aqui para cadastrar.</a>
+                    {% else %}
+                    {{ field|add_class:"form-control input-md" }}
+                    {% endif %}
+                  </div>
+                  {%endif%}
+                  {% endfor %}
                 </div>
               </div>
             </div>
-            {% for field in form %}
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="form-row">
+            {% for field in meal_form %}
             {% if field.errors %}
             <div class="form-group error" >
               <label class="control-label" >{{ field.label }}</label>
@@ -251,66 +299,76 @@
               {% endfor%}
             </div>
             {%else%}
-            <div class="form-group">
-              <label class="control-label" >{{ field.label }}</label>
-              {% if field.label == "Paciente" %}
-              {{ field|add_class:"form-control input-md" }}
-              <a class="badge badge-primary" href="{% url 'patient:create' %}">Paciente novo? Clique aqui para cadastrar.</a>
-              {% elif field.label == "Data da consulta" %}
-              <div class="input-group date datepicker">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="control-label" >{{ field.label }}</label>
                 {{ field|add_class:"form-control input-md" }}
-                <span class="input-group-addon">
-                  <i class="fa fa-calendar"></i>
-                </span>
               </div>
-              {% elif field.label == "Patologia" %}
-              {{ field|add_class:"form-control input-md" }}
-              <a href="#modal" class="badge badge-info" data-toggle="modal">Patologia nova? Clique aqui para cadastrar.</a>
-              {% else %}
-              {{ field|add_class:"form-control input-md" }}
-              {% endif %}
             </div>
             {%endif%}
             {% endfor %}
           </div>
         </div>
       </div>
-      </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="form-row">
-        {% for field in meal_form %}
-        {% if field.errors %}
-        <div class="form-group error" >
-          <label class="control-label" >{{ field.label }}</label>
-          {{ field|add_class:"form-control input-md" }}
-          {% for error in field.errors%}
-          <span class="help-inline error">{{ error}}</span>
-          {% endfor%}
-        </div>
-        {%else%}
-        <div class="col-lg-6">
-          <div class="form-group">
+      <div class="pt-4"></div>
+
+      <div role="tabpanel" class="tab-pane fade" id="tab-orientacao">
+        <div class="container-fluid">
+        <div class="form-inline">
+          {% for field in guidance_form %}
+          {% if field.errors %}
+          <div class="form-group error" >
             <label class="control-label" >{{ field.label }}</label>
             {{ field|add_class:"form-control input-md" }}
+            {% for error in field.errors%}
+            <span class="help-inline error">{{ error}}</span>
+            {% endfor%}
           </div>
+          {%else%}
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label class="control-label pb-2" >{{ field.label }}
+              {{ field|add_class:"form-control input-md" }}
+              </label>
+            </div>
+          </div>
+          {%endif%}
+          {% endfor %}
         </div>
-        {%endif%}
-        {% endfor %}
       </div>
-      <div class="form-group">
-        <button type="submit" value="Salvar" class="btn btn-primary">
-          <span class="fa fa-save" aria-hidden="true"></span>
-          Salvar
-        </button>
-        <a class="btn btn-info"  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          Nutrientes
-        </a>
-        <a class="btn btn-success" href="{% url 'patient:analysis_list' consultation_id %}">Voltar</a>
+      </div>
+      <div class="container-fluid">
+        <div class="form-group">
+          <button type="submit" value="Salvar" class="btn btn-primary">
+            <span class="fa fa-save" aria-hidden="true"></span>
+            Salvar
+          </button>
+          <a class="btn btn-info"  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Nutrientes
+          </a>
+          <a href="#orientacoes" class="btn btn-warning" title="Orientações" data-toggle="modal">
+            Orientações
+          </a>
+          <a class="btn btn-success" href="{% url 'patient:analysis_list' consultation_id %}">Voltar</a>
+        </div>
       </div>
     </div>
   </fieldset>
 </form>
+<div class="modal fade" id="orientacoes">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Orientações</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        {{object.guidance.result|safe}}
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Micro e macro nutrientes -->
 
@@ -479,6 +537,9 @@
   </div>
 
 </div>
+</div>
+
+
 {% endblock %}
 
 {% block scripts %}
@@ -501,10 +562,6 @@
   //$("#id_resultmbr").text('MBR: {{consultation.energycalc.mbr}}');
 });
 
-$( "#dropdown" ).select2({
-    theme: "bootstrap"
-$.fn.select2.defaults.set( "theme", "bootstrap" );
-});
 
 </script>
 

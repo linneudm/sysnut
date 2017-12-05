@@ -300,7 +300,216 @@ class BiochemicalExam(models.Model):
 	condiction = models.CharField('Condição', max_length=10, choices=CONDICTION_CHOICES, default=None)
 	consultation = models.ForeignKey(Consultation, verbose_name='Exame Bioquímico', related_name='consultation_biochemical', on_delete=models.CASCADE)
 	
+class Guidance(models.Model):
+
+	#Instruções
+	trans_fat = models.BooleanField('Alimentos com alto teor de Gorduras Trans')
+	antioxidant = models.BooleanField('Alimentos com alto teor de Vitaminas Antioxidantes')
+	sodium = models.BooleanField('Alimentos com alto teor de Sódio')
+	potassium = models.BooleanField('Alimentos com alto teor de Potássio')
+	phosphor = models.BooleanField('Alimentos com alto teor de Fósforo')
+	fiber = models.BooleanField('Alimentos com alto teor de Fibras')
+	iron = models.BooleanField('Alimentos com alto teor de Ferro')
+	sulfur = models.BooleanField('Alimentos com alto teor de Enxofre')
+	cholesterol = models.BooleanField('Alimentos com alto teor de Colesterol')
+	calcium = models.BooleanField('Alimentos com alto teor de Cálcio')
+	ac_oxalic = models.BooleanField('Alimentos com alto teor de Ácido Oxálico')
+	ac_folic = models.BooleanField('Alimentos com alto teor de Ácido Fólico')
+	obstipating = models.BooleanField('Alimentos obstipantes')
+	laxative = models.BooleanField('Alimentos laxativos')
+	functional = models.BooleanField('Alimentos funcionais')
+	flatulent = models.BooleanField('Alimentos flatulentos')
+	peptic_ulcer = models.BooleanField('Orientação para Úlcera Péptica')
+	chronic_pancreatitis = models.BooleanField('Orientação para Pancreatite Crônica')
+	osteoporosis = models.BooleanField('Orientação para Osteoropose')
+	constipation = models.BooleanField('Orientação para Obstipação')
+	megaesuffer = models.BooleanField('Orientação para Megaesôfogo')
+	parkinson = models.BooleanField('Orientação para Mal de Parkinson')
+	renal_insufficiency_chronic = models.BooleanField('Orientação para Insuficiência Renal Crônica')
+	lactose_intolerance = models.BooleanField('Orientação para Intolerância a Lactose')
+	hypertriglyceridemia = models.BooleanField('Orientação para Hipertrigliceridemia')
+	hypertension = models.BooleanField('Orientação para Hipertensão')
+	chronic_hepatitis = models.BooleanField('Orientação para Hepatite Crônica')
+	gout = models.BooleanField('Orientação para Gota')
+	chronic_gastritis = models.BooleanField('Orientação para Gastrite Crônica')
+	epilepsy = models.BooleanField('Orientação para Epilepsia')
+	intestinal_inflammation = models.BooleanField('Orientação para doenças Inflamatórias Intestinais')
+	diarrhea = models.BooleanField('Orientação para Diarreia')
+	abreviation_list = models.BooleanField('Lista de Abreviações')
+
+	def result(self):
+		msg = ""
+		if(self.trans_fat):
+			msg = "<ul class=''>Lista de alimentos com Alto teor de Gordura Trans" + \
+			"<li>Batata frita</li>" + \
+			"<li>Biscoito cream craker</li>" + \
+			"<li>Biscoito recheado</li>" + \
+			"<li>Bolos industrializados</li>" + \
+			"<li>Caldos de carne em cubos</li>" + \
+			"<li>Folhados</li>" + \
+			"<li>Margarinas</li>" + \
+			"<li>Salgadinhos industrializados</li>" + \
+			"<li>Sorvete</li>" + \
+			"<li>Tortas</li>" + \
+			"<li>Produtos de confeitaria e panificação</li></ul>" +\
+			"<hr>"
+		if(self.antioxidant):
+			msg += "<p>Lista de alimentos com Alto teor de Vitaminas Antioxidantes </p>" + \
+			"<p>As Vitaminas Antioxidantes são: vitamina E, Beta-caroteno e vitamina C. A função dentro do organismo é neutralizar moléculas potencialmente nocivas, chamadas “radicais livres”, produzidas por processos como digestão ou respiração. </p>" + \
+			"<ul>BETA-CAROTENO:" + \
+			"<li>Abóbora</li>" +\
+			"<li>Açafrão</li>" +\
+			"<li>Batata doce</li>" +\
+			"<li>Brócolis</li>" +\
+			"<li>Cenoura</li>" +\
+			"<li>Couve</li>" +\
+			"<li>Damasco seco</li>" +\
+			"<li>Espinafre</li>" +\
+			"<li>Fígado</li>" +\
+			"<li>Mamão</li>" +\
+			"<li>Manga</li>" +\
+			"<li>Melão</li>" +\
+			"<li>Ovo</li>" +\
+			"<li>Pimentão amarelo</li>" +\
+			"<li>Pimentão vermelho</li>" +\
+			"<li>Pêssego</li></ul>" +\
+			"<ul>VITAMINA C:" + \
+			"<li>Abacaxi</li>" +\
+			"<li>Acerola</li>" +\
+			"<li>Agrião</li>" +\
+			"<li>Brócolis</li>" +\
+			"<li>Caju</li>" +\
+			"<li>Couve</li>" +\
+			"<li>Escarola</li>" +\
+			"<li>Espinafre</li>" +\
+			"<li>Goiaba</li>" +\
+			"<li>Kiwi</li>" +\
+			"<li>Laranja</li>" +\
+			"<li>Limão</li>" +\
+			"<li>Manga</li>" +\
+			"<li>Melão</li>" +\
+			"<li>Morango</li>" +\
+			"<li>Pimentão</li>" +\
+			"<li>Repolho</li>" +\
+			"<li>Tomate</li>" +\
+			"<li>Umbu</li></ul>" +\
+			"<ul>VITAMINA E:" + \
+			"<li>Abacate</li>" +\
+			"<li>Amêndoas</li>" +\
+			"<li>Avelãs</li>" +\
+			"<li>Castanhas</li>" +\
+			"<li>Cereais integrais</li>" +\
+			"<li>Gema de ovo</li>" +\
+			"<li>Gérmen de trigo</li>" +\
+			"<li>Leite</li>" +\
+			"<li>Nozes</li>" +\
+			"<li>Óleos vegetais</li>" +\
+			"<li>Vegetais folhosos</li></ul>" +\
+			"<hr>"
+		if(self.sodium):
+			msg += "<ul>Lista de alimentos com Alto teor de Sódio" +\
+			"<li>Atum enlatado</li>" +\
+			"<li>Aspargo</li>" +\
+			"<li>Azeitona verde</li>" +\
+			"<li>Bacalhau</li>" +\
+			"<li>Bacon</li>" +\
+			"<li>Batata frita</li>" +\
+			"<li>Biscoito salgado</li>" +\
+			"<li>Caldos concentrados</li>" +\
+			"<li>Carne do sol</li>" +\
+			"<li>Charque</li>" +\
+			"<li>Chouriço</li>" +\
+			"<li>Ervilha enlatada</li>" +\
+			"<li>Extrato de tomate</li>" +\
+			"<li>Ketchup</li>" +\
+			"<li>Linguiça</li>" +\
+			"<li>Manteiga c/ sal</li>" +\
+			"<li>Margarina c/ sal</li>" +\
+			"<li>Milho enlatado</li>" +\
+			"<li>Molho inglês</li>" +\
+			"<li>Mortadela</li>" +\
+			"<li>Mostarda</li>" +\
+			"<li>Paio</li>" +\
+			"<li>Presunto</li>" +\
+			"<li>Queijos</li>" +\
+			"<li>Salame</li>" +\
+			"<li>Salsicha</li>" +\
+			"<li>Salgadinhos</li>" +\
+			"<li>Sardinha enlatada</li>" +\
+			"<li>Shoyu</li>" +\
+			"<li>Sopas prontas</li>" +\
+			"<li>Palmito em conserva</li>" +\
+			"<li>Patês industrializados</li>" +\
+			"<li>Picles</li>" +\
+			"<li>Presunto</li>" +\
+			"<li>Requeijão</li>" +\
+			"<li>Temperos industrializados</li>" +\
+			"<li>Toucinho</li></ul>"+\
+			"<hr>"
+		if(self.potassium):
+			msg += "<ul>Lista de alimentos com Alto teor de Potássio" +\
+			"<li>Abacate</li>"+\
+			"<li>Abacaxi</li>"+\
+			"<li>Acelga</li>"+\
+			"<li>Aipo</li>"+\
+			"<li>Almeirão</li>"+\
+			"<li>Ameixa</li>"+\
+			"<li>Amêndoas</li>"+\
+			"<li>Amendoim</li>"+\
+			"<li>Amora</li>"+\
+			"<li>Aveia</li>"+\
+			"<li>Avelã</li>"+\
+			"<li>Banana prata</li>"+\
+			"<li>Banana d’água</li>"+\
+			"<li>Batata-inglesa</li>"+\
+			"<li>Batata doce</li>"+\
+			"<li>Beterraba</li>"+\
+			"<li>Brócolis</li>"+\
+			"<li>Cacau</li>"+\
+			"<li>Caldo de carne</li>"+\
+			"<li>Castanha</li>"+\
+			"<li>Cenoura</li>"+\
+			"<li>Chá preto</li>"+\
+			"<li>Chicória</li>"+\
+			"<li>Chocolate</li>"+\
+			"<li>Couve</li>"+\
+			"<li>Couve-flor</li>"+\
+			"<li>Camarão seco</li>"+\
+			"<li>Damasco</li>"+\
+			"<li>Ervilha</li>"+\
+			"<li>Espinafre</li>"+\
+			"<li>Feijão</li>"+\
+			"<li>Figos</li>"+\
+			"<li>Frutas secas</li>"+\
+			"<li>Grão de bico</li>"+\
+			"<li>Laranja</li>"+\
+			"<li>Lentilha</li>"+\
+			"<li>Lima</li>"+\
+			"<li>Mamão</li>"+\
+			"<li>Mandioca</li>"+\
+			"<li>Mandioquinha</li>"+\
+			"<li>Maracujá</li>"+\
+			"<li>Melancia</li>"+\
+			"<li>Melão</li>"+\
+			"<li>Milho verde</li>"+\
+			"<li>Nozes</li>"+\
+			"<li>Palmito</li>"+\
+			"<li>Pão integral</li>"+\
+			"<li>Rabanete</li>"+\
+			"<li>Soja</li>"+\
+			"<li>Tamarindo</li>"+\
+			"<li>Tomate</li>"+\
+			"<li>Uva passa</li></ul>" +\
+			"<hr>"
+
+
+
+
+		return msg
+
+
 class FoodAnalysis(models.Model):
+	guidance = models.ForeignKey(Guidance, verbose_name='Orientação', related_name='analysis_guidance', on_delete=models.CASCADE)
 	consultation = models.ForeignKey(Consultation, verbose_name='Consulta', related_name='analysis_consultation', on_delete=models.CASCADE)
 	description = models.CharField(u'Descrição', max_length=200, blank=False, null=False)
 	created_at = models.DateTimeField(u'Criado em', auto_now_add=True)

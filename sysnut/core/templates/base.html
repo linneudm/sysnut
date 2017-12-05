@@ -92,11 +92,19 @@
 		</div>
 	</footer>
 
+<!-- Preloader -->
+	<div id="preloader">
+		<div class="preloader">
+			<img src="{% static 'img/preloader.gif' %}" alt="">
+		</div>
+	</div>
+
 	{% block scripts %}
 	<script type="text/javascript" src="{% static 'formset/jquery.formset.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/chosen.jquery.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap-datepicker.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/inputmask.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/popper.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/popover.js' %}"></script>
