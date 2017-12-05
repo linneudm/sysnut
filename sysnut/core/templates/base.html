@@ -31,7 +31,12 @@
 
 	<script type="text/javascript" src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
 	{% endblock %}
-	<title>SysNut - Sistema para Nutricionistas</title>
+
+	<title>
+	{% block title %}
+	SysNut - Sistema para Nutricionistas
+	{% endblock %}
+	</title>
 </head>
 <body>
 	<!-- NAVBAR -->
