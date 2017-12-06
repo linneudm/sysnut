@@ -21,6 +21,9 @@ from django.contrib.auth import logout
 from django.db.models import Q
 from dal import autocomplete
 from sysnut.settings import LOGIN_URL
+from os.path import join, dirname, abspath
+import xlrd
+import os
 #from sysnut.nutritionist.views import is_nutritionist
 
 
@@ -48,6 +51,31 @@ class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 			qs = qs.filter(Q(description__icontains=self.q))
 
 		return qs
+
+class GuidanceAuxAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = GuidanceAux.objects.all()
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+
+		return qs
+
+class GuidanceAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = Guidance.objects.filter(nutritionist=self.request.user)
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+
+		return qs
+
 
 class BiochemicalAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
@@ -312,7 +340,6 @@ class ConsultationCreate(CreateView):
 		self.object.energycalc.mbr = decimal.Decimal(self.object.mbr())
 		self.object.energycalc.tee = decimal.Decimal(self.object.tee())
 		self.object.energycalc = energycalc_form.save()
-
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
 		self.object.biochemical.consultation = self.object
@@ -539,6 +566,47 @@ class FoodAutocomplete(autocomplete.Select2QuerySetView):
 		#print(qs)
 		return qs
 
+@method_decorator(login_required, name='dispatch')
+class UploadGuidance(CreateView):
+    model = GuidanceAux
+    template_name = 'analysis/upload_guidance.html'
+    form_class = UploadGuidanceForm
+
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        #print(">>>>>> ", sheet.path)
+        self.object.save()
+        fname = join(dirname(abspath("media/" + str(self.object.path))),os.path.basename(str(self.object.path)))
+        try:
+            workbook = xlrd.open_workbook(fname)
+        except:
+            messages.add_message(self.request, messages.ERROR, 'Código 3! Formato de arquivo inválido!')
+            return HttpResponseRedirect(reverse('patient:guidance_upload'))
+        worksheet = workbook.sheet_by_name('Sheet1')
+        worksheet = workbook.sheet_by_index(0)
+
+        for row_num in range(worksheet.nrows):#le todas as linhas da planilha
+        #for row_num in range(10):#le apenas as 10 primeiras linhas
+    # cabeçalho
+            if row_num == 0:
+                continue
+    		# Lê as linhas
+            row = worksheet.row_values(row_num)
+    		# Salva no banco
+            if(GuidanceAux.objects.create(description=row[0],message=row[1],show=False)):
+            	result = 1
+            else:
+                result = 0
+
+        if(result == 1):
+            messages.add_message(self.request, messages.SUCCESS, 'Orientações importadas com sucesso!')
+        else:
+            messages.add_message(self.request, messages.ERROR, 'Código 2! Algo de errado não está certo! Contate o administrador')
+        return HttpResponseRedirect(reverse('core:index'))
+            #return reverse('food:list')
+
+
 # FoodAnalysis CRUD
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisList(ListView):
@@ -591,41 +659,38 @@ class FoodAnalysisCreate(CreateView):
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
 	second_form_class = MealForm
-	third_form_class = GuidanceForm
 
 	def get(self, request, *args, **kwargs):
 		self.object = None
 		self.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
 		form = self.form_class
 		meal_form = self.second_form_class
-		guidance_form = self.third_form_class
 		return self.render_to_response(
 			self.get_context_data(
 				form=form,
-				meal_form=meal_form,
-				guidance_form=guidance_form
+				meal_form=meal_form
 			)
 		)
 
 	def post(self, request, *args, **kwargs):
 		self.object = None
 		meal_form = self.second_form_class(self.request.POST)
-		guidance_form = self.third_form_class(self.request.POST)
 		form = self.form_class(self.request.POST)
-
-		if form.is_valid() and meal_form.is_valid() and guidance_form.is_valid():
+		if form.is_valid() and meal_form.is_valid():
 			messages.add_message(request, messages.SUCCESS, 'Cardápio adicionado com sucesso!')
-			return self.form_valid(form, meal_form, guidance_form)
+			return self.form_valid(form, meal_form)
 		else:
-			return self.form_invalid(form, meal_form, guidance_form)
+			return self.form_invalid(form, meal_form)
 
-	def form_valid(self, form, meal_form, guidance_form):
+	def form_valid(self, form, meal_form):
 		self.object = meal_form.save(commit=False)
-		guidance = guidance_form.save()
 		analysis = form.save(commit=False)
 		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
-		analysis.guidance = guidance
 		analysis.save()
+		for item in form.cleaned_data['guidance']:
+			analysis.guidance.add(item)
+		for item in form.cleaned_data['guidanceaux']:
+			analysis.guidanceaux.add(item)
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
 		if self.object.home_measure is not None and self.object.original_food is not None:
@@ -633,12 +698,11 @@ class FoodAnalysisCreate(CreateView):
 			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
 		
-	def form_invalid(self, form, meal_form, guidance_form):
+	def form_invalid(self, form, meal_form):
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
-                    meal_form=meal_form,
-                    guidance_form=guidance_form
+                    meal_form=meal_form
 			)
 		)
 
@@ -646,6 +710,7 @@ class FoodAnalysisCreate(CreateView):
 		context = super(FoodAnalysisCreate,self).get_context_data(**kwargs)
 		context['consultation_id'] = self.kwargs['consultation']
 		context['consultation'] = Consultation.objects.get(id = self.kwargs['consultation'])
+		#context['guidanceaux_form'] = GuidanceAux.objects.all()
 		return context
 
 @method_decorator(login_required, name='dispatch')
@@ -654,7 +719,6 @@ class FoodAnalysisUpdate(UpdateView):
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
 	second_form_class = MealForm
-	third_form_class = GuidanceForm
 
 	def get_context_data(self, **kwargs):
 		self.object = self.get_object()
@@ -664,24 +728,22 @@ class FoodAnalysisUpdate(UpdateView):
 		if self.request.POST:
 			#context['meal_form'] = self.second_form_class(self.request.POST, instance=self.object)
 			context['form'] = self.form_class(self.request.POST, instance=self.object)
-			context['guidance_form'] = self.third_form_class(self.request.POST, instance=self.object)
+
 		else:
 			#context['meal_form'] = self.second_form_class(instance=self.object)
 			context['form'] = self.form_class(instance=self.object)
-			context['guidance_form'] = self.third_form_class(instance=self.object.guidance)
+
 		return context
 
 	def get(self, request, *args, **kwargs):
 		super(FoodAnalysisUpdate, self).get(request, *args, **kwargs)
 		form = self.form_class
 		meal_form = self.second_form_class
-		guidance_form = self.third_form_class
 		return self.render_to_response(
 			self.get_context_data(
 				object=self.object,
 				form=form,
 				meal_form=meal_form,
-				guidance_form=guidance_form
 			)
 		)
 
@@ -689,21 +751,23 @@ class FoodAnalysisUpdate(UpdateView):
 
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		guidance_form = self.third_form_class(self.request.POST, instance=self.object.guidance)
 		meal_form = self.second_form_class(self.request.POST)
 		form = self.form_class(self.request.POST, instance=self.object)
 
-		if form.is_valid() and meal_form.is_valid() and guidance_form.is_valid():
-			return self.form_valid(form, meal_form, guidance_form)
+		if form.is_valid() and meal_form.is_valid():
+			return self.form_valid(form, meal_form)
 		else:
-			return self.form_invalid(form, meal_form, guidance_form)
+			return self.form_invalid(form, meal_form)
 
-	def form_valid(self, form, meal_form, guidance_form):
+	def form_valid(self, form, meal_form):
 		self.object = meal_form.save(commit=False)
-		guidance = guidance_form.save()
 		analysis = form.save(commit=False)
-#		analysis.consultation = Consultation.objects.get(id = self.kwargs['consultation'])
-		analysis.guidance = guidance
+		analysis.guidance = {}
+		analysis.guidanceaux = {}
+		for item in form.cleaned_data['guidance']:
+			analysis.guidance.add(item)
+		for item in form.cleaned_data['guidanceaux']:
+			analysis.guidanceaux.add(item)
 		analysis.save()
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
@@ -713,12 +777,11 @@ class FoodAnalysisUpdate(UpdateView):
 			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
 
-	def form_invalid(self, form, meal_form, guidance_form):
+	def form_invalid(self, form, meal_form):
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
                     meal_form=meal_form,
-                    guidance_form=guidance_form
 			)
 		)
 

@@ -77,12 +77,21 @@ class PatologyForm(ModelForm):
 class FoodAnalysisForm(ModelForm):
 	class Meta:
 		model = FoodAnalysis
-		fields = ['description', 'published']
+		fields = ['description', 'published', 'guidance', 'guidanceaux']
+		widgets = {
+    		'guidance': autocomplete.ModelSelect2Multiple(url='patient:guidance_autocomplete'),
+    		'guidanceaux': autocomplete.ModelSelect2Multiple(url='patient:guidanceaux_autocomplete')
+		}
+
+class UploadGuidanceForm(ModelForm):
+	class Meta:
+		model = UploadGuidance
+		exclude = ['created_at']	
 
 class GuidanceForm(ModelForm):
 	class Meta:
 		model = Guidance
-		exclude = ['analysis']
+		fields = ['description', 'message']
 
 class MealForm(ModelForm):
 
