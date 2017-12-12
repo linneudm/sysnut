@@ -10,7 +10,7 @@ import datetime
 from datetime import date
 from django.core.urlresolvers import reverse
 import decimal
-from sysnut.account.models import Nutritionist
+#from sysnut.account.models import Nutritionist
 from django.contrib.auth.models import User
 # Create your models here.
 
@@ -195,7 +195,7 @@ class Consultation(models.Model):
 	height = models.DecimalField('Altura (cm)', default=0.00, decimal_places=2, max_digits=8)
 	objective = models.CharField('Objetivo',max_length=255)
 	date = models.DateField('Data da consulta')
-	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology')
+	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology', blank=True)
 	family_history = models.CharField('Histórico Familiar',max_length=255)
 	drugs = models.CharField('Fármacos',max_length=255, blank=True, null=True)
 	life_style = models.CharField('Estilo de vida',max_length=255, blank=True, null=True)
@@ -284,7 +284,7 @@ class Biochemical(models.Model):
 		return self.description
 
 class BiochemicalExam(models.Model):
-	exam = models.ForeignKey(Biochemical, verbose_name='Descrição', related_name='value_biochemical', on_delete=models.CASCADE)
+	exam = models.ForeignKey(Biochemical, verbose_name='Descrição', related_name='value_biochemical', on_delete=models.CASCADE,blank=True, null=True)
 	CONDICTION_CHOICES = (
 	    ('Alto', 'Alto'),
 	    ('Normal', 'Normal'),
@@ -300,24 +300,24 @@ class UploadGuidance(models.Model):
 
 class Guidance(models.Model):
 	#tabela com mensagens criadas pelo nutricionista
-	nutritionist = models.ForeignKey(User, verbose_name='Nutricionista', related_name='guidance_nutritionist')
+	nut = models.ForeignKey(User, verbose_name='Nutricionista', related_name='guidance_nut')
 	description = models.CharField('Descrição', max_length=200, blank=False, null=False)
 	message = models.CharField('Mensagem', max_length=200, blank=False, null=False)
 	def __str__(self):
 		return self.description
 
 
-class GuidanceAux(models.Model):
+#class GuidanceAux(models.Model):
 	#tabela com mensagens pre-definidas
-	description = models.CharField('Descrição', max_length=200, blank=False, null=False)
-	message = models.CharField('Mensagem', max_length=200, blank=False, null=False)
-	def __str__(self):
-		return self.description
+#	description = models.CharField('Descrição', max_length=200, blank=False, null=False)
+#	message = models.CharField('Mensagem', max_length=200, blank=False, null=False)
+#	def __str__(self):
+#		return self.description
 
 
 class FoodAnalysis(models.Model):
 	guidance = models.ManyToManyField(Guidance, verbose_name='Orientação', related_name='analysis_guidance', blank=True)
-	guidanceaux = models.ManyToManyField(GuidanceAux, verbose_name='Orientação pré-definida', related_name='analysis_guidanceaux', blank=True)
+#	guidanceaux = models.ManyToManyField(GuidanceAux, verbose_name='Orientação pré-definida', related_name='analysis_guidanceaux', blank=True)
 	consultation = models.ForeignKey(Consultation, verbose_name='Consulta', related_name='analysis_consultation', on_delete=models.CASCADE)
 	description = models.CharField(u'Descrição', max_length=200, blank=False, null=False)
 	created_at = models.DateTimeField(u'Criado em', auto_now_add=True)

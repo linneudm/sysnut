@@ -8,7 +8,6 @@ from sysnut.food.models import Meal, Food
 from multiupload.fields import MultiFileField
 from dal import autocomplete
 
-
 class PatientForm(UserCreationForm):
 
 	class Meta:
@@ -77,10 +76,10 @@ class PatologyForm(ModelForm):
 class FoodAnalysisForm(ModelForm):
 	class Meta:
 		model = FoodAnalysis
-		fields = ['description', 'published', 'guidance', 'guidanceaux']
+		fields = ['description', 'published', 'guidance']
 		widgets = {
-    		'guidance': autocomplete.ModelSelect2Multiple(url='patient:guidance_autocomplete'),
-    		'guidanceaux': autocomplete.ModelSelect2Multiple(url='patient:guidanceaux_autocomplete')
+    		'guidance': autocomplete.ModelSelect2Multiple(url='nutritionist:guidance_autocomplete')
+    		#'guidanceaux': autocomplete.ModelSelect2Multiple(url='patient:guidanceaux_autocomplete')
 		}
 
 class UploadGuidanceForm(ModelForm):
@@ -88,10 +87,6 @@ class UploadGuidanceForm(ModelForm):
 		model = UploadGuidance
 		exclude = ['created_at']	
 
-class GuidanceForm(ModelForm):
-	class Meta:
-		model = Guidance
-		fields = ['description', 'message']
 
 class MealForm(ModelForm):
 

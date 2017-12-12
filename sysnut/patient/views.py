@@ -352,7 +352,7 @@ class ConsultationCreate(CreateView):
 		messages.add_message(self.request, messages.SUCCESS, 'Consulta criada com sucesso!')
 		return HttpResponseRedirect(reverse('patient:consultation_edit', kwargs={'pk':self.object.pk}))
 
-	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form):
+	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form):
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
@@ -506,8 +506,10 @@ class ConsultationUpdate(UpdateView):
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
-		self.object.biochemical = biochemical_form.save()
-
+		self.object.biochemical = biochemical_form.save(commit=False)
+		#So deve criar o exame se a descricao for definida (não nulo)
+		if (self.object.biochemical.exam is not None):
+			self.object.biochemical.save()
 		self.object.patology = {}
 		for item in form.cleaned_data['patology']:
 			self.object.patology.add(item)
@@ -568,7 +570,7 @@ class FoodAutocomplete(autocomplete.Select2QuerySetView):
 
 @method_decorator(login_required, name='dispatch')
 class UploadGuidance(CreateView):
-    model = GuidanceAux
+    model = Guidance #Mudar de acordo com a tabela que receberá os dados da planilha
     template_name = 'analysis/upload_guidance.html'
     form_class = UploadGuidanceForm
 
@@ -689,8 +691,8 @@ class FoodAnalysisCreate(CreateView):
 		analysis.save()
 		for item in form.cleaned_data['guidance']:
 			analysis.guidance.add(item)
-		for item in form.cleaned_data['guidanceaux']:
-			analysis.guidanceaux.add(item)
+#		for item in form.cleaned_data['guidanceaux']:
+#			analysis.guidanceaux.add(item)
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
 		if self.object.home_measure is not None and self.object.original_food is not None:
@@ -763,11 +765,11 @@ class FoodAnalysisUpdate(UpdateView):
 		self.object = meal_form.save(commit=False)
 		analysis = form.save(commit=False)
 		analysis.guidance = {}
-		analysis.guidanceaux = {}
+#		analysis.guidanceaux = {}
 		for item in form.cleaned_data['guidance']:
 			analysis.guidance.add(item)
-		for item in form.cleaned_data['guidanceaux']:
-			analysis.guidanceaux.add(item)
+#		for item in form.cleaned_data['guidanceaux']:
+#			analysis.guidanceaux.add(item)
 		analysis.save()
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio

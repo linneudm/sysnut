@@ -8,6 +8,7 @@ from sysnut.account.models import Nutritionist, Address, User
 from dal import autocomplete
 from django.contrib.auth.forms import UserCreationForm,PasswordResetForm
 from django.contrib.auth import authenticate, get_user_model
+from sysnut.patient.models import Guidance
 
 class NutritionistForm(UserCreationForm):
 
@@ -20,3 +21,9 @@ class AddressForm(ModelForm):
 	class Meta:
 		model = Address
 		fields = '__all__'
+
+
+class GuidanceForm(ModelForm):
+	class Meta:
+		model = Guidance
+		fields = ['description', 'message']

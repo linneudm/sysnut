@@ -16,11 +16,12 @@
 	<link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
 	{% block styles %}
+	<!-- CSS Comprimido -->
+	{% compress css %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/formset.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% sass_src 'css/bootstrap.scss' %}">
-	{% compress css %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 	{% endcompress %}
 

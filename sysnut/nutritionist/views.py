@@ -20,18 +20,30 @@ from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.forms import formset_factory
 from datetime import date, datetime
 from sysnut.account.models import Nutritionist, Address, User
-from .forms import NutritionistForm, AddressForm
+from .forms import NutritionistForm, AddressForm, GuidanceForm
 from dal import autocomplete
 #from .decorators import odontology_required, Nutritionist_show_required
 from django.template.response import TemplateResponse
 
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse_lazy
-
+from sysnut.patient.models import Guidance
 
 #is_nutritionist = user_passes_test(
 #    lambda u: u.has_perm('patient.add_patients'), login_url=reverse_lazy('account:login'))
 
+#Guidance Autocomplete
+class GuidanceAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = Guidance.objects.all()
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+
+		return qs
 
 # Autocomplete Nutritionist na consulta
 class NutritionistAutocomplete(autocomplete.Select2QuerySetView):
@@ -218,3 +230,102 @@ class NutritionistDelete(DeleteView):
 	success_url = reverse_lazy('nutritionist:list')
 
 #End CRUD Nutritionist
+
+# Guidance CRUD
+@method_decorator(login_required, name='dispatch')
+class GuidanceList(ListView):
+
+	model = Guidance
+	http_method_names = ['get']
+	template_name = 'guidance/list.html'
+	context_object_name = 'guidance'
+	paginate_by = 25
+
+	def get_queryset(self):
+		self.queryset = super(GuidanceList, self).get_queryset()
+		if self.request.GET.get('search_box', False):
+			self.queryset=self.queryset.filter(description__icontains = self.request.GET['search_box'])
+		return self.queryset
+
+	def get_context_data(self, **kwargs):
+		_super = super(GuidanceList, self)
+		context = _super.get_context_data(**kwargs)
+		adjacent_pages = 3
+		page_number = context['page_obj'].number
+		num_pages = context['paginator'].num_pages
+		startPage = max(page_number - adjacent_pages, 1)
+		if startPage <= 5:
+		    startPage = 1
+		endPage = page_number + adjacent_pages + 1
+		if endPage >= num_pages - 1:
+		    endPage = num_pages + 1
+		page_numbers = [n for n in range(startPage, endPage) \
+				if n > 0 and n <= num_pages]
+		context.update({
+			'page_numbers': page_numbers,
+			'show_first': 1 not in page_numbers,
+			'show_last': num_pages not in page_numbers,
+		    })
+		return context
+
+@method_decorator(login_required, name='dispatch')
+class GuidanceDetail(DetailView):
+	model = Guidance
+	template_name = 'guidance/details.html'
+
+@method_decorator(login_required, name='dispatch')
+class GuidanceCreate(CreateView):
+	model = Guidance
+	template_name = 'guidance/new.html'
+	form_class = GuidanceForm
+
+	def get(self, request, *args, **kwargs):
+		self.object = None
+		form = self.form_class
+		return self.render_to_response(
+			self.get_context_data(
+				form=form,
+			)
+		)
+
+	def post(self, request, *args, **kwargs):
+		self.object = None
+		form = self.form_class(self.request.POST)
+
+		if form.is_valid():
+			return self.form_valid(form)
+		else:
+			return self.form_invalid(form)
+
+
+	def form_valid(self, form):
+		guidance = form.save(commit=False)
+		guidance.nut = self.request.user
+		guidance.save()
+		return HttpResponseRedirect(self.get_success_url())
+
+	def form_invalid(self, form, address_form):
+		return self.render_to_response(
+			self.get_context_data(
+					form=form,
+                    address_form=address_form
+			)
+		)
+
+	def get_success_url(self):
+		return reverse('nutritionist:guidance_list')
+
+@method_decorator(login_required, name='dispatch')
+class GuidanceUpdate(UpdateView):
+	model = Guidance
+	template_name = 'guidance/new.html'
+	form_class = GuidanceForm
+	success_url = reverse_lazy('nutritionist:guidance_list')
+
+@method_decorator(login_required, name='dispatch')
+class GuidanceDelete(DeleteView):
+	model = Guidance
+	success_url = reverse_lazy('nutritionist:guidance_list')
+
+# End Guidance
+

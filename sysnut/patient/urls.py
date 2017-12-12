@@ -28,7 +28,7 @@ urlpatterns = [
     #FoodAnalysis
     url(r'^food-autocomplete/$', FoodAutocomplete.as_view(), name='food_autocomplete'),
     url(r'^guidanceaux-autocomplete/$', GuidanceAuxAutocomplete.as_view(), name='guidanceaux_autocomplete'),
-    url(r'^guidance-autocomplete/$', GuidanceAutocomplete.as_view(), name='guidance_autocomplete'),
+    #url(r'^guidance-autocomplete/$', GuidanceAutocomplete.as_view(), name='guidance_autocomplete'),
     url(r'^guidance/upload/$', permission_required('patient.add_patient', raise_exception=True)(UploadGuidance.as_view()), name='upload_guidance'),
     url(r'^analysis/publish/(?P<pk>[0-9]+)/$', publish_analysis, name='publish_analysis'),
     url(r'^analysis/add/(?P<consultation>[0-9]+)/$', FoodAnalysisCreate.as_view(), name='analysis_create'),
