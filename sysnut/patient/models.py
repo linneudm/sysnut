@@ -212,17 +212,36 @@ class Consultation(models.Model):
 	def imc(self):
 		w = float(self.weight)
 		h = float(self.height) / 100
+		result = "Nada cadastrado."
+		tag="secondary"
 		if w != 0 and h != 0:
 			imc = w / (h * h)
-		else:
-			imc = 0
 
-		if imc != 0 and imc > 24:
-			result = 3
-
+		if imc >= 16.0 and imc <= 16.9:
+			result = "Muito abaixo do peso."
+			tag = "danger"
+		elif imc <= 18.4:
+			result = "Abaixo do peso."
+			tag = "warning"
+		elif imc <= 24.9:
+			result = "Peso normal."
+			tag = "success"
+		elif imc <= 29.9:
+			result = "Acima do peso."
+			tag = "warning"
+		elif imc <= 34.9:
+			result = "Obesidade Grau I."
+			tag = "danger"
+		elif imc <= 40.0:
+			result = "Obesidade Grau II."
+			tag = "danger"
+		elif imc > 40:
+			result = "Obesidade Grau III."
+			tag = "danger"
 		imc = {
 			'val': imc,
-			'result': result
+			'result': result,
+			'tag': tag
 		}
 		return imc
 
@@ -302,7 +321,7 @@ class Guidance(models.Model):
 	#tabela com mensagens criadas pelo nutricionista
 	nut = models.ForeignKey(User, verbose_name='Nutricionista', related_name='guidance_nut')
 	description = models.CharField('Descrição', max_length=200, blank=False, null=False)
-	message = models.CharField('Mensagem', max_length=200, blank=False, null=False)
+	message = models.TextField('Mensagem', max_length=200, blank=False, null=False)
 	def __str__(self):
 		return self.description
 

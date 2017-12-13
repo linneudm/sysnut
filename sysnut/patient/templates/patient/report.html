@@ -87,9 +87,7 @@
                       <div class="col-lg-6">
                         <p>
                           IMC: {{cons.imc.val|floatformat:"2"}}
-                            {% if  cons.imc.result == 3 %}
-                           <span class="badge badge-danger">Acima do peso</span>
-                            {% endif %}
+                           <span class="badge badge-{{cons.imc.tag}}">{{cons.imc.result}}</span>
                         </p> 
                         <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
                         <p>Método MET: {{cons.energycalc.met_method}}</p>

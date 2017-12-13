@@ -213,7 +213,7 @@ class PatientList(ListView):
 	def get_queryset(self):
 		self.queryset = super(PatientList, self).get_queryset()
 		if self.request.GET.get('search_box', False):
-			self.queryset=self.queryset.filter(name__icontains = self.request.GET['search_box'])
+			self.queryset=self.queryset.filter(Q(first_name__icontains = self.request.GET['search_box']) | Q(last_name__icontains = self.request.GET['search_box']))
 		return self.queryset
 
 	def get_context_data(self, **kwargs):
@@ -343,7 +343,10 @@ class ConsultationCreate(CreateView):
 		self.object.skinfold = skinfold_form.save()
 		self.object.save()
 		self.object.biochemical.consultation = self.object
-		self.object.biochemical = biochemical_form.save()
+		self.object.biochemical = biochemical_form.save(commit=False)
+		#So deve criar o exame se a descricao for definida (não nulo)
+		if (self.object.biochemical.exam is not None):
+			self.object.biochemical.save()
 		for item in form.cleaned_data['patology']:
 			#print(item)
 			self.object.patology.add(item)

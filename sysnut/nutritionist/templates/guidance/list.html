@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-SysNut - Alimentos
+SysNut - Orientações
 {% endblock %}
 {% block body %}
 
@@ -9,7 +9,7 @@ SysNut - Alimentos
 		<div class="navbar-header">
 			<form class="form-horizontal" action="." method="get">
 				<div class="input-group">
-					<input id="search_box" name="search_box" type="text" placeholder="Informe o nome do Alimento" class="form-control" autofocus="true" value="{{ request.GET.search_box }}">
+					<input id="search_box" name="search_box" type="text" placeholder="Informe o nome da Orientação" class="form-control" autofocus="true" value="{{ request.GET.search_box }}">
 					<button type="submit" class="form-group input-group-addon btn btn-secondary" title="Clique para realizar a pesquisar">
 						<i class="fa fa-search" aria-hidden="true"></i>
 					</button>

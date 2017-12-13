@@ -77,7 +77,7 @@
 										<h4 class="modal-title">Alerta!</h4>
 									</div>
 									<div class="modal-body">
-										<p>Deseja realmente remover essa consulta: <strong>{{ analysis.consultation.patient.name }}</strong>?</p>
+										<p>Deseja realmente remover esse cardápio: <strong>{{ analysis.description }}</strong>?</p>
 									</div>
 									<div class="modal-footer">
 										<form action="{% url 'patient:analysis_delete' analysis.pk %}" method="post">{%csrf_token%}

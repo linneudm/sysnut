@@ -68,7 +68,7 @@
 										<h4 class="modal-title">Alerta!</h4>
 									</div>
 									<div class="modal-body">
-										<p>Deseja realmente remover essa consulta: <strong>{{ consultation.patient.name }}</strong>?</p>
+										<p>Deseja realmente remover essa consulta: <strong>{{ consultation.objective }}</strong>?</p>
 									</div>
 									<div class="modal-footer">
 										<form action="{% url 'patient:consultation_delete' consultation.pk %}" method="post">{%csrf_token%}
