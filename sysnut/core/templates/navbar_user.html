@@ -1,18 +1,21 @@
 <li class="nav-item">
-	<a class="nav-link" href="#"><i class="fa fa-file-text"></i> Visualizar Relatório</a>
-</li>
-<li class="nav-item">
-	<a class="nav-link" href="#"> <i class="material-icons">local_dining</i> Visualizar Cardápio</a>
+	<a class="nav-link" href="{% url 'patient:report' request.user.id %}"><i class="fa fa-file-text"></i> Visualizar Relatório</a>
 </li>
 
 </ul>
 <ul class="navbar-nav navbar-dark mt-2 mt-lg-0">
   <li class="nav-item dropdown">
-		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-			<p class="fa fa-user-circle" aria-hidden="true"></p> {{ user.username }}
+		<a href="#" class="nav-link" data-toggle="dropdown">
+			<p class="fa fa-lock" aria-hidden="true"></p>
 			<b class="caret"></b>
 		</a>
 		<div class="dropdown-menu dropdown-menu-right">
+			<span class="dropdown-item disabled"><i class="fa fa-user-circle"></i> {{ user.username }}</span> 
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="#">
+				<span class="badge badge-secondary">0</span>
+				Inbox
+			</a>
 			<a class="dropdown-item" href="{% url 'account:edit' %}">
 				<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 				Editar
@@ -21,6 +24,7 @@
 					<i class="fa fa-key" aria-hidden="true"></i>
 					Altera senha
 				</a>
+				<div class="dropdown-divider"></div>
 				<a class="dropdown-item" href="{% url 'account:logout' %}">
 					<i class="fa fa-sign-out" aria-hidden="true"></i>
 					Sair

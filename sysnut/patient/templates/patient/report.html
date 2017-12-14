@@ -9,7 +9,7 @@
     </div>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="btn btn-outline-secondary float-right" href="{% url 'patient:list' %}">
+        <a class="btn btn-outline-secondary float-right" href="javascript:window.history.go(-1)">
           Voltar
         </a>
       </li>
@@ -87,7 +87,7 @@
                       <div class="col-lg-6">
                         <p>
                           IMC: {{cons.imc.val|floatformat:"2"}}
-                           <span class="badge badge-{{cons.imc.tag}}">{{cons.imc.result}}</span>
+                          <span class="badge badge-{{cons.imc.tag}}">{{cons.imc.result}}</span>
                         </p> 
                         <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
                         <p>Método MET: {{cons.energycalc.met_method}}</p>
@@ -156,15 +156,23 @@
                       </tbody>
                     </table>
                   </div>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
+
+                </div>
+                <label class="control-label">Cardápios</label>
+                <hr>
+                <div class="btn-group">
+                  {% for analysis in cons.analysis_consultation.all %}
+                    {% if analysis.published %}
+                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="material-icons">local_dining</i>{{analysis.description}}</a>
+                    {% endif %}
+                  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
           {% else %}
           <div role="tabpanel" class="tab-pane fade" id="tab-{{cons.objective}}">
-         <div class="card">
+           <div class="card">
             <div class="card-body">
               <p class="card-text">
                 <div class="row">
@@ -269,8 +277,15 @@
                       </tbody>
                     </table>
                   </div>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
+                </div>
+                <label class="control-label">Cardápios</label>
+                <hr>
+                <div class="btn-group">
+                  {% for analysis in cons.analysis_consultation.all %}
+                    {% if analysis.published %}
+                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="material-icons">local_dining</i>{{analysis.description}}</a>
+                    {% endif %}
+                  {% endfor %}
                 </div>
               </div>
             </div>

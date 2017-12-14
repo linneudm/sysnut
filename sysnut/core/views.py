@@ -11,3 +11,9 @@ def index(request):
 
 def about(request):
 	return render(request, 'about.html')
+
+def page_not_found(request):
+    response = render_to_response('404.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
