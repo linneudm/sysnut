@@ -8,6 +8,8 @@ from sysnut.food.models import Meal, Food
 from multiupload.fields import MultiFileField
 from dal import autocomplete
 
+
+
 class PatientForm(UserCreationForm):
 
 	class Meta:
@@ -64,7 +66,9 @@ class ConsultationForm(ModelForm):
 		model = Consultation
 		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold', 'bioimpedance', 'bonediameter', 'biochemical']
 		widgets = {
-    		'patology': autocomplete.ModelSelect2Multiple(url='patient:patology_autocomplete')
+    		'patology': autocomplete.ModelSelect2Multiple(url='patient:patology_autocomplete'),
+    		'supplement': autocomplete.ModelSelect2Multiple(url='patient:supplement_autocomplete'),
+    		'vitamin': autocomplete.ModelSelect2Multiple(url='patient:vitamin_autocomplete')
 		}
 ExamFormSet = forms.inlineformset_factory(Consultation, Exam, fields=('description','path'),extra=1)
 

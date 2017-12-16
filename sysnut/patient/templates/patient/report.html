@@ -29,7 +29,7 @@
         <div class="col-lg-6">
           <div class="form-group">
             <label class="control-label">Nutricionista</label>
-            <input class="form-control input-md" type="text" id="disabledTextInput" value="{{object.user.first_name}}" disabled>
+            <input class="form-control input-md" type="text" id="disabledTextInput" value="{% if object.user.first_name %}{{object.user.first_name}}{% else %}{{object.user.username}}{% endif %} {{object.user.last_name}}" disabled>
           </div>
         </div>
       </div>
@@ -74,24 +74,26 @@
                       </tbody>
                     </table>
                     <h4>Cálculos Energéticos</h4>
-                    <p>Título do cálculo: {{cons.energycalc.calc_title}}</p>
+                    {% if cons.energycalc.calc_title %}
+                    <p>{{cons.energycalc.calc_title}}</p>
+                    {% endif %}
                     <div class="row">
                       <div class="col-lg-6">
                         <p>Peso: {{cons.weight}} kg</p>
                         <p>Altura: {{cons.height}} cm</p>
                         <p>Altura do joelho: {{cons.energycalc.knee_height}}</p>
-                        <p>Massa livre: {{cons.energycalc.lean_mass}}</p>
+                        <p>Massa livre: {{cons.bioimpedance.lean_mass}}</p>
                         <p>Fórmula: {{cons.energycalc.formula}}</p>
-                        <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
+                        
                       </div>
                       <div class="col-lg-6">
                         <p>
                           IMC: {{cons.imc.val|floatformat:"2"}}
                           <span class="badge badge-{{cons.imc.tag}}">{{cons.imc.result}}</span>
+                          <p>Peso ideal: {{cons.imc.ideal|floatformat:"2"}} kg</p>
                         </p> 
+                        <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
                         <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
-                        <p>Método MET: {{cons.energycalc.met_method}}</p>
-                        <p>Programa de Peso: {{cons.energycalc.weight_program}}</p>
                         <p>Gasto Energético Total: {{cons.energycalc.tee}}</p>
                       </div>
                     </div>

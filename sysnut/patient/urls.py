@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import permission_required
 
 urlpatterns = [
     # Autocomplete
+    url(r'^vitamin-autocomplete/$', VitaminAutocomplete.as_view(create_field='description'), name='vitamin_autocomplete'),
+    url(r'^supplement-autocomplete/$', SupplementAutocomplete.as_view(create_field='description'), name='supplement_autocomplete'),
     url(r'^patology-autocomplete/$', PatologyAutocomplete.as_view(create_field='description'), name='patology_autocomplete'),
     url(r'^biochemical-autocomplete/$', BiochemicalAutocomplete.as_view(create_field='description'), name='biochemical_autocomplete'),
     # Patient

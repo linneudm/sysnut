@@ -184,7 +184,18 @@ class EnergyCalc(models.Model):
 	tee = models.CharField('Gasto Energético Total',max_length=255, blank=True, null=True)
 
 class Patology(models.Model):
-	description = models.CharField('Patologia', max_length=255, blank=True, null=True)
+	description = models.CharField('Descrição', max_length=255, blank=True, null=True)
+
+	def __str__(self):
+		return self.description
+
+class Vitamin(models.Model):
+	description = models.CharField('Descrição', max_length=255, blank=True, null=True)
+	def __str__(self):
+		return self.description
+
+class Supplement(models.Model):
+	description = models.CharField('Descrição', max_length=255, blank=True, null=True)
 
 	def __str__(self):
 		return self.description
@@ -196,6 +207,8 @@ class Consultation(models.Model):
 	objective = models.CharField('Objetivo',max_length=255)
 	date = models.DateField('Data da consulta')
 	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology', blank=True)
+	supplement = models.ManyToManyField(Supplement, verbose_name='Suplemento', related_name='consultation_supplement', blank=True)
+	vitamin = models.ManyToManyField(Vitamin, verbose_name='Deficiência Vitamínica', related_name='consultation_vitamin', blank=True)
 	family_history = models.CharField('Histórico Familiar',max_length=255)
 	drugs = models.CharField('Fármacos',max_length=255, blank=True, null=True)
 	life_style = models.CharField('Estilo de vida',max_length=255, blank=True, null=True)
@@ -214,8 +227,10 @@ class Consultation(models.Model):
 		h = float(self.height) / 100
 		result = "Nada cadastrado."
 		tag="secondary"
+
 		if w != 0 and h != 0:
 			imc = w / (h * h)
+			ideal = (h * h) * 24
 
 		if imc >= 16.0 and imc <= 16.9:
 			result = "Muito abaixo do peso."
@@ -241,7 +256,8 @@ class Consultation(models.Model):
 		imc = {
 			'val': imc,
 			'result': result,
-			'tag': tag
+			'tag': tag,
+			'ideal': ideal
 		}
 		return imc
 

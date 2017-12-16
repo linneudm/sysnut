@@ -40,6 +40,31 @@ import decimal
 # 			return redirect('core:index')
 # 		return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
+class VitaminAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = Vitamin.objects.all()
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+
+		return qs
+
+
+class SupplementAutocomplete(autocomplete.Select2QuerySetView):
+	def get_queryset(self):
+		# Don't forget to filter out results depending on the visitor !
+
+		qs = Supplement.objects.all()
+
+		# Pesquisa pela Descrição
+		if self.q:
+			qs = qs.filter(Q(description__icontains=self.q))
+
+		return qs
+
 class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
 		# Don't forget to filter out results depending on the visitor !
@@ -327,7 +352,7 @@ class ConsultationCreate(CreateView):
 		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and bioimpedance_form.is_valid() and bonediameter_form.is_valid() and self.exam_formset.is_valid():
 			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)
 		else:
-			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form)
+			return self.form_invalid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)
 
 	def form_valid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form):
 		self.object = form.save(commit=False)
@@ -350,6 +375,10 @@ class ConsultationCreate(CreateView):
 		for item in form.cleaned_data['patology']:
 			#print(item)
 			self.object.patology.add(item)
+		for item in form.cleaned_data['supplement']:
+			self.object.supplement.add(item)
+		for item in form.cleaned_data['vitamin']:
+			self.object.vitamin.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
 		messages.add_message(self.request, messages.SUCCESS, 'Consulta criada com sucesso!')
@@ -514,8 +543,14 @@ class ConsultationUpdate(UpdateView):
 		if (self.object.biochemical.exam is not None):
 			self.object.biochemical.save()
 		self.object.patology = {}
+		self.object.supplement = {}
+		self.object.vitamin = {}
 		for item in form.cleaned_data['patology']:
 			self.object.patology.add(item)
+		for item in form.cleaned_data['supplement']:
+			self.object.supplement.add(item)
+		for item in form.cleaned_data['vitamin']:
+			self.object.vitamin.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
 		messages.add_message(self.request, messages.SUCCESS, 'Consulta atualizada com sucesso!')
