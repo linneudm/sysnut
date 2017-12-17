@@ -5,6 +5,8 @@ django-autocomplete-light==3.2.10
 django-compressor==2.2
 django-excel==0.0.9
 django-localflavor==1.5.2
+#Esta linha é para o sistema de mensagens com bootstrap.
+#django-messages==0.5.3 a versão deve especificar o branch (master) para remover o erro
 https://github.com/linneudm/django-messages/tarball/master#egg=django-messages
 django-multiupload==0.5.2
 django-sass-processor==0.5.6
