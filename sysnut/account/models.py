@@ -21,7 +21,7 @@ class AuditModel(models.Model):
 
 
 class Address(models.Model):
-	city = models.CharField('Cidade', max_length=255)
+	city = models.CharField('Cidade', max_length=255, blank=True, null=True)
 	UF_CHOICES = (
 	    ('AC', 'Acre'),
 	    ('AL', 'Alagoas'),
@@ -51,13 +51,13 @@ class Address(models.Model):
 	    ('TO', 'Tocantins')
 	)
 	state = models.CharField('UF', max_length=2, choices=UF_CHOICES, default='PI')
-	street = models.CharField('Rua',max_length=255)
-	number = models.CharField('Número', max_length=20)
+	street = models.CharField('Rua',max_length=255, blank=True, null=True)
+	number = models.CharField('Número', max_length=20, blank=True, null=True)
 	complement = models.CharField('Complemento', max_length=255, blank=True, null=True)
 	zip_code = models.CharField('CEP', max_length=10, blank=True, null=True)
 	reference_point = models.CharField('Ponto de Referência', max_length=255, blank=True, null=True)
-	neighborhood = models.CharField('Bairro', max_length=255)
-	country = models.CharField('País', max_length=255, default='Brasil')
+	neighborhood = models.CharField('Bairro', max_length=255, blank=True, null=True)
+	country = models.CharField('País', max_length=255, default='Brasil', blank=True, null=True)
 
 #Nutritionist infos
 class Nutritionist(User, AuditModel):
@@ -74,7 +74,7 @@ class Nutritionist(User, AuditModel):
 	birth_date = models.DateField('Data Nascimento')
 	crn = models.CharField('CRN', max_length=6, null=False,)
 	phone = models.CharField('Telefone', max_length=16)
-	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='employees_address', on_delete=models.CASCADE)
+	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='employees_address', on_delete=models.CASCADE, null=True)
 
 	class Meta:
 		permissions = (

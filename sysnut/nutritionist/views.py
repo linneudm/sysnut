@@ -99,8 +99,8 @@ class NutritionistCreate(CreateView):
 		permission_list.append(permission)
 		permission = Permission.objects.get(codename='add_food')
 		permission_list.append(permission)
-		nutritionist.user_permissions.set(permission_list)
 		nutritionist.save()
+		nutritionist.user_permissions.set(permission_list)
 		return HttpResponseRedirect(self.get_success_url())
 
 	def form_invalid(self, form, address_form):
@@ -169,7 +169,6 @@ class NutritionistUpdate(UpdateView):
 		permission = Permission.objects.get(codename='add_food')
 		permission_list.append(permission)
 		nutritionist.user_permissions.set(permission_list)
-		print(">>>>>>>>> ", nutritionist.has_perm('patient.add_patient'))
 		return HttpResponseRedirect(self.get_success_url())
 
 	def form_invalid(self, form, address_form):

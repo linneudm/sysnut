@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib.auth.views import *
 from django.contrib.auth import views
 from .views import *
 from .forms import PasswordResetForm
+import django_messages
 
 
 urlpatterns = [

@@ -50,6 +50,41 @@ table .food th{
     font-size: 5px;
 }
 
+.wrapper {
+        display: flex;
+}
+
+#sidebar {
+
+        min-width: 250px;
+        max-width: 250px;
+}
+
+#sidebar > ul {
+  background-color: rgba(0,0,0, 0.03);
+  width: 90%;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0, 0.3);
+  border-radius: 5px;
+}
+#sidebar > ul > li{
+  border-bottom: 1px solid rgba(0,0,0, 0.08);
+  
+  text-decoration: none;
+  padding: 4px;
+
+}
+
+#sidebar > ul > li a{
+  text-decoration: none;
+
+}
+
+#sidebar > ul > li:hover{
+  font-weight: bold;
+  text-decoration: none;
+
+}
 
 /*------------------------------------*\
   Preloader

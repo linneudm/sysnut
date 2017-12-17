@@ -16,7 +16,10 @@ from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+SETTINGS_PATH = os.path.dirname(__file__)
+PROJECT_PATH = os.path.join(SETTINGS_PATH, os.pardir)
+PROJECT_PATH = os.path.abspath(PROJECT_PATH)
+TEMPLATE_PATH = os.path.join(PROJECT_PATH, "templates")
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +31,7 @@ SECRET_KEY = 'f^-7=a3d2irfx0ey5d$5rceq1t-t884cw=4l!$!%c@tzi%ry**'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 COMPRESS_ENABLED = True
-
+SITE_ID = 1
 ALLOWED_HOSTS = ['*']
 
 
@@ -45,12 +48,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     #Other apps
     'sass_processor',
     "compressor",
     'widget_tweaks',
     'xlrd',
     'multiupload',
+    'django_messages',
     #My apps
     'sysnut.core',
     'sysnut.account',
@@ -92,9 +97,7 @@ ROOT_URLCONF = 'sysnut.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-        os.path.join(BASE_DIR, 'templates')
-        ],
+        'DIRS': [os.path.join(PROJECT_PATH, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,10 +106,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                'django_messages.context_processors.inbox',
             ],
         },
-    },
-]
+    }
+,]
 
 WSGI_APPLICATION = 'sysnut.wsgi.application'
 

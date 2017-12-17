@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .forms import *
 from django.contrib import messages
 
+
+
+
 @login_required
 def edit(request):
 	template_name = "edit.html"
