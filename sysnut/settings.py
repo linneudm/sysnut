@@ -16,10 +16,6 @@ from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SETTINGS_PATH = os.path.dirname(__file__)
-PROJECT_PATH = os.path.join(SETTINGS_PATH, os.pardir)
-PROJECT_PATH = os.path.abspath(PROJECT_PATH)
-TEMPLATE_PATH = os.path.join(PROJECT_PATH, "templates")
 
 
 # Quick-start development settings - unsuitable for production
@@ -97,7 +93,7 @@ ROOT_URLCONF = 'sysnut.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_PATH, 'templates')],
+        'DIRS': [BASE_DIR+'/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
