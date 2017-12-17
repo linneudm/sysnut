@@ -169,6 +169,7 @@ class NutritionistUpdate(UpdateView):
 		permission = Permission.objects.get(codename='add_food')
 		permission_list.append(permission)
 		nutritionist.user_permissions.set(permission_list)
+		nutritionist.save()
 		return HttpResponseRedirect(self.get_success_url())
 
 	def form_invalid(self, form, address_form):
