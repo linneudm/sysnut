@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
+{% load i18n %}
 {% block body %}
 <nav class="navbar navbar-light bg-light nav-item">
   <div class="container-fluid justify-content-center align-items-center">
@@ -300,10 +301,6 @@
 {% endblock %}
 
 {% block scripts %}
-{{ block.super }}
-{{ form.media }}
-
-
 <script type="text/javascript">
   $(document).ready(function(){
   //$("#id_date").attr("readonly", "true");
@@ -329,9 +326,16 @@
   $("#id_mbr").attr("readonly", "true");
   $("#id_tee").attr("readonly", "true");
   $('b[role="presentation"]').hide();
+
+
   
   //$("#id_resultmbr").text('MBR: {{consultation.energycalc.mbr}}');
 
 });
+
 </script>
+{{ block.super }}
+{{ form.media }}
+
+
 {% endblock %}
