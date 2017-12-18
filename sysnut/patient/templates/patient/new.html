@@ -48,6 +48,9 @@
                     <i class="fa fa-calendar"></i>
                   </span>
                 </div>
+                {% elif field.label == "Senha" %}
+                  {{ field|add_class:"form-control input-md" }}
+                  <small id="senhaHelp" class="form-text text-muted">A senha deve conter no mínimo 6 caracteres, sendo letras e números.</small>
                 {% else %}
                 {{ field|add_class:"form-control input-md" }}
                 {% endif %}

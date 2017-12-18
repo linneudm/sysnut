@@ -40,6 +40,8 @@ import decimal
 # 			return redirect('core:index')
 # 		return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
+
+
 class VitaminAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
 		# Don't forget to filter out results depending on the visitor !
@@ -113,6 +115,7 @@ class BiochemicalAutocomplete(autocomplete.Select2QuerySetView):
 			qs = qs.filter(Q(description__icontains=self.q))
 
 		return qs
+
 
 # CRUD Patient
 #@method_decorator(is_nutritionist, name='dispatch')
