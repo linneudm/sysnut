@@ -42,12 +42,13 @@
 	</title>
 </head>
 <body>
+
 	<!-- NAVBAR -->
 	<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-dark bg-pink">
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="{% url 'core:index' %}">SysNut</a>
+		<a class="navbar-brand" href="{% url 'core:index' %}"><i class="fa fa-home"></i></a>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item">
@@ -101,7 +102,15 @@
 		<div class="container-fluid">
 			<div class="mt-4"></div>
 			<span class="text-light">
-				&copy Copyright 2017
+				<div class="row">
+					<div class="col-md-12">
+					&copy Copyright 2017
+						<div class="links-footer">
+							<a class="link-footer" href="{% url 'core:index' %}">Início</a>
+							<a class="link-footer" href="{% url 'core:about' %}">Sobre</a>
+						</div>
+					</div>
+				</div>
 			</span>
 		</div>
 	</footer>
@@ -117,11 +126,8 @@
 	<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/popover.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/tooltip.js' %}"></script>
-
-
-
-
 	{% endblock %}
+
 </body>
 
 

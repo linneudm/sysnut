@@ -39,6 +39,15 @@
  * Features Style 6
  * ====================================
  */
+
+.features-hover img{
+  border-radius: 120px;
+}
+
+.mask{
+  border-radius: 120px;
+}
+
 .features-section-6 .each-features {
   margin-bottom: 0px;
 }

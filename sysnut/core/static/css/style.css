@@ -19,6 +19,28 @@ body {
   background-repeat: repeat;
 }
 
+.links-footer{
+  float: right;
+
+}
+
+.features-hover img{
+  border-radius: 5px;
+}
+
+.link-footer{
+  padding: 10px 10px;
+  color: white;
+}
+.link-footer:first-child{
+  border-right: 2px solid rgba(255,255,255, 0.3);
+}
+
+.link-footer:hover{
+  text-decoration: none;
+  color: rgba(255,255,255, 0.7);
+}
+
 .img-circle{
   width: 20%;
   border-radius: 50%;
@@ -41,9 +63,21 @@ body {
 
 
 .navbar-brand{
-  padding: 15px 0px;
-  height: 100%;
   font-weight: bold;
+  
+}
+
+.nav-item{
+  height: 51.5px;
+  padding-left: 5px;
+}
+
+.nav-item:hover{
+  background-color: rgba(255,255,255,0.2);
+}
+
+.nav-link{
+  padding-top: 13px;
 }
 
 table .food th{
