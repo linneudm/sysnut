@@ -83,8 +83,8 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Descrição</th>
                       <th>Arquivo</th>
+                      <th>Descrição</th>
                       <th>Opções</th>
                     </tr>
                   </thead>
@@ -94,8 +94,8 @@
                     <tr id="{{ form_item.prefix }}-row">
                       {{form_item.id}}
                       <td>{% if form_item.instance.id %} {{form_item.instance.id}}{{form_item.DELETE}} {%endif%}</td>
-                      <td>{% if form_item.path.errors %}{{form_item.path.errors}}{{form_item.path|add_class:"form-control has-error has-feedback"}}{%else%}{{form_item.path|add_class:"col-lg-2"}}{%endif%}</td>
-                      <td>{% if form_item.description.errors %}{{form_item.description.errors}}{{form_item.description|add_class:"form-control  has-error has-feedback"}}{%else%}{{form_item.description|add_class:"form-control col-lg-12"}}{%endif%}</td>
+                      <td>{% if form_item.path.errors %}{{form_item.path.errors}}{{form_item.path|add_class:"form-control-file has-error has-feedback"}}{%else%}{{form_item.path|add_class:"form-control-file"}}{%endif%}</td>
+                      <td>{% if form_item.description.errors %}{{form_item.description.errors}}{{form_item.description|add_class:"form-control  has-error has-feedback"}}{%else%}{{form_item.description|add_class:"form-control"}}{%endif%}</td>
                       <td></td>
                     </tr>
                     {% endfor %}
