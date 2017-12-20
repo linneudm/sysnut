@@ -1,21 +1,58 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block body %}
+<section class="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="sobre">
+          <h1 class="text-banner">
+            Sistema de Apoio ao Nutricionista
+          </h1>
+          <p class="descricao">O <span class="sysnut">SysNut</span> é um sistema que visa ajudar profissionais Nutrição, utilizando-se de ferramentas que auxiliam na rotina da elaboração do cardápio. Este sistema possibilita o nutricionista agendar cadastrar seus pacientes, cadastrar consultas, cardápios e facilitar exibir a adequação do mesmo segundo a literatura escolhida.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <div class="container">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="pt-4"></div>
-      <div class="align-content-center" style="">
-        <DIV class="slide-in-fwd-center">
-        <center>
-          <img src="{% static 'img/logo-index.png' %}" class='img-responsive'>
-          <h1>Bem-vindo</h1>
-          <p>Sistema para Nutricionistas.</p>
-          <h1><b>{{ get_user_logged }}</b></h1>
-          <p>Ajude os desenvolvedores, responda a nossa pesquisa. É rápido :)</p>
-          <a href="#">Link da pesquisa</a>
-        </DIV>
-        </center>
+    <div class="col-md-4">
+      <div class="titulo text-center">
+        <h3 class="text-banner">O que eu preciso?</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-hand-peace-o fa-fw sysnut"></i>Solicite seu cadastro.</b>
+          <p></p>
+          É simples! :D Contate um dos <a href="{% url 'core:about' %}">responsáveis pelo sistema</a> e solicite seu próprio login.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="titulo text-center">
+        <h3 class="text-banner">Preciso pagar?</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-thumbs-down fa-fw sysnut"></i>Não.</b>
+          <p></p>
+          O sistema foi desenvolvido para ajudar o nutricionista no seu atendimento básico, facilitando sua rotina de consulta sem custos adicionais.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="titulo text-center">
+        <h3 class="text-banner">Ajude-nos!</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-list-alt fa-fw sysnut"></i>Responda o formulário.</b>
+          <p></p>
+          Nosso sistema precisa ser validado para que possa ser usado, preenchendo todos os requisitos necessários. Responda o nosso formulário disponivel aqui:
+          <p></p>
+          <a class="btn btn-primary" href="#">Formulário</a>
+        </div>
       </div>
     </div>
   </div>

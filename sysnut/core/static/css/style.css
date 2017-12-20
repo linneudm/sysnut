@@ -24,10 +24,6 @@ body {
 
 }
 
-.features-hover img{
-  border-radius: 5px;
-}
-
 .link-footer{
   padding: 10px 10px;
   color: white;
@@ -46,19 +42,76 @@ body {
   border-radius: 50%;
 }
 
+.banner{
+  border-bottom: 1px solid #ddd;
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(249,249,249,1) 100%);
+  width: 100%;
+}
+
+.sobre{
+  margin-bottom: 45px;
+}
+
+.titulo{
+  display: block;
+  height: 47px;
+  margin: 10px 0px 10px 0px;
+  background-image: url('../img/title-line.png');
+}
+.text-banner{
+  color: #49274a;
+  font-family: 'Roboto Slab';
+  font-size: 26px;
+  line-height: 35px;
+}
+
+.titulo h3{
+  display: inline;
+  height: 47px;
+  padding: 0px 10px 0px 10px;
+  font-family: 'Roboto Slab';
+  font-weight: 400;
+  line-height: 47px;
+  background: #fff;
+}
+
+.list-itens .post {
+  display: block;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-itens .post:last-child {
+  padding-bottom: 0px;
+  border: none;
+}
+
+.descricao{
+  font-size: 14px;
+}
+
+
+.sysnut{
+  color: #49274a;
+  font-weight: bold;
+}
+
+
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
 .container {
   width: auto;
-  max-width: 680px;
+  
   padding: 0 15px;
 }
 
 .bg-pink{
   padding: 0 10px;
   background-color: #49274a;
+  height: 58px;
 }
 
 
@@ -68,7 +121,7 @@ body {
 }
 
 .nav-item{
-  height: 51.5px;
+  height: 58px;
   padding-left: 5px;
 }
 
@@ -77,7 +130,7 @@ body {
 }
 
 .nav-link{
-  padding-top: 13px;
+  padding-top: 16px;
 }
 
 table .food th{

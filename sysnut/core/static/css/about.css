@@ -41,11 +41,11 @@
  */
 
 .features-hover img{
-  border-radius: 120px;
+  border-radius: 50%;
 }
 
 .mask{
-  border-radius: 120px;
+  border-radius: 50%;
 }
 
 .features-section-6 .each-features {
