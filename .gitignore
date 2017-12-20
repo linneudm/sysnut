@@ -6,4 +6,4 @@
 *.pdf
 db.sqlite3
 sysnut/settings_local.py
-ssysnut/core/static/CACHE
+sysnut/core/static/CACHE
