@@ -17,6 +17,7 @@ body {
   line-height: 20px; /* Vertically center the text there */
   background-color: #49274a;
   background-repeat: repeat;
+  border-top: 3px solid rgba(255,255,255,0.4)
 }
 
 .links-footer{
@@ -111,8 +112,9 @@ body {
 .bg-pink{
   padding: 0 10px;
   background-color: #49274a;
-  height: 58px;
+  border-bottom: 3px solid rgba(255,255,255,0.4)
 }
+
 
 
 .navbar-brand{
