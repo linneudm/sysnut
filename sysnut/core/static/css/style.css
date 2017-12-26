@@ -17,7 +17,7 @@ body {
   line-height: 20px; /* Vertically center the text there */
   background-color: #49274a;
   background-repeat: repeat;
-  border-top: 3px solid rgba(255,255,255,0.4)
+  border-bottom: 3px solid rgba(255,255,255,0.4)
 }
 
 .links-footer{
@@ -110,7 +110,7 @@ body {
 }
 
 .bg-pink{
-  padding: 0 10px;
+  padding: 5px 10px;
   background-color: #49274a;
   border-bottom: 3px solid rgba(255,255,255,0.4)
 }
@@ -123,12 +123,10 @@ body {
 }
 
 .nav-item{
-  height: 58px;
   padding-left: 5px;
 }
 
 .nav-item:hover{
-  background-color: rgba(255,255,255,0.2);
 }
 
 .nav-link{
