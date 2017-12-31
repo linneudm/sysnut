@@ -25,8 +25,6 @@ from os.path import join, dirname, abspath
 import xlrd
 import os
 #from sysnut.nutritionist.views import is_nutritionist
-
-
 import decimal
 # Create your views here.
 

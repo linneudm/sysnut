@@ -1,11 +1,15 @@
 dj-database-url==0.4.2
 Django==1.11.6
 django-appconf==1.0.2
+#versao q a traducao ta funcionando
 django-autocomplete-light==3.3.0rc1
+#https://github.com/linneudm/django-autocomplete-light/tarball/dj2_rebased#egg=django-autocomplete-light
 django-compressor==2.2
 django-excel==0.0.9
 django-localflavor==1.5.2
-django-messages==0.5.3
+#Esta linha é para o sistema de mensagens com bootstrap.
+#django-messages==0.5.3 a versão deve especificar o branch (master) para remover o erro
+https://github.com/linneudm/django-messages/tarball/master#egg=django-messages
 django-multiupload==0.5.2
 django-sass-processor==0.5.6
 django-widget-tweaks==1.4.1

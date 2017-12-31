@@ -155,13 +155,10 @@ class SkinFold(models.Model):
 	thigh_fold = models.DecimalField('Dobra da coxa (mm)', default=0.00, decimal_places=2, max_digits=8)
 	calf_fold = models.DecimalField('Dobra da panturrilha (mm)', default=0.00, decimal_places=2, max_digits=8)
 	
-
 class BoneDiameter(models.Model):
 	humeros_diameter = models.DecimalField('Diâmetro do úmero (cm)', default=0.00, decimal_places=2, max_digits=8)
-	wrist_diameter = models.DecimalField('Diâmetro do úmero (cm)', default=0.00, decimal_places=2, max_digits=8)
+	wrist_diameter = models.DecimalField('Diâmetro do pulso (cm)', default=0.00, decimal_places=2, max_digits=8)
 	femoral_diameter = models.DecimalField('Diâmetro do fêmur (cm)', default=0.00, decimal_places=2, max_digits=8)
-
-
 
 class EnergyCalc(models.Model):
 	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True)
