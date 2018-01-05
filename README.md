@@ -31,7 +31,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [FontAwesome](http://fontawesome.io/) - Font Awesome 4.7.0
+* [FontAwesome](http://fontawesome.com/) - Font Awesome 5.0.2
 * [Bootstrap](http://getbootstrap.com/) - Bootstrap 4.0 Alpha
 
 ## Versioning
