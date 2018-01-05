@@ -165,7 +165,7 @@
                 <div class="btn-group">
                   {% for analysis in cons.analysis_consultation.all %}
                     {% if analysis.published %}
-                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-cutlery"></i>{{analysis.description}}</a>
+                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-utensils"></i>{{analysis.description}}</a>
                     {% endif %}
                   {% endfor %}
                 </div>
@@ -285,7 +285,7 @@
                 <div class="btn-group">
                   {% for analysis in cons.analysis_consultation.all %}
                     {% if analysis.published %}
-                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-cutlery"></i>{{analysis.description}}</a>
+                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-utensils"></i>{{analysis.description}}</a>
                     {% endif %}
                   {% endfor %}
                 </div>

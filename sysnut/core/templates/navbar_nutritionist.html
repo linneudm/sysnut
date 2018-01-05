@@ -4,7 +4,7 @@
   </a>
   <div class="dropdown-menu">
     <a class="dropdown-item" href="{% url 'patient:create' %}">
-      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      <i class="fa fa-edit" aria-hidden="true"></i>
       Novo
     </a>
     <a class="dropdown-item" href="{% url 'patient:list' %}">
@@ -19,7 +19,7 @@
   </a>
   <div class="dropdown-menu">
     <a class="dropdown-item" href="{% url 'food:add' %}">
-      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      <i class="fa fa-edit" aria-hidden="true"></i>
       Novo
     </a>
     <a class="dropdown-item" href="{% url 'food:list' %}">
@@ -38,7 +38,7 @@
   </a>
   <div class="dropdown-menu">
     <a class="dropdown-item" href="{% url 'patient:create' %}">
-      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      <i class="fa fa-edit" aria-hidden="true"></i>
       Novo
     </a>
     <a class="dropdown-item" href="{% url 'patient:list' %}">
@@ -65,19 +65,18 @@
   {% endif %}
   <li class="nav-item dropdown">
     <a href="#" class="nav-link" data-toggle="dropdown">
-      <p class="fa fa-lock" aria-hidden="true"></p>
+      <p class="fa fa-lock" aria-hidden="true"></p>  {{ user.username }}
       <b class="caret"></b>
     </a>
     </a>
     <div class="dropdown-menu dropdown-menu-right">
-      <span class="dropdown-item disabled"><i class="fa fa-user-circle"></i> {{ user.username }}</span>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="{% url 'messages_inbox' %}">
         <span class="badge badge-secondary">{{messages_inbox_count}}</span>
         Inbox
       </a>
       <a class="dropdown-item" href="{% url 'account:edit' %}">
-        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        <i class="fa fa-edit" aria-hidden="true"></i>
         Editar
       </a>
         <a class="dropdown-item" href="{% url 'account:password_change' %}">

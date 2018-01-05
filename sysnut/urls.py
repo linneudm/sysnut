@@ -24,6 +24,8 @@ from sysnut.nutritionist import urls as nutritionist_urls
 from sysnut.patient import urls as patient_urls
 from sysnut.food import urls as food_urls
 
+from django.conf.urls.static import static
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^messages/', include('django_messages.urls')),

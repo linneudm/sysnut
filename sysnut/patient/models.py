@@ -303,7 +303,7 @@ class Consultation(models.Model):
 class Exam(models.Model):
 	description = models.CharField('Descrição', max_length=255)
 	path = models.FileField(u'Exame', upload_to='upload/exam', blank=True, null=True)
-	consultation = models.ForeignKey(Consultation, verbose_name='Consulta', related_name='exam_consultation', on_delete=models.CASCADE)
+	consultation = models.ForeignKey(Consultation, verbose_name='Exame', related_name='exam_consultation', on_delete=models.CASCADE)
 
 	def delete(self):
 		self.path.delete()
