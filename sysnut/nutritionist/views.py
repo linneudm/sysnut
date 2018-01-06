@@ -24,7 +24,7 @@ from .forms import NutritionistForm, AddressForm, GuidanceForm
 from dal import autocomplete
 #from .decorators import odontology_required, Nutritionist_show_required
 from django.template.response import TemplateResponse
-
+from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse_lazy
 from sysnut.patient.models import Guidance

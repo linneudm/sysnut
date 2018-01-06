@@ -1,7 +1,7 @@
 dj-database-url==0.4.2
 Django==1.11.6
 django-appconf==1.0.2
-django-autocomplete-light==3.3.0rc1
+django-autocomplete-light==3.3.0rc3
 django-compressor==2.2
 django-excel==0.0.9
 django-localflavor==1.5.2
