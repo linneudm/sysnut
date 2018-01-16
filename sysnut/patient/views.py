@@ -699,6 +699,10 @@ class FoodAnalysisDetail(DetailView):
 	model = FoodAnalysis
 	template_name = 'analysis/details.html'
 
+class FoodAnalysisPrint(DetailView):
+	model = FoodAnalysis
+	template_name = 'analysis/print.html'
+
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisCreate(CreateView):
 	model = FoodAnalysis

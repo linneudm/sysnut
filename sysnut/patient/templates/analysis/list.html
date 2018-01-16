@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 {% block body %}
 
-  <div class="container-fluid">
-		<nav class="navbar navbar-light bg-light">
-    <div class="navbar-header">
-	<strong>Paciente</strong> 
-	<br>
-    <b>{{consultation.patient.first_name}} {{consultation.patient.last_name}}</b>
-    <br>
-    Idade: <b> {{consultation.patient.age }} </b> anos
-    <br>
-    Data da consulta: <b>{{consultation.date|date:"d/m/Y"}} </b>
-    </div>
+<div class="container-fluid">
+	<nav class="navbar navbar-light bg-light">
+		<div class="navbar-header">
+			<strong>Paciente</strong> 
+			<br>
+			<b>{{consultation.patient.first_name}} {{consultation.patient.last_name}}</b>
+			<br>
+			Idade: <b> {{consultation.patient.age }} </b> anos
+			<br>
+			Data da consulta: <b>{{consultation.date|date:"d/m/Y"}} </b>
+		</div>
 		<ul class="nav justify-content-end">
 			<li class"nav-item">
 				<a class="btn btn-outline-secondary float-right" href="{% url 'patient:analysis_create' consultation_id %}">
 					<i class="fa fa-plus" aria-hidden="true"></i>
-						Novo
+					Novo
 				</a>
 			</li>
 		</ul>
@@ -25,140 +25,168 @@
 
 <div class="container-fluid">
 	<div class="row">
-	{% if object_list.count > 0 %}
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Cardapio</th>
-						<th class="text-center">Publicado</th>
-						<th class="text-center" style="width: 355px;">Ações</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for analysis in object_list %}
-					<tr>
-            <td>{{ analysis.description }}</td>
-            			<td class="text-center" width="10%">
-							<a href="{% url 'patient:publish_analysis' analysis.id %}"
-            			{% if analysis.published %}
-            			 	class="btn btn-outline-success" title="Despublicar">
-							Sim
+		{% if object_list.count > 0 %}
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Cardapio</th>
+					<th class="text-center">Publicado</th>
+					<th class="d-none d-md-block text-center">Ações</th>
+					<th class="d-md-none text-center">Ações</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for analysis in object_list %}
+				<tr>
+					<td>{{ analysis.description }}</td>
+					<td class="text-center" width="10%">
+						<a href="{% url 'patient:publish_analysis' analysis.id %}"
+						{% if analysis.published %}
+						class="btn btn-outline-success" title="Despublicar">
+						Sim
 						{% else %}
-							class="btn btn-outline-primary" title="Publicar">
-							Não
+						class="btn btn-outline-primary" title="Publicar">
+						Não
 						{% endif %}
+					</a>
+				</td>
+				<td class="d-none d-md-block text-center">
+					<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
+						Duplicar
+					</a>
+					<a href="{% url 'patient:analysis_details' analysis.id %}" class="btn btn-outline-primary" title="Exibir">
+						Exibir
+					</a>
+					<a href="{% url 'patient:analysis_print' analysis.id %}" class="btn btn-outline-secondary" title="Exibir">
+						Imprimir
+					</a>
+					<a href="{% url 'patient:analysis_edit' analysis.id %}" class="btn btn-outline-warning" title="Editar">
+						Editar
+					</a>
+
+					<a href="#modal-id-{{ analysis.id }}" class="btn btn-outline-danger" title="Remover" data-toggle="modal">
+						Excluir
+					</a>
+				</td>
+				<td class="d-md-none text-center">
+					<div class="dropdown">
+						<a href="#" class="nav-link dropdown-toggle btn btn-info" data-toggle="dropdown">
+							Ações
+						</a>
+						<div class="dropdown-menu">
+							<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="dropdown-item" title="Duplicar">
+								Duplicar
 							</a>
-            			</td>
-						<td>
-							<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
-							Duplicar
+							<a href="{% url 'patient:analysis_details' analysis.id %}" class="dropdown-item" title="Exibir">
+								Exibir
 							</a>
-							<a href="{% url 'patient:analysis_details' analysis.id %}" class="btn btn-outline-primary" title="Exibir">
-							Exibir
+							<a href="{% url 'patient:analysis_print' analysis.id %}" class="dropdown-item" title="Exibir">
+								Imprimir
+							</a>
+							<a href="{% url 'patient:analysis_edit' analysis.id %}" class="dropdown-item" title="Editar">
+								Editar
 							</a>
 
-							<a href="{% url 'patient:analysis_edit' analysis.id %}" class="btn btn-outline-warning" title="Editar">
-							Editar
+							<a href="#modal-id-{{ analysis.id }}" class="dropdown-item" title="Remover" data-toggle="modal">
+								Excluir
 							</a>
+						</div>
+					</div>
+				</td>
+			</tr>
 
-							<a href="#modal-id-{{ analysis.id }}" class="btn btn-outline-danger" title="Remover" data-toggle="modal">
-							Excluir
-							</a>
-						</td>
-					</tr>
-
-					<!-- MODAL -->
-					<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
-						<div class="modal fade" id="modal-id-{{ analysis.id }}">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title">Alerta!</h4>
-									</div>
-									<div class="modal-body">
-										<p>Deseja realmente remover esse cardápio: <strong>{{ analysis.description }}</strong>?</p>
-									</div>
-									<div class="modal-footer">
-										<form action="{% url 'patient:analysis_delete' analysis.pk %}" method="post">{%csrf_token%}
-											<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-											<button type="submit" class='btn btn-danger' title='Deletar'>
-												Delete
-											</button>
-										</form>
-									</div>
-								</div>
+			<!-- MODAL -->
+			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+				<div class="modal fade" id="modal-id-{{ analysis.id }}">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title">Alerta!</h4>
+							</div>
+							<div class="modal-body">
+								<p>Deseja realmente remover esse cardápio: <strong>{{ analysis.description }}</strong>?</p>
+							</div>
+							<div class="modal-footer">
+								<form action="{% url 'patient:analysis_delete' analysis.pk %}" method="post">{%csrf_token%}
+									<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+									<button type="submit" class='btn btn-danger' title='Deletar'>
+										Delete
+									</button>
+								</form>
 							</div>
 						</div>
 					</div>
-					<!-- /MODAL -->
-					{% endfor %}
-				</tbody>
-			</table>
+				</div>
+			</div>
+			<!-- /MODAL -->
+			{% endfor %}
+		</tbody>
+	</table>
 	{% else %}
-		<p><center>Não há consultas registradas.</center></p>
+	<p><center>Não há consultas registradas.</center></p>
 	{% endif %}
-	</div>
-	<center>
-			<!-- Paginação -->
-			{% if page_obj.has_other_pages %}
-			<nav>
-				<ul class="pagination">
-					{# Previous page link #}
-					{% if page_obj.has_previous %}
-					<li>
-						<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">
-							<span aria-hidden="true">&laquo;</span>
-						</a>
-					</li>
-					{% else %}
-					<li class="disabled">
-						<a href="#">&laquo;</a>
-					</li>
-					{% endif %}
-
-					{# First page #}
-					{% if show_first %}
-					<li>
-						<a href="?page=1">Primeiro</a>
-					</li>
-					{% endif %}
-
-					{# List of pages (with current "active") #}
-					{% for page in page_numbers %}
-					{% ifequal page page_obj.number %}
-					<li class="active">
-						<a href="#">{{ page }}</a>
-					</li>
-					{% else %}
-					<li>
-						<a href="?page={{ page }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">{{ page }}</a>
-					</li>
-					{% endifequal %}
-					{% endfor %}
-
-					{# Last page #}
-					{% if show_last %}
-					<li>
-						<a href="?page=last">{{ page_obj.pages }}Último</a>
-					</li>
-					{% endif %}
-
-					{# Next page link #}
-					{% if page_obj.has_next %}
-					<li>
-						<a href="?page={{ page_obj.next_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">&raquo;</a>
-					</li>
-					{% else %}
-					<li class="disabled">
-						<a href="#">&raquo;</a>
-					</li>
-					{% endif %}
-				</ul>
-			</nav>
+</div>
+<center>
+	<!-- Paginação -->
+	{% if page_obj.has_other_pages %}
+	<nav>
+		<ul class="pagination">
+			{# Previous page link #}
+			{% if page_obj.has_previous %}
+			<li>
+				<a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			{% else %}
+			<li class="disabled">
+				<a href="#">&laquo;</a>
+			</li>
 			{% endif %}
-			<!-- Fim da Paginação -->
-		</center>
+
+			{# First page #}
+			{% if show_first %}
+			<li>
+				<a href="?page=1">Primeiro</a>
+			</li>
+			{% endif %}
+
+			{# List of pages (with current "active") #}
+			{% for page in page_numbers %}
+			{% ifequal page page_obj.number %}
+			<li class="active">
+				<a href="#">{{ page }}</a>
+			</li>
+			{% else %}
+			<li>
+				<a href="?page={{ page }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">{{ page }}</a>
+			</li>
+			{% endifequal %}
+			{% endfor %}
+
+			{# Last page #}
+			{% if show_last %}
+			<li>
+				<a href="?page=last">{{ page_obj.pages }}Último</a>
+			</li>
+			{% endif %}
+
+			{# Next page link #}
+			{% if page_obj.has_next %}
+			<li>
+				<a href="?page={{ page_obj.next_page_number }}{% if request.GET.search_box %}&search_box={{ request.GET.search_box }}{% endif %}">&raquo;</a>
+			</li>
+			{% else %}
+			<li class="disabled">
+				<a href="#">&raquo;</a>
+			</li>
+			{% endif %}
+		</ul>
+	</nav>
+	{% endif %}
+	<!-- Fim da Paginação -->
+</center>
 
 </div>
 

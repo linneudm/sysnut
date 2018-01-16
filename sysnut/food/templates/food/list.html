@@ -6,7 +6,7 @@ SysNut - Alimentos
 
 <div class="container-fluid">
 	<nav class="navbar navbar-light bg-light">
-		<div class="navbar-header">
+		<div class="col-md-4">
 			<form class="form-horizontal" action="." method="get">
 				<div class="input-group">
 					<input id="search_box" name="search_box" type="text" placeholder="Informe o nome do Alimento" class="form-control" autofocus="true" value="{{ request.GET.search_box }}">
@@ -70,11 +70,11 @@ SysNut - Alimentos
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 										<h4 class="modal-title">Alerta!</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 									</div>
 									<div class="modal-body">
-										<p>Deseja realmente remover esse usuário: <strong>{{ food.username }}</strong>?</p>
+										<p>Deseja realmente remover esse alimento: <strong>{{ food.description }}</strong>?</p>
 									</div>
 									<div class="modal-footer">
 										<form action="{% url 'food:delete' food.pk %}" method="post">{%csrf_token%}

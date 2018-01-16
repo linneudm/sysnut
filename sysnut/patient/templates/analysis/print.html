@@ -1,39 +1,58 @@
 {% extends 'base.html' %}
 
 {% block body %}
-
-<div class="container-fluid">
+<style type="text/css" media="print">
+    @page { 
+        size: portrait;
+    }
+</style>
+<div class="container">
   <nav class="navbar navbar-light bg-light">
     <div class="navbar-header">
-      <a class="navbar-brand text-center" href="#">Detalhes</a>
+      <a class="navbar-brand text-center" href="#">Detalhes do Cardápio</a>
     </div>
     <ul class="nav justify-content-end">
-      <li class="nav-item">
-        <a class="btn btn-outline-info float-right" href="javascript:window.history.go(-1)">
-          Imprimir
-        </a>
-      </li>
       <li class="nav-item">
         <a class="btn btn-outline-secondary float-right" href="javascript:window.history.go(-1)">
           Voltar
         </a>
       </li>
+      <li class="nav-item">
+        <a class="btn btn-outline-info" title="Clique aqui para imprimir" onclick="window.print();">
+          <i class="fa fa-print"></i>
+        </a>
+      </li>
     </ul>
   </nav>
 </div>
-<div class="container-fluid">
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="header-print">
+        <p>Cardápio</p>
+        <p>Descrição: {{object.description}}</p>
+        <p>Nutricionista: {{object.consultation.patient.user.first_name}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<center>
+<div class="container">
   <div class="row">
     <table class="table table-hover table-responsive-lg">
       <thead>
         <tr>
           <th>Refeição</th>
+          <th>Quantidade</th>
+          <th>Medida Caseira</th>
         </tr>
       </thead>
       <thead>
         <tr>
           <th>Café</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -50,8 +69,8 @@
       <thead>
         <tr>
           <th>Lanche</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -68,8 +87,8 @@
       <thead>
         <tr>
           <th>Almoço</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -86,8 +105,8 @@
       <thead>
         <tr>
           <th>Lanche</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -104,8 +123,8 @@
       <thead>
         <tr>
           <th>Jantar</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -122,8 +141,8 @@
       <thead>
         <tr>
           <th>Ceia</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -137,12 +156,13 @@
         </tr>
         {% endfor %}
         <tr>
-            <th class="text-uppercase">Total</th>
-            <td></td>
-            <th class="text-uppercase">{{object.meal_analysis.count}} alimentos cadastrados.</td>
+            <td class="text-uppercase"><b>Total</b></th>
+            
+            <td colspan="2" class="text-uppercase"><b>{{object.meal_analysis.count}} alimentos cadastrados.</b></td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+</center>
 {% endblock %}

@@ -106,6 +106,53 @@ body {
   color: #49274a;
   font-weight: bold;
 }
+.header-print{
+  display: none;
+}
+
+@page  
+{ 
+  size: auto; 
+  margin: 1mm 5mm 5mm 5mm;  
+}
+
+@media print {
+  .header-print{
+    display: inline;
+  }
+  .footer-print{
+    display: inline;
+    position: absolute;
+    bottom: 0;
+    right: 33%;
+  }
+  .print-data tbody > tr > td{
+    font-size: 8pt;
+  }
+  .print-data thead > tr > th{
+    font-size: 8pt;
+  }
+  .img-teste{
+    width: 55%;
+    height: 55%;
+  }
+  .print-data tbody > tr > td{
+    font-size: 7pt;
+  }
+  .print-data thead > tr > th{
+    font-size: 7pt;
+  }
+  tr, th,td{
+    border: 2px solid #ddd;
+  }
+  .navbar{
+    display: none;
+  }
+  footer{
+    display: none;
+  }
+}
+
 
 
 /* Custom page CSS
