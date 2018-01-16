@@ -39,7 +39,7 @@
 			</thead>
 			<tbody>
 				{% for patient in object_list %}
-				{% if patient.nutritionist == request.user or user.is_superuser %}
+				
 				<tr>
 					<td>{{ patient.first_name|slice:":100" }} {{ patient.last_name|slice:":100" }}</td>
 					<td>{{ patient.age}}</td>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<!-- /MODAL -->
-				{% endif %}
+				
 				{% endfor %}
 			</tbody>
 		</table>

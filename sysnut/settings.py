@@ -193,7 +193,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Auth
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = 'core:index'
+LOGIN_REDIRECT_URL = 'core:welcome'
 LOGOUT_URL = '/accounts/logout'
 
 # MESSAGE DJANGO

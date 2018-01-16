@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+<section class="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="sobre">
+          <h1 class="text-banner">
+            Instruções
+          </h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="color-div">
+      <div class="titulo text-center">
+        <h3 class="text-banner">Passo 1</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-link fa-fw sysnut"></i>Cadastro de Pacientes</b>
+          <p></p>
+          Antes de qualquer coisa, você precisa cadastrar o paciente ao qual fará o acompanhamento. Esse paciente terá acesso ao sistema com login e senha e através dele, terá acesso aos cardápios que você disponibilizar. Faça o cadastro <b><a href="{% url 'patient:create' %}">aqui</a></b>.
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+      <div class="color-div">
+      <div class="titulo text-center">
+        <h3 class="text-banner">Passo 2</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-link fa-fw sysnut"></i>Cadastro de Consulta</b>
+          <p></p>
+          Após cadastrar o paciente, vocẽ fará o cadastro das informações do mesmo (bioimpedância, circunferência corporal, entre outros). Você poderá cadastrar muitas informações lá, todas para você poder acompanhar seu paciente. Vocẽ poderá alterar futuramente se quiser, não precisa preencher todos agora. Faça o cadastro <b><a href="{% url 'patient:list' %}">aqui</a></b>, clicando na lupa <i class="fa fa-search"></i>.
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-12">
+      <div class="color-div">
+      <div class="titulo text-center">
+        <h3 class="text-banner">Passo 3</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-link fa-fw sysnut"></i>Cadastro de Cardápio</b>
+          <p></p>
+          Depois de efetuar o cadastro da consulta, você poderá disponibilizar um cardápio para o paciente. Lembre-se de <b><a href="{% url 'nutritionist:guidance_create' %}">cadastrar uma orientação</a></b>, caso queira deixar algum aviso para o paciente sobre o cardápio. Faça o cadastro de cardápio <b><a href="{% url 'patient:list' %}">aqui</a></b>, clicando na lupa <i class="fa fa-search fa-fw"></i> e logo depois na <i class="fa fa-utensils"></i>.
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-md-12">
+      <div class="color-div">
+      <div class="titulo text-center">
+        <h3 class="text-banner">Sugestões</h3>
+      </div>
+      <div class="list-itens">
+        <div class="post">
+          <b><i class="fa fa-link fa-fw sysnut"></i>Algumas dicas</b>
+          <p></p>
+          O sistema dispobiniliza de orientações onde você pode deixar mensagens sobre o cardápio de acordo com as necessidades do paciente. <p></p>
+          Também temos um sistema de mensagens interno, onde você troca mensagens com seu paciente de acordo com o <b>nome de usuário</b> que você forneceu durante o cadastro do mesmo. Utilize-o se achar conveniente!
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Preloader -->
+  
+{% endblock %}
+
+{% block scripts %}
+
+{{ block.super }}
+
+
+</script>
+
+{% endblock%}
