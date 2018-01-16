@@ -5,7 +5,6 @@ django-autocomplete-light==3.3.0rc3
 django-compressor==2.2
 django-excel==0.0.9
 django-localflavor==1.5.2
-https://github.com/linneudm/django-messages/tarball/master#egg=django-messages
 django-multiupload==0.5.2
 django-sass-processor==0.5.6
 django-widget-tweaks==1.4.1
