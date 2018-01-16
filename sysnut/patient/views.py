@@ -851,8 +851,8 @@ def publish_analysis(request, pk):
 	success_url = reverse('patient:analysis_list', kwargs={'consultation': id_return})
 	val = ""
 
-	if not request.user.is_superuser:
-		messages.add_message(request, messages.INFO, 'Você precisa ser administrador para realizar esta ação.')
+	if not request.user.is_authenticated:
+		messages.add_message(request, messages.INFO, 'Você estar logado para realizar esta ação.')
 	else:
 		if(analysis.published == False):
 			analysis.published = True
@@ -869,8 +869,8 @@ def meal_delete(request, pk):
 	id_return = meal.food_analysis.id
 	success_url = reverse('patient:analysis_edit', kwargs={'pk': id_return})
 
-	if not request.user.is_superuser:
-		messages.add_message(request, messages.INFO, 'Você precisa ser administrador para realizar esta ação.')
+	if not request.user.is_authenticated:
+		messages.add_message(request, messages.INFO, 'Você estar logado para realizar esta ação.')
 	else:
 		meal.delete()
 		messages.add_message(request, messages.SUCCESS, 'Refeição removida com sucesso!')

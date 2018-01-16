@@ -34,7 +34,7 @@
 					<th>Nome</th>
 					<th>Idade</th>
 					<th>Sexo</th>
-					<th style="width: 295px;">Ações</th>
+					<th style="width: 545px;">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -46,24 +46,24 @@
 					<td>{{ patient.sex }}</td>
 					<td>
 						<a href="{% url 'patient:consultation_list' patient.id %}" class="btn btn-outline-dark" title="Consultas">
-							<i class="fa fa-search" aria-hidden="true"></i>
+							Consultas
 						</a>
 						<a href="{% url 'patient:report' patient.id %}" class="btn btn-outline-success" title="Relatório">
-							<i class="fa fa-file-alt" aria-hidden="true"></i>
+							Relatório
 						</a>
 						<a href="{% url 'patient:duplicate' patient.id %}" class="btn btn-outline-info" title="Duplicar">
-							<i class="fa fa-clone" aria-hidden="true"></i>
+							Duplicar
 						</a>
 						<a href="{% url 'patient:details' patient.id %}" class="btn btn-outline-primary" title="Exibir">
-							<i class="fa fa-eye" aria-hidden="true"></i>
+							Exibir
 						</a>
 
 						<a href="{% url 'patient:edit' patient.id %}" class="btn btn-outline-warning" title="Editar">
-							<i class="fa fa-edit" aria-hidden="true"></i>
+							Editar
 						</a>
 
 						<a href="#modal-id-{{ patient.id }}" class="btn btn-outline-danger" title="Remover" data-toggle="modal">
-							<i class="fa fa-trash-alt" aria-hidden="true"></i>
+							Excluir
 						</a>
 					</td>
 				</tr>

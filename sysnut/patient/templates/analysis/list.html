@@ -31,7 +31,7 @@
 					<tr>
 						<th>Cardapio</th>
 						<th class="text-center">Publicado</th>
-						<th class="text-center" style="width: 205px;">Ações</th>
+						<th class="text-center" style="width: 355px;">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,27 +42,27 @@
 							<a href="{% url 'patient:publish_analysis' analysis.id %}"
             			{% if analysis.published %}
             			 	class="btn btn-outline-success" title="Despublicar">
-							<i class="fa fa-check-square" aria-hidden="true"></i>
+							Sim
 						{% else %}
 							class="btn btn-outline-primary" title="Publicar">
-							<i class="fa fa-square" aria-hidden="true"></i>
+							Não
 						{% endif %}
 							</a>
             			</td>
 						<td>
 							<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
-							<i class="fa fa-clone" aria-hidden="true"></i>
+							Duplicar
 							</a>
 							<a href="{% url 'patient:analysis_details' analysis.id %}" class="btn btn-outline-primary" title="Exibir">
-							<i class="fa fa-eye" aria-hidden="true"></i>
+							Exibir
 							</a>
 
 							<a href="{% url 'patient:analysis_edit' analysis.id %}" class="btn btn-outline-warning" title="Editar">
-							<i class="fa fa-edit" aria-hidden="true"></i>
+							Editar
 							</a>
 
 							<a href="#modal-id-{{ analysis.id }}" class="btn btn-outline-danger" title="Remover" data-toggle="modal">
-							<i class="fa fa-trash-alt" aria-hidden="true"></i>
+							Excluir
 							</a>
 						</td>
 					</tr>
