@@ -9,8 +9,8 @@ from django.contrib.auth import login
 def index(request):
 	return render(request, 'index.html')
 
-def welcome(request):
-	return render(request, 'welcome.html')
+def instructions(request):
+	return render(request, 'instructions.html')
 
 def about(request):
 	return render(request, 'about.html')

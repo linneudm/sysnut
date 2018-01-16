@@ -239,10 +239,12 @@ class PatientList(ListView):
 	def get_queryset(self):
 		self.queryset = super(PatientList, self).get_queryset()
 		if self.request.GET.get('search_box', False):
-			self.queryset = self.queryset.filter(Q(user=self.request.user))
+			if not self.request.user.is_superuser:
+				self.queryset = self.queryset.filter(Q(user=self.request.user))
 			self.queryset = self.queryset.filter(Q(first_name__icontains = self.request.GET['search_box']) | Q(last_name__icontains = self.request.GET['search_box']))
 		else:
-			self.queryset = self.queryset.filter(Q(user=self.request.user))
+			if not self.request.user.is_superuser:
+				self.queryset = self.queryset.filter(Q(user=self.request.user))
 		return self.queryset
 
 	def get_context_data(self, **kwargs):

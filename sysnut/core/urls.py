@@ -4,6 +4,6 @@ from .views import *
 urlpatterns = [
 	# Home
     url(r'^$', index, name='index'),
-    url(r'welcome/$', welcome, name='welcome'),
+    url(r'instructions/$', instructions, name='instructions'),
     url(r'about/$', about, name='about'),
 ]
