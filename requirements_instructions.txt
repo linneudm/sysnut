@@ -2,7 +2,7 @@ dj-database-url==0.4.2
 Django==1.11.6
 django-appconf==1.0.2
 #versao q a traducao ta funcionando
-django-autocomplete-light==3.3.0rc1
+django-autocomplete-light==3.3.0rc4
 #https://github.com/linneudm/django-autocomplete-light/tarball/dj2_rebased#egg=django-autocomplete-light
 django-compressor==2.2
 django-excel==0.0.9
