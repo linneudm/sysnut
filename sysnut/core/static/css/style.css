@@ -145,6 +145,7 @@ body {
 
   tr, th,td{
     border: 2px solid #ddd;
+    padding-bottom: 10px;
   }
 
   .navbar{
