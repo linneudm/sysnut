@@ -117,6 +117,12 @@ body {
 }
 
 @media print {
+  .cardapio-print{
+    border: 2px solid #ddd;
+  }
+  .cardapio-print .row{
+    border-bottom: 2px solid #ddd;
+  }
   .header-print{
     display: inline;
   }
