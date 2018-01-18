@@ -50,6 +50,7 @@
         <div class="col-md-4">
           Medida Caseira
         </div>
+      </div>
         
         <div class="row">
           <div class="col-md-12">
@@ -119,8 +120,8 @@
             Lanche
           </div>
         </div>
-        {% for meal in object.meal_analysis.all %}
         <div class="row">
+        {% for meal in object.meal_analysis.all %}
           {% if meal.meal == "LANCHE II" %}
         <div class="col-md-4">
         {{meal.original_food.description}}
