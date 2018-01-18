@@ -40,129 +40,146 @@
 </div>
 <center>
 <div class="container">
-  <div class="row">
     <table class="mx-auto">
-      <thead>
-        <tr>
-          <th>Refeição</th>
-          <th>Quantidade</th>
-          <th>Medida Caseira</th>
-        </tr>
-      </thead>
-      <thead>
-        <tr>
-          <th>Café</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+      <div class="row">
+        <div class="col-md-4">
+          Refeição
+        </div>
+        <div class="col-md-4">
+          Quantidade
+        </div>
+        <div class="col-md-4">
+          Medida Caseira
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+            Café da manhã
+          </div>
+        </div>
+        <div class="row">
         {% for meal in object.meal_analysis.all %}
-        <tr>
-          {% if meal.meal == "CAFÉ DA MANHÃ" %}
-          <td>{{meal.original_food.description}}</td>
-          <td>{{meal.weight}}</td>
-          <td>{{meal.home_measure}}</td>
-          {% endif %}
-        </tr>
+        
+        {% if meal.meal == "CAFÉ DA MANHÃ" %}
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        {% endif %}
+        </div>
         {% endfor %}
-      </tbody>
-      <thead>
-        <tr>
-          <th>Lanche</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Lanche
+          </div>
+        </div>
+        <div class="row">
         {% for meal in object.meal_analysis.all %}
-        <tr>
           {% if meal.meal == "LANCHE I" %}
-          <td>{{meal.original_food.description}}</td>
-          <td>{{meal.weight}}</td>
-          <td>{{meal.home_measure}}</td>
-          {% endif %}
-        </tr>
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        {% endif %}
+        </div>
         {% endfor %}
-      </tbody>
-      <thead>
-        <tr>
-          <th>Almoço</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Almoço
+          </div>
+        </div>
+        <div class="row">
         {% for meal in object.meal_analysis.all %}
-        <tr>
           {% if meal.meal == "ALMOÇO" %}
-          <td>{{meal.original_food.description}}</td>
-          <td>{{meal.weight}}</td>
-          <td>{{meal.home_measure}}</td>
-          {% endif %}
-        </tr>
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        {% endif %}
+        </div>
         {% endfor %}
-      </tbody>
-      <thead>
-        <tr>
-          <th>Lanche</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Lanche
+          </div>
+        </div>
         {% for meal in object.meal_analysis.all %}
-        <tr>
+        <div class="row">
           {% if meal.meal == "LANCHE II" %}
-          <td>{{meal.original_food.description}}</td>
-          <td>{{meal.weight}}</td>
-          <td>{{meal.home_measure}}</td>
-          {% endif %}
-        </tr>
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        {% endif %}
+        </div>
         {% endfor %}
-      </tbody>
-      <thead>
-        <tr>
-          <th>Jantar</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Jantar
+          </div>
+        </div>
+        <div class="row">
         {% for meal in object.meal_analysis.all %}
-        <tr>
-          {% if meal.meal == "JANTAR" %}
-          <td>{{meal.original_food.description}}</td>
-          <td>{{meal.weight}}</td>
-          <td>{{meal.home_measure}}</td>
-          {% endif %}
-        </tr>
+        {% if meal.meal == "JANTAR" %}
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        {% endif %}
+        </div>
         {% endfor %}
-      </tbody>
-      <thead>
-        <tr>
-          <th>Ceia</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            Ceia
+          </div>
+        </div>
+        <div class="row">
         {% for meal in object.meal_analysis.all %}
-        <tr>
           {% if meal.meal == "CEIA" %}
-          <td>{{meal.original_food.description}}</td>
-          <td>{{meal.weight}}</td>
-          <td>{{meal.home_measure}}</td>
-          {% endif %}
-        </tr>
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        {% endif %}
+        </div>
         {% endfor %}
-        <tr>
-            <td class="text-uppercase"><b>Total</b></th>
-            
-            <td colspan="2" class="text-uppercase"><b>{{object.meal_analysis.count}} alimentos cadastrados.</b></td>
-        </tr>
-      </tbody>
-    </table>
+        </div>
+        <div class="row">
+          <span class="col-md-6 text-uppercase"><b>Total</b></span>
+          <span class="col-md-6 text-uppercase"><b>{{object.meal_analysis.count}} alimentos cadastrados.</b></span>
+        </div>
+        
   </div>
 </div>
 </center>
