@@ -147,6 +147,11 @@ body {
   td    { page-break-inside:avoid; page-break-after:auto }
   thead { display:table-header-group }
   tfoot { display:table-footer-group }
+  th, td {
+      margin-top:-8px;
+      padding-top:8px;
+      page-break-inside:avoid;
+  }
   tr, th,td{
   border: 2px solid #ddd;
   }
