@@ -38,7 +38,6 @@
     </div>
   </div>
 </div>
-<center>
 <div class="container cardapio-print">
       <div class="row">
         <div class="col-md-4">
@@ -54,7 +53,7 @@
         
         <div class="row">
           <div class="col-md-12">
-            <span class="text-left"><b>Café da manhã</b></span>
+            <span class=""><b>Café da manhã</b></span>
           </div>
         </div>
         <div class="row">
@@ -75,9 +74,29 @@
         {% endif %}
         {% endfor %}
         </div>
+
+       <div class="row">
+        {% for meal in object.meal_analysis.all %}
+        
+        {% if meal.meal == "CAFÉ DA MANHÃ" %}
+        <div class="col-md-4">
+        {{meal.original_food.description}}
+        </div>
+
+        <div class="col-md-4">
+          {{meal.weight}}
+        </div>
+
+        <div class="col-md-4">
+        {{meal.home_measure}}
+        </div>
+        {% endif %}
+        {% endfor %}
+        </div>
+        
         <div class="row">
           <div class="col-md-12">
-            <span class="text-left"><b>Lanche</b></span>
+            <span class=""><b>Lanche</b></span>
           </div>
         </div>
         <div class="row">
@@ -97,7 +116,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <span class="text-left"><b>Almoço</b></span>
+            <span class=""><b>Almoço</b></span>
           </div>
         </div>
         <div class="row">
@@ -117,7 +136,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <span class="text-left"><b>Lanche</b></span>
+            <span class=""><b>Lanche</b></span>
           </div>
         </div>
         <div class="row">
@@ -137,7 +156,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <span class="text-left"><b>Jantar</b></span>
+            <span class=""><b>Jantar</b></span>
           </div>
         </div>
         <div class="row">
@@ -157,7 +176,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <span class="text-left"><b>Ceia</b></span>
+            <span class=""><b>Ceia</b></span>
           </div>
         </div>
         <div class="row">
@@ -180,5 +199,4 @@
           <span class="col-md-6 text-uppercase"><b>{{object.meal_analysis.count}} alimentos cadastrados.</b></span>
         </div>
 </div>
-</center>
 {% endblock %}
