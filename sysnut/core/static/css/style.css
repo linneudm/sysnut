@@ -142,16 +142,13 @@ body {
   .print-data thead > tr > th{
     font-size: 7pt;
   }
-  table { page-break-after:always } 
-  tr    { page-break-inside:avoid; page-break-after:auto }
-  td    { page-break-inside:avoid; page-break-after:auto }
-  thead { display:table-header-group }
-  tfoot { display:table-footer-group }
-  th, td {
-      margin-top:-8px;
-      padding-top:8px;
-      page-break-inside:avoid;
-  }
+
+  table { page-break-after:auto }
+  table tr    { page-break-inside:avoid; page-break-after:auto }
+  table td    { page-break-inside:avoid; page-break-after:auto }
+  table thead { display:table-header-group }
+  table tfoot { display:table-footer-group }
+ }
   tr, th,td{
   border: 2px solid #ddd;
   }
