@@ -123,6 +123,9 @@ body {
   .cardapio-print .row{
     border-bottom: 2px solid #ddd;
   }
+  .text-left{
+    float: left !important;
+  }
   .header-print{
     display: inline;
   }
