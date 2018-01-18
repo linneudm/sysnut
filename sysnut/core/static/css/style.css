@@ -143,15 +143,16 @@ body {
     font-size: 7pt;
   }
 
-  table { page-break-after:auto }
-  table tr    { page-break-inside:avoid; page-break-after:auto }
-  table td    { page-break-inside:avoid; page-break-after:auto }
-  table thead { display:table-header-group }
-  table tfoot { display:table-footer-group }
- }
   tr, th,td{
-  border: 2px solid #ddd;
+    border: 2px solid #ddd;
   }
+
+  table,
+  table tr td,
+  table tr th {
+    page-break-inside: avoid;
+  }
+  
   .navbar{
     display: none;
   }
