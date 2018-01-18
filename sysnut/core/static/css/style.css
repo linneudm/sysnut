@@ -117,14 +117,15 @@ body {
 }
 
 @media print {
+  .print-page{
+    padding-top: 2cm;
+    padding-bottom: 2cm;
+  }
   .cardapio-print{
     border: 2px solid #ddd;
-    margin-top: 5cm;
-    margin-bottom: 5cm;
   }
   .cardapio-print .row{
     border-bottom: 2px solid #ddd;
-    border-right: 2px solid #ddd;
   }
   .header-print{
     display: inline;
