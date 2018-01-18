@@ -191,20 +191,20 @@ class Vitamin(models.Model):
 	def __str__(self):
 		return self.description
 
-class Supplement(models.Model):
-	description = models.CharField('Descrição', max_length=255, blank=True, null=True)
+#class Supplement(models.Model):
+#	description = models.CharField('Descrição', max_length=255, blank=True, null=True)
 
-	def __str__(self):
-		return self.description
+#	def __str__(self):
+#		return self.description
 
 class Consultation(models.Model):
 	patient = models.ForeignKey(Patient, verbose_name='Paciente', related_name='patient_consultation', on_delete=models.CASCADE)
 	weight = models.DecimalField('Peso (kg)', default=0.00, decimal_places=2, max_digits=8)
-	height = models.DecimalField('Altura (cm)', default=0.00, decimal_places=2, max_digits=8)
+	height = models.DecimalField('Altura (Metros)', default=0.00, decimal_places=2, max_digits=8)
 	objective = models.CharField('Objetivo',max_length=255)
 	date = models.DateField('Data da consulta')
 	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology', blank=True)
-	supplement = models.ManyToManyField(Supplement, verbose_name='Suplemento', related_name='consultation_supplement', blank=True)
+	#supplement = models.ManyToManyField(Supplement, verbose_name='Suplemento', related_name='consultation_supplement', blank=True)
 	vitamin = models.ManyToManyField(Vitamin, verbose_name='Deficiência Vitamínica', related_name='consultation_vitamin', blank=True)
 	family_history = models.CharField('Histórico Familiar',max_length=255)
 	drugs = models.CharField('Fármacos',max_length=255, blank=True, null=True)
@@ -221,41 +221,45 @@ class Consultation(models.Model):
 
 	def imc(self):
 		w = float(self.weight)
-		h = float(self.height) / 100
+		h = float(self.height)
 		result = "Nada cadastrado."
 		tag="secondary"
 
 		if w != 0 and h != 0:
 			imc = w / (h * h)
 			ideal = (h * h) * 24
-
-		if imc >= 16.0 and imc <= 16.9:
-			result = "Muito abaixo do peso."
-			tag = "danger"
-		elif imc <= 18.4:
-			result = "Abaixo do peso."
-			tag = "warning"
-		elif imc <= 24.9:
-			result = "Peso normal."
-			tag = "success"
-		elif imc <= 29.9:
-			result = "Acima do peso."
-			tag = "warning"
-		elif imc <= 34.9:
-			result = "Obesidade Grau I."
-			tag = "danger"
-		elif imc <= 40.0:
-			result = "Obesidade Grau II."
-			tag = "danger"
-		elif imc > 40:
-			result = "Obesidade Grau III."
-			tag = "danger"
-		imc = {
-			'val': imc,
+			if imc >= 16.0 and imc <= 16.9:
+				result = "Muito abaixo do peso."
+				tag = "danger"
+			elif imc <= 18.4:
+				result = "Abaixo do peso."
+				tag = "warning"
+			elif imc <= 24.9:
+				result = "Peso normal."
+				tag = "success"
+			elif imc <= 29.9:
+				result = "Acima do peso."
+				tag = "warning"
+			elif imc <= 34.9:
+				result = "Obesidade Grau I."
+				tag = "danger"
+			elif imc <= 40.0:
+				result = "Obesidade Grau II."
+				tag = "danger"
+			elif imc > 40:
+				result = "Obesidade Grau III."
+				tag = "danger"
+			imc = {
+				'val': imc,
+				'result': result,
+				'tag': tag,
+				'ideal': ideal
+			}
+		else:
+			imc = {
+			'val': 0,
 			'result': result,
-			'tag': tag,
-			'ideal': ideal
-		}
+			}
 		return imc
 
 	def mbr(self):

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import permission_required
 urlpatterns = [
     # Autocomplete
     url(r'^vitamin-autocomplete/$', VitaminAutocomplete.as_view(create_field='description'), name='vitamin_autocomplete'),
-    url(r'^supplement-autocomplete/$', SupplementAutocomplete.as_view(create_field='description'), name='supplement_autocomplete'),
+    #url(r'^supplement-autocomplete/$', SupplementAutocomplete.as_view(create_field='description'), name='supplement_autocomplete'),
     url(r'^patology-autocomplete/$', PatologyAutocomplete.as_view(create_field='description'), name='patology_autocomplete'),
     url(r'^biochemical-autocomplete/$', BiochemicalAutocomplete.as_view(create_field='description'), name='biochemical_autocomplete'),
     # Patient
@@ -40,6 +40,6 @@ urlpatterns = [
     url(r'^analysis/details/(?P<pk>[0-9]+)/$',FoodAnalysisDetail.as_view(), name='analysis_details'),
     url(r'^analysis/print/(?P<pk>[0-9]+)/$',FoodAnalysisPrint.as_view(), name='analysis_print'),
     url(r'^analysis/delete/(?P<pk>[0-9]+)/$',permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisDelete.as_view()), name='analysis_delete'),
-    url(r'^analysis/delete-meal/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(meal_delete), name='meal_delete')
+    url(r'^analysis/delete-meal/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(meal_delete), name='meal_delete'),
 
-    ]
+]

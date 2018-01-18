@@ -179,17 +179,6 @@ def import_sheet(request):
         #return reverse('food:list')
 
 # Food CRUD
-class FoodAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        # Don't forget to filter out results depending on the visitor !
-
-        qs = Food.objects.all()
-
-        # Pesquisa pela Descrição
-        if self.q:
-            qs = qs.filter(Q(description__icontains=self.q))
-
-        return qs
 
 
 @method_decorator(login_required, name='dispatch')

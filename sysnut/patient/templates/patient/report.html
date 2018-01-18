@@ -38,9 +38,9 @@
       <ul class="nav nav-tabs" role="tablist">
         {% for cons in consultation %}
         {% if forloop.first %}
-        <li class="nav-item"><a class="nav-link active" href="#tab-{{cons.objective}}" aria-controls="tab-{{cons.objective}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#tab-{{cons.id}}" aria-controls="tab-{{cons.id}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
         {% else %}
-        <li class="nav-item"><a class="nav-link" href="#tab-{{cons.objective}}" aria-controls="tab-{{cons.objective}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab-{{cons.id}}" aria-controls="tab-{{cons.id}}" role="tab" data-toggle="tab">{{cons.date|date:"d/m/Y"}}</a></li>
         {% endif %}
         {% endfor %}
       </ul>
@@ -49,7 +49,7 @@
       <div class="tab-content">
         {% for cons in consultation %}
         {% if forloop.first %}
-        <div role="tabpanel" class="tab-pane fade show active" id="tab-{{cons.objective}}">
+        <div role="tabpanel" class="tab-pane fade show active" id="tab-{{cons.id}}">
           <div class="card">
             <div class="card-body">
               <p class="card-text">
@@ -64,12 +64,78 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Massa corporal</td>
-                          <td>{{cons.skinfold.body_mass}}</td>
+                          <td>Dobra Tricipital</td>
+                          <td>{{cons.skinfold.tricipital_fold}}</td>
                         </tr>
                         <tr>
-                          <td>Dobra tricipital</td>
-                          <td>{{cons.skinfold.tricipital_fold}}</td>
+                          <td>Dobra Subescapular</td>
+                          <td>{{cons.skinfold.subscapular_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Torácica</td>
+                          <td>{{cons.skinfold.chest_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Bicipital</td>
+                          <td>{{cons.skinfold.bicipital_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Axilar Média</td>
+                          <td>{{cons.skinfold.mean_axillary_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Suprailíaca</td>
+                          <td>{{cons.skinfold.suprailiathic_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Abdominal</td>
+                          <td>{{cons.skinfold.abdominal_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra da Coxa</td>
+                          <td>{{cons.skinfold.thigh_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra da Panturrilha</td>
+                          <td>{{cons.skinfold.calf_fold}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Bioimpedância</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Percentual de Gordura</td>
+                          <td>{{cons.bioimpedance.fat_percentage}}</td>
+                        </tr>
+                        <tr>
+                          <td>Peso ósseo</td>
+                          <td>{{cons.bioimpedance.bone_weight}}</td>
+                        </tr>
+                        <tr>
+                          <td>Idade metabólica</td>
+                          <td>{{cons.bioimpedance.metabolic_age}}</td>
+                        </tr>
+                        <tr>
+                          <td>Massa magra</td>
+                          <td>{{cons.bioimpedance.lean_mass}}</td>
+                        </tr>
+                        <tr>
+                          <td>Massa livre de gordura</td>
+                          <td>{{cons.bioimpedance.fat_free_mass}}</td>
+                        </tr>
+                        <tr>
+                          <td>Água corporal total</td>
+                          <td>{{cons.bioimpedance.total_body_water}}</td>
+                        </tr>
+                        <tr>
+                          <td>Gordura Visceral</td>
+                          <td>{{cons.bioimpedance.visceral_fat}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -80,7 +146,7 @@
                     <div class="row">
                       <div class="col-lg-6">
                         <p>Peso: {{cons.weight}} kg</p>
-                        <p>Altura: {{cons.height}} cm</p>
+                        <p>Altura: {{cons.height}} metros</p>
                         <p>Altura do joelho: {{cons.energycalc.knee_height}}</p>
                         <p>Massa livre: {{cons.bioimpedance.lean_mass}}</p>
                         <p>Fórmula: {{cons.energycalc.formula}}</p>
@@ -157,24 +223,45 @@
                         </tr>
                       </tbody>
                     </table>
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Diâmetro Ósseo</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Diâmetro do Úmero</td>
+                          <td>{{cons.bonediameter.humeros_diameter}}</td>
+                        </tr>
+                        <tr>
+                          <td>Diâmetro do Pulso</td>
+                          <td>{{cons.bonediameter.wrist_diameter}}</td>
+                        </tr>
+                        <tr>
+                          <td>Diâmetro do Fêmur</td>
+                          <td>{{cons.bonediameter.femoral_diameter}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
 
                 </div>
-                <label class="control-label">Cardápios</label>
                 <hr>
-                <div class="btn-group">
+                <label class="control-label">Cardápios</label>
+                <br>
                   {% for analysis in cons.analysis_consultation.all %}
                     {% if analysis.published %}
-                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-utensils"></i>{{analysis.description}}</a>
+                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-utensils fa-fw"></i>{{analysis.description}}</a>
                     {% endif %}
                   {% endfor %}
-                </div>
               </div>
             </div>
           </div>
           {% else %}
-          <div role="tabpanel" class="tab-pane fade" id="tab-{{cons.objective}}">
-           <div class="card">
+         <div role="tabpanel" class="tab-pane fade show active" id="tab-{{cons.id}}">
+          <div class="card">
             <div class="card-body">
               <p class="card-text">
                 <div class="row">
@@ -188,33 +275,102 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Massa corporal</td>
-                          <td>{{cons.skinfold.body_mass}}</td>
-                        </tr>
-                        <tr>
-                          <td>Altura sentado</td>
-                          <td>{{cons.skinfold.seated_height}}</td>
-                        </tr>
-                        <tr>
-                          <td>Dobra tricipital</td>
+                          <td>Dobra Tricipital</td>
                           <td>{{cons.skinfold.tricipital_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Subescapular</td>
+                          <td>{{cons.skinfold.subscapular_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Torácica</td>
+                          <td>{{cons.skinfold.chest_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Bicipital</td>
+                          <td>{{cons.skinfold.bicipital_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Axilar Média</td>
+                          <td>{{cons.skinfold.mean_axillary_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Suprailíaca</td>
+                          <td>{{cons.skinfold.suprailiathic_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra Abdominal</td>
+                          <td>{{cons.skinfold.abdominal_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra da Coxa</td>
+                          <td>{{cons.skinfold.thigh_fold}}</td>
+                        </tr>
+                        <tr>
+                          <td>Dobra da Panturrilha</td>
+                          <td>{{cons.skinfold.calf_fold}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Bioimpedância</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Percentual de Gordura</td>
+                          <td>{{cons.bioimpedance.fat_percentage}}</td>
+                        </tr>
+                        <tr>
+                          <td>Peso ósseo</td>
+                          <td>{{cons.bioimpedance.bone_weight}}</td>
+                        </tr>
+                        <tr>
+                          <td>Idade metabólica</td>
+                          <td>{{cons.bioimpedance.metabolic_age}}</td>
+                        </tr>
+                        <tr>
+                          <td>Massa magra</td>
+                          <td>{{cons.bioimpedance.lean_mass}}</td>
+                        </tr>
+                        <tr>
+                          <td>Massa livre de gordura</td>
+                          <td>{{cons.bioimpedance.fat_free_mass}}</td>
+                        </tr>
+                        <tr>
+                          <td>Água corporal total</td>
+                          <td>{{cons.bioimpedance.total_body_water}}</td>
+                        </tr>
+                        <tr>
+                          <td>Gordura Visceral</td>
+                          <td>{{cons.bioimpedance.visceral_fat}}</td>
                         </tr>
                       </tbody>
                     </table>
                     <h4>Cálculos Energéticos</h4>
-                    <p>Título do cálculo: {{cons.energycalc.calc_title}}</p>
+                    {% if cons.energycalc.calc_title %}
+                    <p>{{cons.energycalc.calc_title}}</p>
+                    {% endif %}
                     <div class="row">
                       <div class="col-lg-6">
-                        <p>Peso: {{cons.energycalc.weight}}</p>
-                        <p>Altura: {{cons.energycalc.height}}</p>
-                        <p>Massa livre: {{cons.energycalc.lean_mass}}</p>
+                        <p>Peso: {{cons.weight}} kg</p>
+                        <p>Altura: {{cons.height}} metros</p>
+                        <p>Altura do joelho: {{cons.energycalc.knee_height}}</p>
+                        <p>Massa livre: {{cons.bioimpedance.lean_mass}}</p>
                         <p>Fórmula: {{cons.energycalc.formula}}</p>
-                        <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
+                        
                       </div>
                       <div class="col-lg-6">
+                        <p>
+                          IMC: {{cons.imc.val|floatformat:"2"}}
+                          <span class="badge badge-{{cons.imc.tag}}">{{cons.imc.result}}</span>
+                          <p>Peso ideal: {{cons.imc.ideal|floatformat:"2"}} kg</p>
+                        </p> 
+                        <p>Fator de Atividade: {{cons.energycalc.activity_factor}}</p>
                         <p>Taxa Metabólica Basal: {{cons.energycalc.mbr}}</p>
-                        <p>Método MET: {{cons.energycalc.met_method}}</p>
-                        <p>Programa de Peso: {{cons.energycalc.weight_program}}</p>
                         <p>Gasto Energético Total: {{cons.energycalc.tee}}</p>
                       </div>
                     </div>
@@ -278,17 +434,39 @@
                         </tr>
                       </tbody>
                     </table>
+                    <table class="table table-hover table-responsive-lg">
+                      <thead>
+                        <tr>
+                          <th>Diâmetro Ósseo</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Diâmetro do Úmero</td>
+                          <td>{{cons.bonediameter.humeros_diameter}}</td>
+                        </tr>
+                        <tr>
+                          <td>Diâmetro do Pulso</td>
+                          <td>{{cons.bonediameter.wrist_diameter}}</td>
+                        </tr>
+                        <tr>
+                          <td>Diâmetro do Fêmur</td>
+                          <td>{{cons.bonediameter.femoral_diameter}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
+
                 </div>
-                <label class="control-label">Cardápios</label>
                 <hr>
-                <div class="btn-group">
+                <label class="control-label">Cardápios</label>
+                <br>
                   {% for analysis in cons.analysis_consultation.all %}
                     {% if analysis.published %}
-                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-utensils"></i>{{analysis.description}}</a>
+                      <a class="btn btn-success" href="{% url 'patient:analysis_details' analysis.id %}"> <i class="fa fa-utensils fa-fw"></i>{{analysis.description}}</a>
                     {% endif %}
                   {% endfor %}
-                </div>
               </div>
             </div>
           </div>

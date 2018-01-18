@@ -31,21 +31,21 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th>Nome</th>
-					<th>Idade</th>
-					<th>Sexo</th>
-					<th class="d-none d-md-block text-center">Ações</th>
-					<th class="d-md-none text-center">Ações</th>
+					<th width="40%">Nome</th>
+					<th width="10%">Idade</th>
+					<th width="5%">Sexo</th>
+					<th class="d-none d-md-block text-center" width="100%">Ações</th>
+					<th class="d-md-none text-center" width="100%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for patient in object_list %}
 				
 				<tr>
-					<td>{{ patient.first_name|slice:":100" }} {{ patient.last_name|slice:":100" }}</td>
-					<td>{{ patient.age}}</td>
-					<td>{{ patient.sex }}</td>
-					<td class="d-none d-md-block text-center">
+					<td width="40%">{{ patient.first_name|slice:":100" }} {{ patient.last_name|slice:":100" }}</td>
+					<td width="10%">{{ patient.age}}</td>
+					<td width="5%">{{ patient.sex }}</td>
+					<td class="d-none d-md-block text-center" width="100%">
 						<a href="{% url 'patient:consultation_list' patient.id %}" class="btn btn-outline-dark" title="Consultas">
 							Consultas
 						</a>
@@ -67,7 +67,7 @@
 							Excluir
 						</a>
 					</td>
-					<td class="d-md-none">
+					<td class="d-md-none" width="100%">
 						<div class="dropdown">
 							<a href="#" class="nav-link dropdown-toggle btn btn-info" data-toggle="dropdown">
 								Ações

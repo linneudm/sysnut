@@ -28,17 +28,17 @@
 		{% if object_list.count > 0 %}
 		<table class="table table-hover">
 			<thead>
-				<tr>
-					<th>Cardapio</th>
-					<th class="text-center">Publicado</th>
-					<th class="d-none d-md-block text-center">Ações</th>
-					<th class="d-md-none text-center">Ações</th>
+				<tr width="100%">
+					<th class="text-center" width="30%">Cardapio</th>
+					<th class="text-center" width="10%">Publicado</th>
+					<th class="d-none d-md-block text-center" width="100%">Ações</th>
+					<th class="d-md-none text-center" width="100%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for analysis in object_list %}
-				<tr>
-					<td>{{ analysis.description }}</td>
+				<tr width="100%">
+					<td width="30%">{{ analysis.description }}</td>
 					<td class="text-center" width="10%">
 						<a href="{% url 'patient:publish_analysis' analysis.id %}"
 						{% if analysis.published %}
@@ -50,7 +50,7 @@
 						{% endif %}
 					</a>
 				</td>
-				<td class="d-none d-md-block text-center">
+				<td class="d-none d-md-block text-center" width="100%">
 					<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
 						Duplicar
 					</a>
@@ -68,7 +68,7 @@
 						Excluir
 					</a>
 				</td>
-				<td class="d-md-none text-center">
+				<td class="d-md-none text-center" width="100%">
 					<div class="dropdown">
 						<a href="#" class="nav-link dropdown-toggle btn btn-info" data-toggle="dropdown">
 							Ações

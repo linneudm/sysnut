@@ -67,7 +67,7 @@ class ConsultationForm(ModelForm):
 		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold', 'bioimpedance', 'bonediameter', 'biochemical']
 		widgets = {
     		'patology': autocomplete.ModelSelect2Multiple(url='patient:patology_autocomplete'),
-    		'supplement': autocomplete.ModelSelect2Multiple(url='patient:supplement_autocomplete'),
+    		#'supplement': autocomplete.ModelSelect2Multiple(url='patient:supplement_autocomplete'),
     		'vitamin': autocomplete.ModelSelect2Multiple(url='patient:vitamin_autocomplete')
 		}
 ExamFormSet = forms.inlineformset_factory(Consultation, Exam, fields=('description','path'),extra=1)
@@ -98,5 +98,5 @@ class MealForm(ModelForm):
 		model = Meal
 		fields = ['meal', 'weight', 'home_measure', 'original_food']
 		widgets = {
-    		'original_food': autocomplete.ModelSelect2(url='patient:food_autocomplete')
+    		'original_food': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
 		}

@@ -53,17 +53,17 @@ class VitaminAutocomplete(autocomplete.Select2QuerySetView):
 		return qs
 
 
-class SupplementAutocomplete(autocomplete.Select2QuerySetView):
-	def get_queryset(self):
+#class SupplementAutocomplete(autocomplete.Select2QuerySetView):
+#	def get_queryset(self):
 		# Don't forget to filter out results depending on the visitor !
 
-		qs = Supplement.objects.all()
+#		qs = Supplement.objects.all()
 
 		# Pesquisa pela Descrição
-		if self.q:
-			qs = qs.filter(Q(description__icontains=self.q))
+#		if self.q:
+#			qs = qs.filter(Q(description__icontains=self.q))
 
-		return qs
+#		return qs
 
 class PatologyAutocomplete(autocomplete.Select2QuerySetView):
 	def get_queryset(self):
@@ -381,8 +381,8 @@ class ConsultationCreate(CreateView):
 		for item in form.cleaned_data['patology']:
 			#print(item)
 			self.object.patology.add(item)
-		for item in form.cleaned_data['supplement']:
-			self.object.supplement.add(item)
+		#for item in form.cleaned_data['supplement']:
+		#	self.object.supplement.add(item)
 		for item in form.cleaned_data['vitamin']:
 			self.object.vitamin.add(item)
 		self.exam_formset.instance = self.object
@@ -549,12 +549,12 @@ class ConsultationUpdate(UpdateView):
 		if (self.object.biochemical.exam is not None):
 			self.object.biochemical.save()
 		self.object.patology = {}
-		self.object.supplement = {}
+		#self.object.supplement = {}
 		self.object.vitamin = {}
 		for item in form.cleaned_data['patology']:
 			self.object.patology.add(item)
-		for item in form.cleaned_data['supplement']:
-			self.object.supplement.add(item)
+		#for item in form.cleaned_data['supplement']:
+		#	self.object.supplement.add(item)
 		for item in form.cleaned_data['vitamin']:
 			self.object.vitamin.add(item)
 		self.exam_formset.instance = self.object
@@ -718,7 +718,7 @@ class FoodAnalysisCreate(CreateView):
 		return self.render_to_response(
 			self.get_context_data(
 				form=form,
-				meal_form=meal_form
+				meal_form=meal_form,
 			)
 		)
 
@@ -743,7 +743,7 @@ class FoodAnalysisCreate(CreateView):
 #			analysis.guidanceaux.add(item)
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
-		if self.object.home_measure is not None and self.object.original_food is not None:
+		if self.object.original_food is not None:
 			self.object.save()
 			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
@@ -752,7 +752,7 @@ class FoodAnalysisCreate(CreateView):
 		return self.render_to_response(
 			self.get_context_data(
 					form=form,
-                    meal_form=meal_form
+                    meal_form=meal_form,
 			)
 		)
 
@@ -822,7 +822,7 @@ class FoodAnalysisUpdate(UpdateView):
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
 		messages.add_message(self.request, messages.SUCCESS, 'Dados alterados com sucesso!')
-		if self.object.home_measure is not None and self.object.original_food is not None:
+		if self.object.original_food is not None:
 			self.object.save()
 			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
