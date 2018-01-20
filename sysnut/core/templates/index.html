@@ -25,9 +25,13 @@
       </div>
       <div class="list-itens">
         <div class="post">
-          <b><i class="fa fa-thumbs-up fa-fw sysnut"></i>Solicite seu cadastro.</b>
+          <b><i class="fa fa-thumbs-up fa-fw sysnut"></i>Cadastro Livre!</b>
           <p></p>
-          É simples! :D Contate um dos <b><a href="{% url 'core:about' %}">responsáveis pelo sistema</a></b> e solicite seu próprio login.
+          É simples! :D É só informar seus dados no <b><a href="{% url 'nutritionist:create' %}">formulário de cadastro</a></b> e clicar em salvar. Após isso, basta entrar no sistema com seu login e senha e usar livremente.
+          <p></p>
+          <center>
+            <a class="btn btn-primary" href="{% url 'nutritionist:create' %}">Formulário de Cadastro</a>
+          </center>
         </div>
       </div>
     </div>

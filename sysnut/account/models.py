@@ -76,11 +76,5 @@ class Nutritionist(User, AuditModel):
 	phone = models.CharField('Telefone', max_length=16)
 	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='employees_address', on_delete=models.CASCADE, null=True)
 
-	class Meta:
-		permissions = (
-			("can_create_nut", "Can create NutritionistN"),
-		)
-
-
 	def __str__(self):
 		return self.first_name

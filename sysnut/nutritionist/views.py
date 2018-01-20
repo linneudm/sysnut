@@ -112,7 +112,7 @@ class NutritionistCreate(CreateView):
 		)
 
 	def get_success_url(self):
-		return reverse('nutritionist:list')
+		return reverse('account:login')
 
 @method_decorator(login_required, name='dispatch')
 class NutritionistUpdate(UpdateView):
@@ -181,7 +181,7 @@ class NutritionistUpdate(UpdateView):
 		)
 
 	def get_success_url(self):
-		return reverse('nutritionist:list')
+		return reverse('account:login')
 
 @method_decorator(login_required, name='dispatch')
 class NutritionistList(ListView):
