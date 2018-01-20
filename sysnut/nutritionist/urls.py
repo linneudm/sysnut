@@ -14,11 +14,11 @@ urlpatterns = [
 
     #Guidance
     url(r'^guidance-autocomplete/$', GuidanceAutocomplete.as_view(), name='guidance_autocomplete'),
-    url(r'^guidace/add/$', permission_required('nutritionist:guidance_create', raise_exception=True)(GuidanceCreate.as_view()), name='guidance_create'),
-    url(r'^guidance/edit/(?P<pk>[0-9]+)/$', permission_required('nutritionist:guidance_edit', raise_exception=True)(GuidanceUpdate.as_view()), name='guidance_edit'),
-	url(r'^guidance/list/$', permission_required('nutritionist:guidance_list', raise_exception=True)(GuidanceList.as_view()), name='guidance_list'),
-    url(r'^guidance/details/(?P<pk>[0-9]+)/$', permission_required('nutritionist:guidance_details', raise_exception=True)(GuidanceDetail.as_view()), name='guidance_details'),
-    url(r'^guidance/delete/(?P<pk>[0-9]+)/$', permission_required('nutritionist:guidance_delete', raise_exception=True)(GuidanceDelete.as_view()), name='guidance_delete'),
+    url(r'^guidace/add/$', permission_required('patient.add_patient', raise_exception=True)(GuidanceCreate.as_view()), name='guidance_create'),
+    url(r'^guidance/edit/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(GuidanceUpdate.as_view()), name='guidance_edit'),
+	url(r'^guidance/list/$', permission_required('patient.add_patient', raise_exception=True)(GuidanceList.as_view()), name='guidance_list'),
+    url(r'^guidance/details/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(GuidanceDetail.as_view()), name='guidance_details'),
+    url(r'^guidance/delete/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(GuidanceDelete.as_view()), name='guidance_delete'),
 
 
 ]
