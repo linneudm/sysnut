@@ -145,4 +145,13 @@
     </table>
   </div>
 </div>
+<div class="container">
+
+  <p>Orientações</p>
+  {% for guidance in object.guidance.all %}
+  <p>Descrição: {{guidance.description}}</p>
+  <p>{{guidance.message}}</p>
+  <p></p>
+  {% endfor %}
+</div>
 {% endblock %}

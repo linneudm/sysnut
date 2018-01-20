@@ -4,10 +4,10 @@
 <style type="text/css" media="print">
 @page { 
   size: portrait;
-    size: auto;   /* auto is the initial value */ 
+  size: auto;   /* auto is the initial value */ 
 
-    /* this affects the margin in the printer settings */ 
-    margin: 25mm 25mm 25mm 25mm;  
+  /* this affects the margin in the printer settings */ 
+  margin: 25mm 25mm 25mm 25mm;  
 
 }
 </style>
@@ -204,5 +204,17 @@
       <span class="col-md-6 text-uppercase"><b>{{object.meal_analysis.count}} alimentos cadastrados.</b></span>
     </div>
   </div>
+  <div class="container">
+    <div class="row">
+      <span class="col-md-6 text-uppercase"><b>Orientação</b></span>
+      <span class="col-md-6 text-uppercase"><b>Mensagem</b></span>
+    </div>
+    {% for guidance in object.guidance.all %}
+    <div class="row">
+      <span class="col-md-6">{{guidance.description}}</span>
+      <span class="col-md-6">{{guidance.message}}</span>
+    </div>
+    {% endfor %}
+  </div> 
 </div>
 {% endblock %}

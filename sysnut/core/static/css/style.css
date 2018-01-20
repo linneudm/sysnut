@@ -118,7 +118,7 @@ body {
 
 @media print {
   .print-page{
-    padding-top: 2cm;
+    padding-top: 0.5cm;
     padding-bottom: 2cm;
   }
   .cardapio-print{
@@ -127,6 +127,7 @@ body {
   .cardapio-print .row{
     border-bottom: 2px solid #ddd;
   }
+
   .header-print{
     display: inline;
   }
