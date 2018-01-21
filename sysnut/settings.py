@@ -87,7 +87,7 @@ STATICFILES_FINDERS = [
 ]
 
 SASS_PRECISION = 8
-SASS_OUTPUT_STYPE = 'compact'
+SASS_OUTPUT_STYLE = 'compact'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
