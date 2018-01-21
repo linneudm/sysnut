@@ -81,25 +81,6 @@
     </div>
 
     <div class="row">
-      {% for meal in object.meal_analysis.all %}
-
-      {% if meal.meal == "CAFÉ DA MANHÃ" %}
-      <div class="col-4">
-        {{meal.original_food.description}}
-      </div>
-
-      <div class="col-4">
-        {{meal.weight}}
-      </div>
-
-      <div class="col-4">
-        {{meal.home_measure}}
-      </div>
-      {% endif %}
-      {% endfor %}
-    </div>
-
-    <div class="row">
       <div class="col-12">
         <span class=""><b>Lanche</b></span>
       </div>
