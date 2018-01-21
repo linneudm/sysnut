@@ -119,7 +119,7 @@ body {
 @media print {
   .print-page{
     padding-top: 0.5cm;
-    padding-bottom: 2cm;
+    padding-bottom: 1cm;
   }
   .cardapio-print{
     border: 2px solid #ddd;
