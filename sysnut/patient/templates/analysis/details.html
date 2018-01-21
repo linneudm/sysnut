@@ -9,7 +9,7 @@
     </div>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="btn btn-outline-info float-right" href="javascript:window.history.go(-1)">
+        <a href="{% url 'patient:analysis_print' object.id %}" class="btn btn-outline-secondary" title="Imprimir">
           Imprimir
         </a>
       </li>
