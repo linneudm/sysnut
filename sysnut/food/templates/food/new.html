@@ -51,6 +51,45 @@
 						</button>
 					</div>
 				</div>
+              <h4>Anexos</h4>
+              {% for formset_error in measure_formset.non_form_errors %}
+              <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{formset_error}}
+              </div>
+              {% endfor %}
+              {% for dict in measure_formset.errors %}
+              {% for formset_error in dict.values %}
+              <div class="alert alert-error">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{formset_error}}
+              </div>
+              {% endfor %}
+              {% endfor %}
+              <div class="table-responsive">
+                <table class="table table-striped" id="items_table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Arquivo</th>
+                      <th>Descrição</th>
+                      <th>Opções</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for form_item in measure_formset.forms %}
+                    <tr id="{{ form_item.prefix }}-row">
+                      {{form_item.id}}
+                      <td>{% if form_item.instance.id %} {{form_item.instance.id}}{{form_item.DELETE}} {%endif%}</td>
+                      <td>{% if form_item.weight.errors %}{{form_item.weight.errors}}{{form_item.weight|add_class:"form-control has-error has-feedback"}}{%else%}{{form_item.weight|add_class:"form-control"}}{%endif%}</td>
+                      <td>{% if form_item.measure_unity.errors %}{{form_item.measure_unity.errors}}{{form_item.measure_unity|add_class:"form-control  has-error has-feedback"}}{%else%}{{form_item.measure_unity|add_class:"form-control"}}{%endif%}</td>
+                      <td></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {{ measure_formset.management_form }}
+              </div>
 			</fieldset>
 		</form>
 	</div>
@@ -68,6 +107,17 @@ $(document).ready(function(){
 
 	$("#id_phone").inputmask({"mask": "(99) 9 9999-9999"}); //specifying options
 	$("#id_zip_code").inputmask({"mask": "99999-999"}); //specifying options
+});
+$(function() {
+$('#items_table tbody tr').formset({
+        // For inline formsets, be sure to set the prefix, as the default prefix
+        // ('form') isn't correct.
+        // Django appears to generate the prefix from the lowercase plural
+        // name of the related model, with camel-case converted to underscores.
+        prefix: '{{ exam_formset.prefix }}',
+        addText: 'Novo',          // Text for the add link
+        deleteText: 'Remover',
+      });
 });
 </script>
 {% endblock %}

@@ -559,7 +559,7 @@ class ConsultationUpdate(UpdateView):
 			self.object.vitamin.add(item)
 		self.exam_formset.instance = self.object
 		self.exam_formset.save()
-		messages.add_message(self.request, messages.SUCCESS, 'Consulta atualizada com sucesso!')
+		
 		return HttpResponseRedirect(reverse('patient:consultation_edit', kwargs={'pk':self.object.pk}))
 
 	def form_invalid(self, form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form):
@@ -769,6 +769,7 @@ class FoodAnalysisUpdate(UpdateView):
 	template_name = 'analysis/new.html'
 	form_class = FoodAnalysisForm
 	second_form_class = MealForm
+	third_form_class = SubstituteMealForm
 
 	def get_context_data(self, **kwargs):
 		self.object = self.get_object()
@@ -789,11 +790,13 @@ class FoodAnalysisUpdate(UpdateView):
 		super(FoodAnalysisUpdate, self).get(request, *args, **kwargs)
 		form = self.form_class
 		meal_form = self.second_form_class
+		substitute_meal_form = self.third_form_class
 		return self.render_to_response(
 			self.get_context_data(
 				object=self.object,
 				form=form,
 				meal_form=meal_form,
+				substitute_meal_form=substitute_meal_form,
 			)
 		)
 
@@ -802,14 +805,15 @@ class FoodAnalysisUpdate(UpdateView):
 	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		meal_form = self.second_form_class(self.request.POST)
+		substitute_meal_form = self.third_form_class(self.request.POST)
 		form = self.form_class(self.request.POST, instance=self.object)
 
-		if form.is_valid() and meal_form.is_valid():
-			return self.form_valid(form, meal_form)
+		if form.is_valid() and meal_form.is_valid() and substitute_meal_form.is_valid():
+			return self.form_valid(form, meal_form, substitute_meal_form)
 		else:
-			return self.form_invalid(form, meal_form)
+			return self.form_invalid(form, meal_form, substitute_meal_form)
 
-	def form_valid(self, form, meal_form):
+	def form_valid(self, form, meal_form, substitute_meal_form):
 		self.object = meal_form.save(commit=False)
 		analysis = form.save(commit=False)
 		analysis.guidance = {}
@@ -822,6 +826,10 @@ class FoodAnalysisUpdate(UpdateView):
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
 		messages.add_message(self.request, messages.SUCCESS, 'Dados alterados com sucesso!')
+		substitute = substitute_meal_form.save(commit=False)
+		substitute.food_analysis_substitute = analysis
+		if substitute.food_substitute is not None:
+			substitute.save()
 		if self.object.original_food is not None:
 			self.object.save()
 			return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
@@ -871,7 +879,7 @@ def publish_analysis(request, pk):
 	return HttpResponseRedirect(success_url)
 
 def meal_delete(request, pk):
-	meal = get_object_or_404(Meal,id=pk)
+	meal = get_object_or_404(MealItem,id=pk)
 	id_return = meal.food_analysis.id
 	success_url = reverse('patient:analysis_edit', kwargs={'pk': id_return})
 

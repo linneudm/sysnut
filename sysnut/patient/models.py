@@ -205,7 +205,7 @@ class Consultation(models.Model):
 	date = models.DateField('Data da consulta')
 	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology', blank=True)
 	#supplement = models.ManyToManyField(Supplement, verbose_name='Suplemento', related_name='consultation_supplement', blank=True)
-	vitamin = models.ManyToManyField(Vitamin, verbose_name='Deficiência Vitamínica', related_name='consultation_vitamin', blank=True, null=True)
+	vitamin = models.ManyToManyField(Vitamin, verbose_name='Deficiência Vitamínica', related_name='consultation_vitamin', blank=True)
 	family_history = models.CharField('Histórico Familiar',max_length=255, blank=True)
 	drugs = models.CharField('Fármacos',max_length=255, blank=True, null=True)
 	life_style = models.CharField('Estilo de vida',max_length=255, blank=True, null=True)

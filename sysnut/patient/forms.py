@@ -4,7 +4,7 @@ from django.forms import ModelForm
 from django import forms
 from .models import *
 from django.contrib.auth.forms import UserCreationForm,PasswordResetForm
-from sysnut.food.models import Meal, Food
+from sysnut.food.models import MealItem, SubstituteItem, Food
 from multiupload.fields import MultiFileField
 from dal import autocomplete
 
@@ -95,8 +95,16 @@ class UploadGuidanceForm(ModelForm):
 class MealForm(ModelForm):
 
 	class Meta:
-		model = Meal
-		fields = ['meal', 'weight', 'home_measure', 'original_food']
+		model = MealItem
+		fields = ['meal', 'weight', 'original_food', 'measure_unity']
 		widgets = {
     		'original_food': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
+		}
+
+class SubstituteMealForm(ModelForm):
+	class Meta:
+		model = SubstituteItem
+		fields = ['weight_substitute', 'food_substitute', 'unity_substitute', 'meal_substitute']
+		widgets = {
+    		'food_substitute': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
 		}
