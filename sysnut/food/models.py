@@ -111,8 +111,8 @@ class MealItem(models.Model):
 
     def energy(self):
         measure = self.measure()
-        return (self.original_food.energy * measure.weight) / self.original_food.weight
-        #return (self.original_food.energy * self.weight) / self.original_food.weight
+        #return (self.original_food.energy * measure.weight) / self.original_food.weight
+        return (self.original_food.energy * self.weight) / self.original_food.weight
     def carbohydrates(self):
         return (self.original_food.carbohydrates * self.weight) / self.original_food.weight
     def total_fat(self):
