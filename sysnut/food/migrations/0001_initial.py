@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('meal', models.CharField(choices=[('CAFÉ DA MANHÃ', 'Café da Manhã'), ('LANCHE I', 'Lanche I'), ('ALMOÇO', 'Almoço'), ('LANCHE II', 'Lanche II'), ('JANTAR', 'Jantar'), ('CEIA', 'Ceia')], default=None, max_length=40, null=True, verbose_name='Refeição')),
-                ('weight', models.DecimalField(decimal_places=2, default=100.0, max_digits=8, verbose_name='Peso líquido (ml ou g)')),
+                ('weight', models.DecimalField(decimal_places=2, default=100.0, max_digits=8, verbose_name='Quantidade')),
                 ('food_analysis', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='meal_analysis', to='patient.FoodAnalysis', verbose_name='Cardápio')),
             ],
         ),
@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
             name='Measure',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('weight', models.DecimalField(decimal_places=2, default=100.0, max_digits=8, verbose_name='Peso líquido (ml ou g)')),
+                ('weight', models.DecimalField(decimal_places=2, default=100.0, max_digits=8, verbose_name='Unidade de Medida')),
                 ('food', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='measure_food', to='food.Food', verbose_name='Alimento')),
             ],
         ),
@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
             name='SubstituteItem',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('weight_substitute', models.DecimalField(decimal_places=2, default=100.0, max_digits=8, verbose_name='Peso líquido (ml ou g)')),
+                ('weight_substitute', models.DecimalField(decimal_places=2, default=100.0, max_digits=8, verbose_name='Quantidade')),
                 ('food_analysis_substitute', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='substitute_analysis', to='patient.FoodAnalysis', verbose_name='Cardápio')),
                 ('food_substitute', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='substitute_food', to='food.Food', verbose_name='Alimento')),
                 ('meal_substitute', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='substitute_meal', to='food.MealItem', verbose_name='Refeição')),

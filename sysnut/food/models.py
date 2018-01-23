@@ -74,7 +74,7 @@ class MeasureUnity(models.Model):
 
 class Measure(models.Model):    
     measure_unity = models.ForeignKey(MeasureUnity, verbose_name='Unidade de Medida', related_name='measure_unity', on_delete=models.CASCADE, blank=True, null=True)
-    weight = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
+    weight = models.DecimalField('Quantidade', default=100.00, decimal_places=2, max_digits=8)
     food = models.ForeignKey(Food, verbose_name='Alimento', related_name='measure_food', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
@@ -181,7 +181,7 @@ class SubstituteItem(models.Model):
     food_substitute = models.ForeignKey(Food, verbose_name='Alimento', related_name='substitute_food', on_delete=models.CASCADE, blank=True, null=True)
     unity_substitute  = models.ForeignKey(MeasureUnity, verbose_name='Unidade de Medida', related_name='substitute_unity', on_delete=models.CASCADE, blank=True, null=True)
 
-    weight_substitute = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
+    weight_substitute = models.DecimalField('Quantidade', default=100.00, decimal_places=2, max_digits=8)
 
     meal_substitute = models.ForeignKey(MealItem, verbose_name='Refeição', related_name='substitute_meal', on_delete=models.CASCADE,null=True, blank=True)
     food_analysis_substitute = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='substitute_analysis', on_delete=models.CASCADE,null=True)
