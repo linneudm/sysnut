@@ -96,7 +96,7 @@ class MealItem(models.Model):
     weight = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
 
     #cardapio
-    food_analysis = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='meal_analysis', on_delete=models.CASCADE)
+    food_analysis = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='meal_analysis', on_delete=models.CASCADE,null=True)
     def __str__(self):
         return self.meal + " - " + str(self.original_food)
 
@@ -186,7 +186,7 @@ class SubstituteItem(models.Model):
     weight_substitute = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
 
     meal_substitute = models.ForeignKey(MealItem, verbose_name='Refeição', related_name='substitute_meal', on_delete=models.CASCADE, null=True, blank=True)
-    food_analysis_substitute = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='substitute_analysis', on_delete=models.CASCADE)
+    food_analysis_substitute = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='substitute_analysis', on_delete=models.CASCADE, null=True)
 
     #Retorna os micro calculados
 
