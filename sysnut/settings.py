@@ -208,6 +208,6 @@ MESSAGE_TAGS = {
 
 #SETTINGS LOCAL
 try:
-    exec(open(os.path.join(BASE_DIR,'bankhours/settings_local.py')).read())
+    exec(open(os.path.join(BASE_DIR,'sysnut/settings_local.py')).read())
 except IOError as e:
     pass

@@ -93,7 +93,7 @@ class MealItem(models.Model):
     measure_unity  = models.ForeignKey(MeasureUnity, verbose_name='Unidade de Medida', related_name='meal_unity', on_delete=models.CASCADE, blank=True, null=True)
     #PESO DO MICRONUTRIENTE = peso_micro_original  * peso_refeição / 100
     #Infos
-    weight = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
+    weight = models.DecimalField('Quantidade', default=100.00, decimal_places=2, max_digits=8)
 
     #cardapio
     food_analysis = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='meal_analysis', on_delete=models.CASCADE,null=True)
@@ -102,16 +102,14 @@ class MealItem(models.Model):
 
     #Retorna os micro calculados
     def measure(self):
-        measure = Measure.objects.get(measure_unity=self.measure_unity, food=self.original_food)
-        if measure == None:
-            messages.add_message(self.request, messages.ERROR, 'Não existe unidade de medida cadastrada para este alimento.')
-        else:
-            return measure
+        #print(measure)
+        #if measure = Measure.objects.get(measure_unity=self.measure_unity, food=self.original_food):
+         #   return measure
+        #else:
+        return 0
 
 
     def energy(self):
-        measure = self.measure()
-        #return (self.original_food.energy * measure.weight) / self.original_food.weight
         return (self.original_food.energy * self.weight) / self.original_food.weight
     def carbohydrates(self):
         return (self.original_food.carbohydrates * self.weight) / self.original_food.weight
@@ -185,8 +183,8 @@ class SubstituteItem(models.Model):
 
     weight_substitute = models.DecimalField('Peso líquido (ml ou g)', default=100.00, decimal_places=2, max_digits=8)
 
-    meal_substitute = models.ForeignKey(MealItem, verbose_name='Refeição', related_name='substitute_meal', on_delete=models.CASCADE, null=True, blank=True)
-    food_analysis_substitute = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='substitute_analysis', on_delete=models.CASCADE, null=True)
+    meal_substitute = models.ForeignKey(MealItem, verbose_name='Refeição', related_name='substitute_meal', on_delete=models.CASCADE,null=True, blank=True)
+    food_analysis_substitute = models.ForeignKey(FoodAnalysis, verbose_name='Cardápio', related_name='substitute_analysis', on_delete=models.CASCADE,null=True)
 
     #Retorna os micro calculados
 

@@ -298,6 +298,9 @@
             <div class="col-lg-6">
               <div class="form-group">
                 <label class="control-label" >{{ field.label }}</label>
+                {% if field.label == "Unidade de Medida" %}
+                <small class="text-muted">Deixe em branco para padrao</small>
+                {% endif %}
                 {{ field|add_class:"form-control input-md" }}
               </div>
             </div>
@@ -306,7 +309,10 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h4>Alimentos substitutos</h4>
+          <!--<a class="btn btn-primary"  data-toggle="collapse" href="#alimento-substituto" aria-expanded="false" aria-controls="alimento-substituto">
+          Alimentos Substitutos
+          </a>-->
+        <div class="collapse" id="alimento-substituto">
           <div class="form-row">
             {% for field in substitute_meal_form %}
             {% if field.errors %}
@@ -327,6 +333,7 @@
             {%endif%}
             {% endfor %}
           </div>
+        </div>
         </div>
       </div>
       <div class="pt-4"></div>
