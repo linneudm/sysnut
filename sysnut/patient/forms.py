@@ -96,7 +96,7 @@ class MealForm(ModelForm):
 
 	class Meta:
 		model = MealItem
-		fields = ['meal', 'weight', 'original_food', 'measure_unity']
+		fields = ['meal', 'weight', 'original_food', 'home_measure', 'measure_unity']
 		widgets = {
     		'original_food': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
 		}

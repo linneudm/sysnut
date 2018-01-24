@@ -89,6 +89,7 @@ class MealItem(models.Model):
     SUPPER = 'CEIA'
     MEAL_CHOICES = ((BREAKFAST, 'Café da Manhã'),(SNACK_I, 'Lanche I'),(LUNCH, 'Almoço'),(SNACK_II, 'Lanche II'),(DINNER, 'Jantar'),(SUPPER, 'Ceia'))
     meal = models.CharField('Refeição', max_length=40, choices=MEAL_CHOICES, default=None, blank=False, null=True)
+    home_measure = models.CharField('Medida Caseira', max_length=255, blank=True)
     original_food = models.ForeignKey(Food, verbose_name='Alimento', related_name='meal_food', on_delete=models.CASCADE, blank=True, null=True)
     measure_unity  = models.ForeignKey(MeasureUnity, verbose_name='Unidade de Medida', related_name='meal_unity', on_delete=models.CASCADE, blank=True, null=True)
     #PESO DO MICRONUTRIENTE = peso_micro_original  * peso_refeição / 100
