@@ -56,8 +56,10 @@ msgstr ""
 msgid "Spanish"
 msgstr ""
 
-#~ msgid "Create \"%(new_value)s\""
-#~ msgstr "Criar \"%(new_value)s\""
+#: views.py:39
+#, python-format
+msgid "Create \"%(new_value)s\""
+msgstr "Criar \"%(new_value)s\""
 
-#~ msgid "No messages."
-#~ msgstr "Não há mensagens."
+# msgid "No messages."
+# msgstr "Não há mensagens."
