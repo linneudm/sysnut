@@ -170,13 +170,16 @@ class EnergyCalc(models.Model):
 	FORMULA_CHOICES = ((HARRIS_BENEDICT_OLD, 'Harris-Benedict(1919)'),(HARRIS_BENEDICT_NEW, 'Harris-Benedict(1984)'),(CUNNINGHAN, 'Cunninghan(1996)'),)
 	formula = models.CharField('Fórmula', max_length=30, choices=FORMULA_CHOICES, default=HARRIS_BENEDICT_OLD, blank=False, null=True)
 	ACTIVITY_CHOICES = (
-	    ('1.2', 'Sedentário'),
-	    ('1.375', 'Exercício Leve'),
-	    ('1.55', 'Exercício Moderado'),
-	    ('1.725', 'Exercício Pesado'),
-	    ('1.9', 'Exercício Muito Pesado')
+	    ('1.0', 'Repouso'),
+	    ('1.5', 'Muito Leve'),
+	    ('2.5', 'Leve'),
+	    ('5.0', 'Moderada'),
+	    ('7.0', 'Intensa'),
+	    ('1.2', 'Acamado'),
+	    ('1.25', 'Acamado + móvel'),
+	    ('1.3', 'Ambulante')
 	)
-	activity_factor = models.CharField('Fator de Atividade', max_length=30, choices=ACTIVITY_CHOICES, default='1.2', blank=False, null=True)
+	activity_factor = models.CharField('Fator de Atividade', max_length=30, choices=ACTIVITY_CHOICES, default='1.5', blank=False, null=True)
 	mbr = models.CharField('Taxa Metabólica Basal',max_length=255, blank=True, null=True)
 	tee = models.CharField('Gasto Energético Total',max_length=255, blank=True, null=True)
 
@@ -205,6 +208,11 @@ class Consultation(models.Model):
 	date = models.DateField('Data da consulta')
 	patology = models.ManyToManyField(Patology, verbose_name='Patologia', related_name='consultation_patology', blank=True)
 	#supplement = models.ManyToManyField(Supplement, verbose_name='Suplemento', related_name='consultation_supplement', blank=True)
+	NUTRIENTS_CHOICES = (
+		('OMS2008', 'OMS 2008'),
+		('DRI2002', 'DRI 2002/2005')
+	)
+	nutrients = models.CharField('Adequação de Nutrientes', max_length=30, choices=NUTRIENTS_CHOICES, default='OMS2008', blank=False, null=False)
 	vitamin = models.ManyToManyField(Vitamin, verbose_name='Deficiência Vitamínica', related_name='consultation_vitamin', blank=True)
 	family_history = models.CharField('Histórico Familiar',max_length=255, blank=True)
 	drugs = models.CharField('Fármacos',max_length=255, blank=True, null=True)
@@ -228,6 +236,10 @@ class Consultation(models.Model):
 		if w != 0 and h != 0:
 			imc = w / (h * h)
 			ideal = (h * h) * 24
+			if imc > 30:
+				adjust = (w - ideal) * 0.25 + ideal
+			if imc < 18:
+				adjust = (ideal - w) * 0.25 + w
 			if imc >= 16.0 and imc <= 16.9:
 				result = "Muito abaixo do peso."
 				tag = "danger"
@@ -253,7 +265,8 @@ class Consultation(models.Model):
 				'val': imc,
 				'result': result,
 				'tag': tag,
-				'ideal': ideal
+				'ideal': ideal,
+				'adjust': adjust
 			}
 		else:
 			imc = {
@@ -267,18 +280,26 @@ class Consultation(models.Model):
 		h = (self.height)#altura
 		a = (self.patient.created_at.year - self.patient.birth_date.year)#idade
 		lm = (self.bioimpedance.lean_mass)#massa livre
-		#lm = 0
+		ideal = 24 * (h * h)
+		imc = w * (h * h)
+		#Ajuste de peso de acordo com o IMC
+		if imc > 30:
+			wa = (w - ideal) * decimal.Decimal('0.25') + ideal
+		elif imc < 18:
+			wa = (ideal - w) * decimal.Decimal('0.25') + w
+		else:
+			wa = ideal
 		formula = self.energycalc.formula
 		if(formula == "HARRIS-BENEDICT(1919)"):
 			if(self.patient.sex == "M"):
-				return (66 + decimal.Decimal('13.7') * (w) + (5 * h) - (decimal.Decimal('6.8') * a))
+				return (66 + decimal.Decimal('13.7') * (wa) + (5 * h) - (decimal.Decimal('6.8') * a))
 			else:
-				return (655 + decimal.Decimal('9.6') * w) + (decimal.Decimal('1.8') * h) - (decimal.Decimal('4.7') * a)
+				return (655 + decimal.Decimal('9.6') * wa) + (decimal.Decimal('1.8') * h) - (decimal.Decimal('4.7') * a)
 		elif(formula == "HARRIS-BENEDICT(1984)"):
 			if(self.patient.sex == "M"):
-				return (decimal.Decimal('88.362') + (decimal.Decimal('13.397') * w) + (decimal.Decimal('4.799') * (h)) - (decimal.Decimal('5.677') * a))
+				return (decimal.Decimal('88.362') + (decimal.Decimal('13.397') * wa) + (decimal.Decimal('4.799') * (h)) - (decimal.Decimal('5.677') * a))
 			else:
-				return (decimal.Decimal('447.593') + (decimal.Decimal('9.247') * w) + (decimal.Decimal('3.098') * (h)) - (decimal.Decimal('4.330') * a))
+				return (decimal.Decimal('447.593') + (decimal.Decimal('9.247') * wa) + (decimal.Decimal('3.098') * (h)) - (decimal.Decimal('4.330') * a))
 		elif(formula == "CUNNINGHAN(1996)"):
 			return (370 + decimal.Decimal('21.6') * lm)
 		else:

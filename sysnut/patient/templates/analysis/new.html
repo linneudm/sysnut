@@ -449,6 +449,10 @@
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="collapse" id="collapseExample">
     <div class="card card-body">
+      Legenda: 
+      <p><span class="badge badge-warning">Abaixo do recomendado</span>
+      <span class="badge badge-danger">Acima do recomendado</span>
+      <span class="badge badge-success">Recomendado</span></p>
       <div class="row">
         <div class="col-lg-6">
           <table class="table table-bordered table-responsive-lg">
@@ -465,13 +469,30 @@
               </tr>
               <tr>
                 <th>Carboidratos</th>
-                <td>{{object.carb|floatformat:"2"}}</td>
+                <td>
+                  {{object.carb|floatformat:"2"}}
+                  {% if consultation.nutrients == "DRI2002" %}
+                    <span class="badge {{badge_carb}}">{{adequation_carb|floatformat:"2"}}%</span>
+                  {% endif %}
+                </td>
               </tr>            
               <tr>
                 <th>G. Total</th>
-                <td>{{object.total_fat|floatformat:"2"}}</td>
+                <td>
+                  {{object.total_fat|floatformat:"2"}} 
+                    <span class="badge {{badge_fat}}">{{adequation_fat|floatformat:"2"}}%</span>
+                </td>
               </tr>
               <tr>
+              <tr>
+                <th>Proteina</th>
+                <td>
+                  {{object.protein|floatformat:"2"}}
+                  {% if consultation.nutrients == "DRI2002" %}
+                    <span class="badge {{badge_protein}}">{{adequation_protein|floatformat:"2"}}%</span>
+                  {% endif%}
+                </td>
+              </tr>
                 <th>G. Poli</th>
                 <td>{{object.poly_fat|floatformat:"2"}}</td>
               </tr>
@@ -482,10 +503,6 @@
               <tr>
                 <th>G. Sat.</th>
                 <td>{{object.sat_fat|floatformat:"2"}}</td>
-              </tr>
-              <tr>
-                <th>Proteina</th>
-                <td>{{object.protein|floatformat:"2"}}</td>
               </tr>
               <tr>
                 <th>Fib. Total</th>

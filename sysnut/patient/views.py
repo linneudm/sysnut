@@ -783,6 +783,45 @@ class FoodAnalysisUpdate(UpdateView):
 	def get_context_data(self, **kwargs):
 		self.object = self.get_object()
 		context = super(FoodAnalysisUpdate, self).get_context_data(**kwargs)
+		protein = self.object.protein()
+		carb = self.object.carb()
+		fat = self.object.total_fat()
+		context['badge_protein'] = ""
+		context['badge_carb'] = ""
+		context['badge_fat'] = ""
+		context['adequation_protein'] = (protein * 100 )/self.object.consultation.tee()
+		context['adequation_carb'] = (carb * 100 )/self.object.consultation.tee()
+		context['adequation_fat'] = (fat * 100 )/self.object.consultation.tee()
+		if(self.object.consultation.nutrients == "OMS2008"):
+			if context['adequation_fat'] < 10:
+				context['badge_fat'] = "badge-warning"
+			elif context['adequation_fat'] > 35:
+				context['badge_fat'] = "badge-danger"
+			else:
+				context['badge_fat'] = "badge-success"
+
+		else:
+			if context['adequation_fat'] < 20:
+				context['badge_fat'] = "badge-warning"
+			elif context['adequation_fat'] > 35:
+				context['badge_fat'] = "badge-danger"
+			else:
+				context['badge_fat'] = "badge-success"
+
+			if context['adequation_carb'] > 65:
+				context['badge_carb'] = "badge-danger"
+			elif context['adequation_carb'] < 45:
+				context['badge_carb'] = "badge-warning"
+			else:
+				context['badge_carb'] = "badge-success"
+
+			if context['adequation_protein'] > 35:
+				context['badge_protein'] = "badge-danger"
+			elif context['adequation_protein'] < 10:
+				context['badge_protein'] = "badge-warning"
+			else:
+				context['badge_protein'] = "badge-success"
+				
 		context['consultation_id'] = self.object.consultation.id
 		context['consultation'] = Consultation.objects.get(id = self.object.consultation.id)
 		if self.request.POST:

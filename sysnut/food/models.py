@@ -109,7 +109,6 @@ class MealItem(models.Model):
         #else:
         return 0
 
-
     def energy(self):
         return (self.original_food.energy * self.weight) / self.original_food.weight
     def carbohydrates(self):
