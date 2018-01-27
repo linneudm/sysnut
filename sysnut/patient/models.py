@@ -236,6 +236,7 @@ class Consultation(models.Model):
 		if w != 0 and h != 0:
 			imc = w / (h * h)
 			ideal = (h * h) * 24
+			adjust = ideal
 			if imc > 30:
 				adjust = (w - ideal) * 0.25 + ideal
 			if imc < 18:
