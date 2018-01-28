@@ -2,68 +2,189 @@
 
 {% block body %}
 
-<nav class="navbar navbar-default navbar-margin">
-  <div class="container">
-    <a class="navbar-brand" href="#">Dados do Alimento</a>
-    <ul class="nav navbar-nav pull-right">
-      <li>
-        <p class="navbar-btn">
-          <a class="btn btn-default nav-dist-btn" href="{% url 'food:list' %}">
-            <i class="fa fa-chevron-left" aria-hidden="true"></i>
-            Voltar
-          </a>
-        </p>
-      </li>
-
-      <li>
-        <p class="navbar-btn">
-          <a class="btn btn-default" href="{% url 'food:edit' object.id %}">
-            <i class="fa fa-edit" aria-hidden="true"></i>
-            Editar
-          </a>
-        </p>
+<div class="container-fluid">
+  <nav class="navbar navbar-light bg-light">
+    <div class="navbar-header">
+      <a class="navbar-brand text-center" href="#">Detalhes</a>
+    </div>
+    <ul class="nav justify-content-end">
+      <li class"nav-item">
+        <a class="btn btn-outline-secondary float-right" href="{% url 'food:list' %}">
+          Voltar
+        </a>
       </li>
     </ul>
-  </div>
-</nav>
+  </nav>
+</div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <p>
-          <strong>Descrição:</strong>
-          {{ object.description }}
-        </p>
-        <p>
-          <strong>Data:</strong>
-          {{ object.publication_date }}
-        </p>
-        <p>
-          <strong>Presentes:</strong>
-          {{ object.quantity_present }}
-        </p>
-        <p>
-          <strong>Resumo:</strong>
-          {{ object.summary|safe }}
-        </p>
-        <p>
-          <strong>Publicado:</strong>
-          {% if object.published %}
-              <td>Sim</td>
-          {% else %}
-              <td>Não</td>
-          {% endif %}
-        </p>
-        <p>
-          <strong>Link:</strong>
-          <a href="/media/{{object.file}}" class="btn btn-primary">
-            <i class="fa fa-arrow-circle-down" aria-hidden="true"></i>
-            Download
-          </a>
-        </p>
+<div class="container mt-4 mb-4">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
+      <div class="card card-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <table class="table table-bordered table-responsive-lg">
+              <thead>
+                <tr>
+                  <th>Micro</th>
+                  <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Energia</th>
+                  <td>{{object.energy|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Carboidratos</th>
+                  <td>{{object.carbohydrates|floatformat:"2"}}</td>
+                </tr>            
+                <tr>
+                  <th>G. Total</th>
+                  <td>{{object.total_fat|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <tr>
+                    <th>Proteina</th>
+                    <td>{{object.protein|floatformat:"2"}}</td>
+                  </tr>
+                  <th>G. Poli</th>
+                  <td>{{object.poly_fat|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>G. Mono</th>
+                  <td>{{object.mono_fat|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>G. Sat.</th>
+                  <td>{{object.sat_fat|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Fib. Total</th>
+                  <td>{{object.total_fibers|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Fib. Sol.</th>
+                  <td>{{object.sol_fibers|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Fib. Insol.</th>
+                  <td>{{object.insol_fibers|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Colesterol</th>
+                  <td>{{object.cholesterol|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Retinol (A)</th>
+                  <td>{{object.retinol|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Ac. Ascórbico (C)</th>
+                  <td>{{object.ac_ascorbic|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Tiamina (B1)</th>
+                  <td>{{object.tiamine|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Riboflavina (B2)</th>
+                  <td>{{object.riboflavin|floatformat:"2"}}</td>
+                </tr>          
+                <tr>
+                  <th>Piridoxina (B6)</th>
+                  <td>{{object.pyridoxine|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Cobalamina</th>
+                  <td>{{object.cobalamin|floatformat:"2"}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-6">
+            <table class="table table-bordered table-responsive-lg">
+              <thead>
+                <tr>
+                  <th>Micro</th>
+                  <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody> 
+                <tr>
+                  <th>Vitamina D</th>
+                  <td>{{object.dvitamin|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Niacina (B3)</th>
+                  <td>{{object.niacin|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Ác. Fólico</th>
+                  <td>{{object.ac_folic|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Ác. Pantotênico (B5)</th>
+                  <td>{{object.ac_pant|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Tocoferol (E)</th>
+                  <td>{{object.tocopherol|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Iodo</th>
+                  <td>{{object.iodine|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Sódio</th>
+                  <td>{{object.sodium|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Cálcio</th>
+                  <td>{{object.calcium|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Magnésio</th>
+                  <td>{{object.magnesium|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Zinco</th>
+                  <td>{{object.zinc|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Manganês</th>
+                  <td>{{object.manganese|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Potássio</th>
+                  <td>{{object.potassium|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Fósforo</th>
+                  <td>{{object.phosphor|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Ferro</th>
+                  <td>{{object.iron|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Cobre</th>
+                  <td>{{object.copper|floatformat:"2"}}</td>
+                </tr>
+                <tr>
+                  <th>Selênio</th>
+                  <td>{{object.selenium|floatformat:"2"}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  {% endblock %}
+
+  </div>
+</div>
+
+{% endblock %}
