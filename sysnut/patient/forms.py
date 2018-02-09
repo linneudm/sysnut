@@ -61,6 +61,14 @@ class SkinFoldForm(ModelForm):
 		model = SkinFold
 		fields = '__all__'
 
+def get_my_choices():
+	MY_CHOICES = (
+	    ('1', 'Option 1'),
+	    ('2', 'Option 2'),
+	    ('3', 'Option 3'),
+	)
+	return MY_CHOICES
+
 class ConsultationForm(ModelForm):
 	class Meta:
 		model = Consultation

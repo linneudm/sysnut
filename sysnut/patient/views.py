@@ -525,6 +525,7 @@ class ConsultationUpdate(UpdateView):
 		bioimpedance_form = self.fifth_form_class(self.request.POST)
 		bonediameter_form = self.sixth_form_class(self.request.POST)
 		biochemical_form = self.seventh_form_class(self.request.POST)
+		print(">>>>>>>", self.request.POST)
 		form = self.get_form()
 		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and bioimpedance_form.is_valid() and bonediameter_form.is_valid() and biochemical_form.is_valid() and self.exam_formset.is_valid():
 			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)

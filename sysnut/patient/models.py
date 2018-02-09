@@ -160,6 +160,19 @@ class BoneDiameter(models.Model):
 	wrist_diameter = models.DecimalField('Diâmetro do pulso (cm)', default=0.00, decimal_places=2, max_digits=8)
 	femoral_diameter = models.DecimalField('Diâmetro do fêmur (cm)', default=0.00, decimal_places=2, max_digits=8)
 
+class Formula(models.Model):
+    name = models.CharField(max_length=30)
+    def __str__(self):
+        return self.name
+
+class FormulaValue(models.Model):
+    formula = models.ForeignKey(Formula, on_delete=models.CASCADE)
+    name = models.CharField('Fator de Atividade',max_length=50)
+    value = models.DecimalField('Valor', default=0.00, decimal_places=2, max_digits=8)
+    
+    def __str__(self):
+        return self.name
+
 class EnergyCalc(models.Model):
 	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True)
 	knee_height = models.DecimalField('Altura do Joelho (cm)', default=0.00, decimal_places=2, max_digits=8)

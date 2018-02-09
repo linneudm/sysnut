@@ -326,8 +326,44 @@
   $("#id_mbr").attr("readonly", "true");
   $("#id_tee").attr("readonly", "true");
   $('b[role="presentation"]').hide();
-  
 
+  (function($, window) {
+    $.fn.replaceOptions = function(options) {
+      var self, $option;
+
+      this.empty();
+      self = this;
+
+      $.each(options, function(index, option) {
+        $option = $("<option></option>")
+          .attr("value", option.value)
+          .text(option.text);
+        self.append($option);
+      });
+    };
+  })(jQuery, window);
+
+/*
+  $(document).ready(function () {
+
+    // get estado
+
+    //variaveis{
+    var estado = $('#id_formula');
+    var options = [
+      {text: "one", value: "1.0"},
+      {text: "two", value: "2.5"},
+      {text: "three", value: "3.5"}
+    ];
+
+    //variaveis}  
+
+    estado.change(function () {
+        $("#id_activity_factor").replaceOptions(options);
+    });
+    //final get estado
+  });
+*/
 
   
   //$("#id_resultmbr").text('MBR: {{consultation.energycalc.mbr}}');
