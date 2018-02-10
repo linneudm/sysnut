@@ -18,7 +18,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
       {% if "duplicate" in request.path|cut:"/" %}{% url "patient:consultation_create" patient_id as URL %}{% endif %}
-      <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
+      <form id="form-consultation" action="{{URL}}" data-activity-url="{% url 'patient:formula_activity' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
         <fieldset>
           <!-- Nav tabs -->
           <ul class="nav nav-tabs" role="tablist">
@@ -302,6 +302,20 @@
 
 {% block scripts %}
 <script type="text/javascript">
+  $("#id_formula").change(function () {
+    var url = $("#form-consultation").attr("data-activity-url");  // get the url of the `load_cities` view
+    var formulaId = $(this).val();  // get the selected country ID from the HTML input
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'formula': formulaId       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_cities` view function
+        $("#id_activity_factor").html(data);  // replace the contents of the city input with the data that came from the server
+      }
+    });
+
+  });
   $(document).ready(function(){
   //$("#id_date").attr("readonly", "true");
   $("#id_date").inputmask({"mask": "99/99/9999"}); //specifying options
@@ -326,44 +340,6 @@
   $("#id_mbr").attr("readonly", "true");
   $("#id_tee").attr("readonly", "true");
   $('b[role="presentation"]').hide();
-
-  (function($, window) {
-    $.fn.replaceOptions = function(options) {
-      var self, $option;
-
-      this.empty();
-      self = this;
-
-      $.each(options, function(index, option) {
-        $option = $("<option></option>")
-          .attr("value", option.value)
-          .text(option.text);
-        self.append($option);
-      });
-    };
-  })(jQuery, window);
-
-/*
-  $(document).ready(function () {
-
-    // get estado
-
-    //variaveis{
-    var estado = $('#id_formula');
-    var options = [
-      {text: "one", value: "1.0"},
-      {text: "two", value: "2.5"},
-      {text: "three", value: "3.5"}
-    ];
-
-    //variaveis}  
-
-    estado.change(function () {
-        $("#id_activity_factor").replaceOptions(options);
-    });
-    //final get estado
-  });
-*/
 
   
   //$("#id_resultmbr").text('MBR: {{consultation.energycalc.mbr}}');

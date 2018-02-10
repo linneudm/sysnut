@@ -41,5 +41,11 @@ urlpatterns = [
     url(r'^analysis/print/(?P<pk>[0-9]+)/$',FoodAnalysisPrint.as_view(), name='analysis_print'),
     url(r'^analysis/delete/(?P<pk>[0-9]+)/$',permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisDelete.as_view()), name='analysis_delete'),
     url(r'^analysis/delete-meal/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(meal_delete), name='meal_delete'),
+    #Formula
+    url(r'^formula/add/$', permission_required('nutritionist:delete', raise_exception=True)(FormulaCreate.as_view()), name='formula_create'),
+    url(r'^formula/edit/(?P<pk>[0-9]+)/$', permission_required('nutritionist:delete', raise_exception=True)(FormulaUpdate.as_view()), name='formula_edit'),
+    url(r'^formula/delete/(?P<pk>[0-9]+)/$',permission_required('nutritionist:delete', raise_exception=True)(FormulaDelete.as_view()), name='formula_delete'),
+    url(r'^formula/list/$', permission_required('nutritionist:delete', raise_exception=True)(FormulaList.as_view()), name='formula_list'),
+    url(r'^formula/ajax_activity/$', permission_required('patient.add_patient', raise_exception=True)(load_activity), name='formula_activity'),
 
 ]

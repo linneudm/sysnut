@@ -114,6 +114,114 @@ class BiochemicalAutocomplete(autocomplete.Select2QuerySetView):
 
 		return qs
 
+#CRUD Formula
+class FormulaList(ListView):
+    model = Formula
+    template_name = 'formula/list.html'
+    context_object_name = 'formula'
+
+class FormulaCreate(CreateView):
+    model = Formula
+    template_name = 'formula/new.html'
+    form_class = FormulaForm
+    success_url = reverse_lazy('patient:formula_list')
+
+    def get(self, request, *args, **kwargs):
+    	self.object = None
+    	self.formula_formset = FormulaFormSet()
+    	#form = self.form_class
+    	return super(FormulaCreate,self).get(request,*args,**kwargs)
+
+    def post(self, request, *args, **kwargs):
+    	self.object = None
+    	form = self.get_form()
+    	self.formula_formset = FormulaFormSet(self.request.POST)
+    	#print(">>>>> ",self.request.POST)
+    	if form.is_valid() and self.formula_formset.is_valid():
+    		return self.form_valid(form)
+    	else:
+    		return self.form_invalid(form)
+
+    def form_valid(self, form):
+    	self.object = form.save()
+    	self.formula_formset.instance = self.object
+    	self.formula_formset.save()
+    	return HttpResponseRedirect(reverse('patient:formula_list'))
+    	#messages.add_message(self.request, messages.SUCCESS, 'Alimento adicionado com sucesso!')
+
+    def form_invalid(self, form):
+    	return self.render_to_response(
+    		self.get_context_data(
+    			form=form,
+    		)
+    	)
+
+    def get_context_data(self, **kwargs):
+    	context = super(FormulaCreate,self).get_context_data(**kwargs)
+    	context['formula_formset'] = self.formula_formset
+    	return context
+
+class FormulaUpdate(UpdateView):
+    model = Formula
+    template_name = 'formula/new.html'
+    form_class = FormulaForm
+    success_url = reverse_lazy('patient:formula_list')
+
+    def get(self, request, *args, **kwargs):
+    	self.object = self.get_object()
+    	super(FormulaUpdate, self).get(request, *args, **kwargs)
+    	#self.formula_formset = formulaFormSet()
+    	form = self.form_class
+    	return self.render_to_response(
+    		self.get_context_data(
+    			form=form,
+    		)
+    	)
+
+    def post(self, request, *args, **kwargs):
+    	self.object = self.get_object()
+    	form = self.get_form()
+    	self.formula_formset = FormulaFormSet(self.request.POST, instance=self.object)
+    	#print(">>>>> ",self.request.POST)
+    	if form.is_valid() and self.formula_formset.is_valid():
+    		return self.form_valid(form)
+    	else:
+    		return self.form_invalid(form)
+
+    def form_valid(self, form):
+    	form.save()
+    	self.formula_formset.instance = self.object
+    	self.formula_formset.save()
+    	#messages.add_message(self.request, messages.SUCCESS, 'Alimento adicionado com sucesso!')
+    	return HttpResponseRedirect(reverse('patient:formula_list'))
+
+    def form_invalid(self, form):
+    	return self.render_to_response(
+    		self.get_context_data(
+    			form=form,
+    		)
+    	)
+
+    def get_context_data(self, **kwargs):
+   		self.formula_formset = FormulaFormSet(instance = self.object)
+   		context = super(FormulaUpdate,self).get_context_data(**kwargs)
+   		context['formula_formset'] = self.formula_formset
+   		if self.request.POST:
+   			context['form'] = self.form_class(self.request.POST, instance=self.object)
+   		else:
+   			context['form'] = self.form_class(instance=self.object)
+   		return context
+
+class FormulaDelete(DeleteView):
+	model = Formula
+	success_url = reverse_lazy('patient:formula_list')	
+
+def load_activity(request):
+    formula_id = request.GET.get('formula')
+    values = FormulaValue.objects.filter(formula=formula_id).order_by('name')
+    return render(request, 'consultation/value_dropdown_list_options.html', {'values': values})
+
+#END CRUD Formula
 
 # CRUD Patient
 #@method_decorator(is_nutritionist, name='dispatch')
@@ -355,6 +463,7 @@ class ConsultationCreate(CreateView):
 		biochemical_form = self.seventh_form_class(self.request.POST)
 		form = self.get_form()
 		self.exam_formset = ExamFormSet(self.request.POST, self.request.FILES)
+		#print(">>>", self.request.POST)
 		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and bioimpedance_form.is_valid() and bonediameter_form.is_valid() and self.exam_formset.is_valid():
 			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)
 		else:
@@ -525,7 +634,7 @@ class ConsultationUpdate(UpdateView):
 		bioimpedance_form = self.fifth_form_class(self.request.POST)
 		bonediameter_form = self.sixth_form_class(self.request.POST)
 		biochemical_form = self.seventh_form_class(self.request.POST)
-		print(">>>>>>>", self.request.POST)
+		#print(">>>>>>>", self.request.POST)
 		form = self.get_form()
 		if form.is_valid() and bodycirc_form.is_valid() and energycalc_form.is_valid() and skinfold_form.is_valid() and bioimpedance_form.is_valid() and bonediameter_form.is_valid() and biochemical_form.is_valid() and self.exam_formset.is_valid():
 			return self.form_valid(form, bodycirc_form, energycalc_form, skinfold_form, bioimpedance_form, bonediameter_form, biochemical_form)

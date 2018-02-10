@@ -165,8 +165,22 @@ class Formula(models.Model):
     def __str__(self):
         return self.name
 
+    def calculator(self, sex, h, wa, lean_mass, a):
+    	if(self.name == "HARRIS-BENEDICT(1919)"):
+    		if(sex == "M"):
+    			return (66 + decimal.Decimal('13.7') * (wa) + (5 * h) - (decimal.Decimal('6.8') * a))
+    		else:
+    			return (655 + decimal.Decimal('9.6') * wa) + (decimal.Decimal('1.8') * h) - (decimal.Decimal('4.7') * a)
+    	elif(self.name == "HARRIS-BENEDICT(1984)"):
+    		if(sex == "M"):
+    			return (decimal.Decimal('88.362') + (decimal.Decimal('13.397') * wa) + (decimal.Decimal('4.799') * (h)) - (decimal.Decimal('5.677') * a))
+    		else:
+    			return (decimal.Decimal('447.593') + (decimal.Decimal('9.247') * wa) + (decimal.Decimal('3.098') * (h)) - (decimal.Decimal('4.330') * a))
+    	elif(self.name == "CUNNINGHAN(1996)"):
+    		return (370 + decimal.Decimal('21.6') * lean_mass)
+
 class FormulaValue(models.Model):
-    formula = models.ForeignKey(Formula, on_delete=models.CASCADE)
+    formula = models.ForeignKey(Formula, verbose_name="Formula", related_name="value_formula", on_delete=models.CASCADE)
     name = models.CharField('Fator de Atividade',max_length=50)
     value = models.DecimalField('Valor', default=0.00, decimal_places=2, max_digits=8)
     
@@ -174,14 +188,13 @@ class FormulaValue(models.Model):
         return self.name
 
 class EnergyCalc(models.Model):
-	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True)
+	calc_title = models.CharField('Título do Cálculo',max_length=255, blank=True, null=True, default="Calculo padrão")
 	knee_height = models.DecimalField('Altura do Joelho (cm)', default=0.00, decimal_places=2, max_digits=8)
 	#Formulas de calculo energetico, consultar a bibliografia
-	HARRIS_BENEDICT_OLD = 'HARRIS-BENEDICT(1919)'
-	HARRIS_BENEDICT_NEW = 'HARRIS-BENEDICT(1984)'
-	CUNNINGHAN = 'CUNNINGHAN(1996)'
-	FORMULA_CHOICES = ((HARRIS_BENEDICT_OLD, 'Harris-Benedict(1919)'),(HARRIS_BENEDICT_NEW, 'Harris-Benedict(1984)'),(CUNNINGHAN, 'Cunninghan(1996)'),)
-	formula = models.CharField('Fórmula', max_length=30, choices=FORMULA_CHOICES, default=HARRIS_BENEDICT_OLD, blank=False, null=True)
+	#formula = models.CharField('Fórmula', max_length=30, choices=FORMULA_CHOICES, default=HARRIS_BENEDICT_OLD, blank=False, null=True)
+	formula = models.ForeignKey(Formula,  verbose_name="Formula", on_delete=models.CASCADE, null=True, blank=True)
+	activity_factor = models.ForeignKey(FormulaValue, verbose_name="Fator de Atividade", on_delete=models.CASCADE, null=True, blank=True)
+	'''
 	ACTIVITY_CHOICES = (
 	    ('1.0', 'Repouso'),
 	    ('1.5', 'Muito Leve'),
@@ -192,7 +205,8 @@ class EnergyCalc(models.Model):
 	    ('1.25', 'Acamado + móvel'),
 	    ('1.3', 'Ambulante')
 	)
-	activity_factor = models.CharField('Fator de Atividade', max_length=30, choices=ACTIVITY_CHOICES, default='1.5', blank=False, null=True)
+	'''
+	#activity_factor = models.CharField('Fator de Atividade', max_length=30, choices=ACTIVITY_CHOICES, default='1.5', blank=False, null=True)
 	mbr = models.CharField('Taxa Metabólica Basal',max_length=255, blank=True, null=True)
 	tee = models.CharField('Gasto Energético Total',max_length=255, blank=True, null=True)
 
@@ -294,6 +308,7 @@ class Consultation(models.Model):
 		h = (self.height)#altura
 		a = (self.patient.created_at.year - self.patient.birth_date.year)#idade
 		lm = (self.bioimpedance.lean_mass)#massa livre
+		sex = self.patient.sex
 		ideal = 24 * (h * h)
 		imc = w * (h * h)
 		#Ajuste de peso de acordo com o IMC
@@ -302,25 +317,18 @@ class Consultation(models.Model):
 		elif imc < 18:
 			wa = (ideal - w) * decimal.Decimal('0.25') + w
 		else:
-			wa = ideal
-		formula = self.energycalc.formula
-		if(formula == "HARRIS-BENEDICT(1919)"):
-			if(self.patient.sex == "M"):
-				return (66 + decimal.Decimal('13.7') * (wa) + (5 * h) - (decimal.Decimal('6.8') * a))
-			else:
-				return (655 + decimal.Decimal('9.6') * wa) + (decimal.Decimal('1.8') * h) - (decimal.Decimal('4.7') * a)
-		elif(formula == "HARRIS-BENEDICT(1984)"):
-			if(self.patient.sex == "M"):
-				return (decimal.Decimal('88.362') + (decimal.Decimal('13.397') * wa) + (decimal.Decimal('4.799') * (h)) - (decimal.Decimal('5.677') * a))
-			else:
-				return (decimal.Decimal('447.593') + (decimal.Decimal('9.247') * wa) + (decimal.Decimal('3.098') * (h)) - (decimal.Decimal('4.330') * a))
-		elif(formula == "CUNNINGHAN(1996)"):
-			return (370 + decimal.Decimal('21.6') * lm)
+			wa = ideal 
+		if self.energycalc.formula != None:
+			return self.energycalc.formula.calculator(sex, h, wa, lm, a)
 		else:
 			return 0
 
 	def tee(self):
-		result  = self.mbr() * decimal.Decimal(self.energycalc.activity_factor)
+		print(">>>>>", self.energycalc.activity_factor)
+		if self.energycalc.activity_factor != None:
+			result = self.mbr() * decimal.Decimal(self.energycalc.activity_factor.value)
+		else:
+			result = 0
 		return result
 
 	def get_absolute_url(self):

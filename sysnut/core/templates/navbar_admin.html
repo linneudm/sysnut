@@ -65,6 +65,21 @@
 	    </a>
 	  </div>
 	</li>
+	<li class="nav-item dropdown">
+		<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+			Fórmulas
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="{% url 'patient:formula_create' %}">
+				<i class="fa fa-edit" aria-hidden="true"></i>
+				Novo
+			</a>
+			<a class="dropdown-item" href="{% url 'patient:formula_list' %}">
+				<i class="fa fa-list-ul" aria-hidden="true"></i>
+				Lista
+			</a>
+		</div>
+	</li>
 	<li class="nav-item">
 	  <a class="nav-link" href="https://drive.google.com/open?id=1Hfdq0utgb8O6-XV_jPBqD8tnWeQsMmVKs-GDc-yfUkg" target="_blank">Formulário de Avaliação</a>
 	</li>

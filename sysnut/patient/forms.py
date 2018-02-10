@@ -9,6 +9,11 @@ from multiupload.fields import MultiFileField
 from dal import autocomplete
 
 
+class FormulaForm(ModelForm):
+	class Meta:
+		model = Formula
+		fields = '__all__'
+FormulaFormSet = forms.inlineformset_factory(Formula, FormulaValue, fields=('name','value'),extra=1)
 
 class PatientForm(UserCreationForm):
 
@@ -55,19 +60,24 @@ class EnergyCalcForm(ModelForm):
 		model = EnergyCalc
 		exclude = ['mbr', 'tee']
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['activity_factor'].queryset = FormulaValue.objects.none()
+		if 'formula' in self.data:
+			try:
+				formula_id = int(self.data.get('formula'))
+				self.fields['activity_factor'].queryset = FormulaValue.objects.filter(formula_id=formula_id).order_by('name')
+			except (ValueError, TypeError):
+				pass  # invalid input from the client; ignore and fallback to empty City queryset
+		elif self.instance.pk:
+			if self.instance.formula != None:
+				self.fields['activity_factor'].queryset = self.instance.formula.value_formula.order_by('name')
+
 class SkinFoldForm(ModelForm):
 
 	class Meta:
 		model = SkinFold
 		fields = '__all__'
-
-def get_my_choices():
-	MY_CHOICES = (
-	    ('1', 'Option 1'),
-	    ('2', 'Option 2'),
-	    ('3', 'Option 3'),
-	)
-	return MY_CHOICES
 
 class ConsultationForm(ModelForm):
 	class Meta:

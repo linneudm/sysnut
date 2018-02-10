@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for activity_factor in values %}
+<option value="{{ activity_factor.pk }}">{{ activity_factor.name }}</option>
+{% endfor %}
