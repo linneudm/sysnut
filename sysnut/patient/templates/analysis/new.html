@@ -254,7 +254,7 @@
               {% if "duplicate" in request.path|cut:"/" %}
               {% url 'patient:analysis_create' consultation_id as URL %}
               {% endif %}
-              <form action="{{URL}}" method="post" enctype="multipart/form-data">{% csrf_token %}
+              <form id="form-analysis" action="{{URL}}" data-measure-url="{% url 'patient:food_measure' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
                 <fieldset>
                   <div class="row">
                     <div class="col-lg-6">
@@ -322,7 +322,7 @@
           <a class="btn btn-primary"  data-toggle="collapse" href="#alimento-substituto" aria-expanded="false" aria-controls="alimento-substituto">
           Alimentos Substitutos
           </a>
-        <div class="collapse show" id="alimento-substituto">
+        <div class="collapse" id="alimento-substituto">
           <div class="form-row">
             {% for field in substitute_meal_form %}
             {% if field.errors %}
@@ -650,6 +650,34 @@
 
 
 <script type="text/javascript">
+  $("#id_original_food").change(function () {
+    var url = $("#form-analysis").attr("data-measure-url");  // get the url of the `load_cities` view
+    var foodId = $(this).val();  // get the selected country ID from the HTML input
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'food': foodId       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_cities` view function
+        $("#id_measure_unity").html(data);  // replace the contents of the city input with the data that came from the server
+      }
+    });
+
+  });
+  $("#id_food_substitute").change(function () {
+    var url = $("#form-analysis").attr("data-measure-url");  // get the url of the `load_cities` view
+    var foodId = $(this).val();  // get the selected country ID from the HTML input
+    $.ajax({                       // initialize an AJAX request
+      url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+      data: {
+        'food': foodId       // add the country id to the GET parameters
+      },
+      success: function (data) {   // `data` is the return of the `load_cities` view function
+        $("#id_unity_substitute").html(data);  // replace the contents of the city input with the data that came from the server
+      }
+    });
+
+  });
   $(document).ready(function(){
     $("#id_date").attr("readonly", "true");
     $("#id_date").datepicker({

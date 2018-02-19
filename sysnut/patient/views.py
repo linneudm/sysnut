@@ -26,6 +26,7 @@ import xlrd
 import os
 #from sysnut.nutritionist.views import is_nutritionist
 import decimal
+from sysnut.food.models import Measure
 # Create your views here.
 
 # class StaffRequiredMixin(object):
@@ -278,7 +279,7 @@ class PatientUpdate(UpdateView):
 
 	model = Patient
 	template_name = 'patient/new.html'
-	form_class = PatientForm
+	form_class = PatientEditForm
 	second_form_class = AddressForm
 
 	def get_context_data(self, **kwargs):
@@ -764,6 +765,12 @@ class UploadGuidance(CreateView):
 
 
 # FoodAnalysis CRUD
+
+def load_measure(request):
+    food_id = request.GET.get('food')
+    measure = Measure.objects.filter(food=food_id).order_by('measure_unity')
+    return render(request, 'analysis/value_dropdown_list_options.html', {'values': measure})
+
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisList(ListView):
 

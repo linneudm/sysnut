@@ -104,77 +104,174 @@ class MealItem(models.Model):
     #Retorna os micro calculados
     def measure(self):
         #print(measure)
-        #if measure = Measure.objects.get(measure_unity=self.measure_unity, food=self.original_food):
-         #   return measure
-        #else:
-        return 0
+        measure = Measure.objects.get(measure_unity=self.measure_unity, food=self.original_food)
+        return measure
 
     def energy(self):
-        return (self.original_food.energy * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.energy * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.energy * (self.measure().weight * self.weight)) / self.original_food.weight
     def carbohydrates(self):
-        return (self.original_food.carbohydrates * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.carbohydrates * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.carbohydrates * (self.measure().weight * self.weight)) / self.original_food.weight
     def total_fat(self):
-        return (self.original_food.total_fat * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.total_fat * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.total_fat * (self.measure().weight * self.weight)) / self.original_food.weight
     def poly_fat(self):
-        return (self.original_food.poly_fat * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.poly_fat * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.poly_fat * (self.measure().weight * self.weight)) / self.original_food.weight
     def mono_fat(self):
-        return (self.original_food.mono_fat * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.mono_fat * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.mono_fat * (self.measure().weight * self.weight)) / self.original_food.weight
     def sat_fat(self):
-        return (self.original_food.sat_fat * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.sat_fat * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.sat_fat * (self.measure().weight * self.weight)) / self.original_food.weight
     def protein(self):
-        return (self.original_food.protein * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.protein * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.protein * (self.measure().weight * self.weight)) / self.original_food.weight
     def total_fibers(self):
-        return (self.original_food.total_fibers * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.total_fibers * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.total_fibers * (self.measure().weight * self.weight)) / self.original_food.weight
     def sol_fibers(self):
-        return (self.original_food.sol_fibers *self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.sol_fibers *self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.sol_fibers * (self.measure().weight * self.weight)) / self.original_food.weight            
     def insol_fibers(self):
-        return (self.original_food.insol_fibers * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.insol_fibers * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.insol_fibers * (self.measure().weight * self.weight)) / self.original_food.weight
     def cholesterol(self):
-        return (self.original_food.cholesterol * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.cholesterol * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.cholesterol * (self.measure().weight * self.weight)) / self.original_food.weight
     def retinol(self):
-        return (self.original_food.retinol * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.retinol * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.retinol * (self.measure().weight * self.weight)) / self.original_food.weight
     def ac_ascorbic(self):
-        return (self.original_food.ac_ascorbic * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.ac_ascorbic * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.ac_ascorbic * (self.measure().weight * self.weight)) / self.original_food.weight
     def tiamine (self):
-        return (self.original_food.tiamine * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.tiamine * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.tiamine * (self.measure().weight * self.weight)) / self.original_food.weight
     def riboflavin(self):
-        return (self.original_food.riboflavin * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.riboflavin * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.riboflavin * (self.measure().weight * self.weight)) / self.original_food.weight
     def pyridoxine(self):
-        return (self.original_food.pyridoxine * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.pyridoxine * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.pyridoxine * (self.measure().weight * self.weight)) / self.original_food.weight
     def cobalamin(self):
-        return (self.original_food.cobalamin * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.cobalamin * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.cobalamin * (self.measure().weight * self.weight)) / self.original_food.weight
     def dvitamin(self):
-        return (self.original_food.dvitamin * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.dvitamin * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.dvitamin * (self.measure().weight * self.weight)) / self.original_food.weight
     def niacin(self):
-        return (self.original_food.niacin * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.niacin * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.niacin * (self.measure().weight * self.weight)) / self.original_food.weight
     def ac_folic(self):
-        return (self.original_food.ac_folic * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.ac_folic * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.ac_folic * (self.measure().weight * self.weight)) / self.original_food.weight
     def ac_pant(self):
-        return (self.original_food.ac_pant * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.ac_pant * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.ac_pant * (self.measure().weight * self.weight)) / self.original_food.weight
     def tocopherol(self):
-        return (self.original_food.tocopherol * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.tocopherol * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.tocopherol * (self.measure().weight * self.weight)) / self.original_food.weight
     def iodine(self):
-        return (self.original_food.iodine * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.iodine * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.iodine * (self.measure().weight * self.weight)) / self.original_food.weight
     def sodium(self):
-        return (self.original_food.sodium * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.sodium * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.sodium * (self.measure().weight * self.weight)) / self.original_food.weight
     def calcium(self):
-        return (self.original_food.calcium * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.calcium * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.calcium * (self.measure().weight * self.weight)) / self.original_food.weight
     def magnesium(self):
-        return (self.original_food.magnesium * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.magnesium * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.magnesium * (self.measure().weight * self.weight)) / self.original_food.weight
     def zinc(self):
-        return (self.original_food.zinc * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.zinc * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.zinc * (self.measure().weight * self.weight)) / self.original_food.weight
     def manganese(self):
-        return (self.original_food.manganese * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.manganese * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.manganese * (self.measure().weight * self.weight)) / self.original_food.weight
     def potassium(self):
-        return (self.original_food.potassium * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.potassium * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.potassium * (self.measure().weight * self.weight)) / self.original_food.weight
     def phosphor(self):
-        return (self.original_food.phosphor * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.phosphor * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.phosphor * (self.measure().weight * self.weight)) / self.original_food.weight
     def iron(self):
-        return (self.original_food.iron * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.iron * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.iron * (self.measure().weight * self.weight)) / self.original_food.weight
     def copper(self):
-        return (self.original_food.copper * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.copper * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.copper * (self.measure().weight * self.weight)) / self.original_food.weight
     def selenium(self):
-        return (self.original_food.selenium * self.weight) / self.original_food.weight
+        if self.measure_unity == None:
+            return (self.original_food.selenium * self.weight) / self.original_food.weight
+        else:
+            return (self.original_food.selenium * (self.measure().weight * self.weight)) / self.original_food.weight
 
 
 class SubstituteItem(models.Model):
@@ -188,69 +285,174 @@ class SubstituteItem(models.Model):
 
     #Retorna os micro calculados
 
+    #Retorna os micro calculados
+    def measure(self):
+        #print(measure)
+        measure = Measure.objects.get(measure_unity=self.measure_unity, food=self.food_substitute)
+        return measure
+
     def energy(self):
-        return (self.food_substitute.energy * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.energy * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.energy * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def carbohydrates(self):
-        return (self.food_substitute.carbohydrates * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.carbohydrates * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.carbohydrates * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def total_fat(self):
-        return (self.food_substitute.total_fat * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.total_fat * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.total_fat * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def poly_fat(self):
-        return (self.food_substitute.poly_fat * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.poly_fat * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.poly_fat * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def mono_fat(self):
-        return (self.food_substitute.mono_fat * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.mono_fat * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.mono_fat * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def sat_fat(self):
-        return (self.food_substitute.sat_fat * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.sat_fat * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.sat_fat * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def protein(self):
-        return (self.food_substitute.protein * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.protein * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.protein * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def total_fibers(self):
-        return (self.food_substitute.total_fibers * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.total_fibers * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.total_fibers * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def sol_fibers(self):
-        return (self.food_substitute.sol_fibers *self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.sol_fibers *self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.sol_fibers * (self.measure().weight * self.weight)) / self.food_substitute.weight            
     def insol_fibers(self):
-        return (self.food_substitute.insol_fibers * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.insol_fibers * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.insol_fibers * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def cholesterol(self):
-        return (self.food_substitute.cholesterol * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.cholesterol * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.cholesterol * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def retinol(self):
-        return (self.food_substitute.retinol * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.retinol * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.retinol * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def ac_ascorbic(self):
-        return (self.food_substitute.ac_ascorbic * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.ac_ascorbic * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.ac_ascorbic * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def tiamine (self):
-        return (self.food_substitute.tiamine * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.tiamine * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.tiamine * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def riboflavin(self):
-        return (self.food_substitute.riboflavin * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.riboflavin * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.riboflavin * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def pyridoxine(self):
-        return (self.food_substitute.pyridoxine * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.pyridoxine * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.pyridoxine * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def cobalamin(self):
-        return (self.food_substitute.cobalamin * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.cobalamin * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.cobalamin * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def dvitamin(self):
-        return (self.food_substitute.dvitamin * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.dvitamin * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.dvitamin * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def niacin(self):
-        return (self.food_substitute.niacin * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.niacin * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.niacin * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def ac_folic(self):
-        return (self.food_substitute.ac_folic * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.ac_folic * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.ac_folic * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def ac_pant(self):
-        return (self.food_substitute.ac_pant * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.ac_pant * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.ac_pant * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def tocopherol(self):
-        return (self.food_substitute.tocopherol * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.tocopherol * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.tocopherol * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def iodine(self):
-        return (self.food_substitute.iodine * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.iodine * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.iodine * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def sodium(self):
-        return (self.food_substitute.sodium * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.sodium * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.sodium * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def calcium(self):
-        return (self.food_substitute.calcium * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.calcium * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.calcium * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def magnesium(self):
-        return (self.food_substitute.magnesium * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.magnesium * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.magnesium * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def zinc(self):
-        return (self.food_substitute.zinc * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.zinc * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.zinc * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def manganese(self):
-        return (self.food_substitute.manganese * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.manganese * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.manganese * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def potassium(self):
-        return (self.food_substitute.potassium * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.potassium * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.potassium * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def phosphor(self):
-        return (self.food_substitute.phosphor * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.phosphor * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.phosphor * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def iron(self):
-        return (self.food_substitute.iron * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.iron * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.iron * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def copper(self):
-        return (self.food_substitute.copper * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.copper * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.copper * (self.measure().weight * self.weight)) / self.food_substitute.weight
     def selenium(self):
-        return (self.food_substitute.selenium * self.weight) / self.food_substitute.weight
+        if self.measure_unity == None:
+            return (self.food_substitute.selenium * self.weight) / self.food_substitute.weight
+        else:
+            return (self.food_substitute.selenium * (self.measure().weight * self.weight)) / self.food_substitute.weight

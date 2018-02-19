@@ -55,7 +55,7 @@ class Address(models.Model):
 
 
 class Patient(User):
-	name = models.CharField('Nome', max_length=150)
+	#name = models.CharField('Nome', max_length=150)
 	MALE = 'M'
 	FEMALE  = 'F'
 	SEX_CHOICES = ((MALE, 'Masculino'), (FEMALE, 'Feminino'),)
@@ -77,8 +77,8 @@ class Patient(User):
 
 	birth_date = models.DateField('Data de Nascimento')
 	phone = models.CharField('Telefone', max_length=16)
-	ocupation = models.CharField('Ocupação', max_length=16)
-	observation = models.CharField('Observação sobre o paciente', max_length=200)
+	ocupation = models.CharField('Ocupação', max_length=16, null=True)
+	observation = models.CharField('Observação sobre o paciente', max_length=200, null=True)
 
 	WHITE = 'BRANCO'
 	BLACK = 'NEGRO'

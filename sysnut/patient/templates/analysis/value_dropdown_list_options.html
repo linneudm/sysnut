@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for measure in values %}
+<option value="{{ measure.measure_unity.pk }}">{{ measure.measure_unity.description }}</option>
+{% endfor %}
