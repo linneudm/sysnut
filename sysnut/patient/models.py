@@ -77,8 +77,8 @@ class Patient(User):
 
 	birth_date = models.DateField('Data de Nascimento')
 	phone = models.CharField('Telefone', max_length=16)
-	ocupation = models.CharField('Ocupação', max_length=16, null=True)
-	observation = models.CharField('Observação sobre o paciente', max_length=200, null=True)
+	ocupation = models.CharField('Ocupação', max_length=16, blank=True, null=True)
+	observation = models.CharField('Observação sobre o paciente', max_length=200, blank=True, null=True)
 
 	WHITE = 'BRANCO'
 	BLACK = 'NEGRO'
