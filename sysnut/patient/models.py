@@ -324,7 +324,6 @@ class Consultation(models.Model):
 			return 0
 
 	def tee(self):
-		print(">>>>>", self.energycalc.activity_factor)
 		if self.energycalc.activity_factor != None:
 			result = self.mbr() * decimal.Decimal(self.energycalc.activity_factor.value)
 		else:

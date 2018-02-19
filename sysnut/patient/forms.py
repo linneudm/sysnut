@@ -126,3 +126,6 @@ class SubstituteMealForm(ModelForm):
 		widgets = {
     		'food_substitute': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
 		}
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.fields['meal_substitute'].queryset = MealItem.objects.exclude(original_food__isnull=True)

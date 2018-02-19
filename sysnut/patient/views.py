@@ -986,7 +986,7 @@ class FoodAnalysisUpdate(UpdateView):
 		substitute = substitute_meal_form.save(commit=False)
 		substitute.food_analysis_substitute = analysis
 		save = 0
-		if substitute.food_substitute is not None:
+		if substitute.food_substitute is not None and substitute.meal_substitute:
 			substitute.save()
 			save = 1
 		if self.object.original_food is not None:

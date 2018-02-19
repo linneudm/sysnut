@@ -45,11 +45,6 @@
                 <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
-              {% for substitute in object.substitute_analysis.all %}
-              {% if substitute.meal_substitute == meal %}
-                {{substitute.food_substitute}}
-              {% endif %}
-              {% endfor %}
               </li>
 
 
@@ -65,7 +60,7 @@
                     <div class="modal-body">
                       <div class="row">
                         <div class="col-lg-6">
-                          <p>Peso: {{meal.weight}}</p>
+                          <p>Quantidade: {{meal.weight}}</p>
                           <p>Energia: {{meal.energy}}</p>
                           <p>Carboidratos: {{meal.carbohydrates}}</p>
                           <p>Proteína: {{meal.protein}}</p>
@@ -76,12 +71,27 @@
                           <p>Ferro: {{meal.iron}}</p>
                           <p>Retinol (Vit. A): {{meal.retinol}}</p>
                           <p>Ácido Ascórbico (Vit. C): {{meal.ac_ascorbic}}</p>
-                        </div>  
-                      </div>    
-                    </div>
-                    <div class="modal-footer">
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <div class="col-lg-12">
+                        <h4>Substitutos</h4>
+                        </div>
+                      </div>
+                      <div class="row">
 
+                          {% for substitute in object.substitute_analysis.all %}
+                          {% if substitute.meal_substitute.id == meal.id %}
+                          
+                        <div class="col-lg-6">
+                            {{substitute.food_substitute}} - Qtd.: {{substitute.weight_substitute}}
+                        </div>
+                          {% endif %}
+                          {% endfor %}
+                      </div>
                     </div>
+                    
                   </div>
                 </div>
               </div>       
@@ -309,10 +319,10 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <!--<a class="btn btn-primary"  data-toggle="collapse" href="#alimento-substituto" aria-expanded="false" aria-controls="alimento-substituto">
+          <a class="btn btn-primary"  data-toggle="collapse" href="#alimento-substituto" aria-expanded="false" aria-controls="alimento-substituto">
           Alimentos Substitutos
-          </a>-->
-        <div class="collapse" id="alimento-substituto">
+          </a>
+        <div class="collapse show" id="alimento-substituto">
           <div class="form-row">
             {% for field in substitute_meal_form %}
             {% if field.errors %}
