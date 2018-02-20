@@ -186,10 +186,6 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, 'static'),
 # )
-print(BASE_DIR)
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
 
 FILE_UPLOAD_HANDLERS = ("django_excel.ExcelMemoryFileUploadHandler",
                         "django_excel.TemporaryExcelFileUploadHandler")
