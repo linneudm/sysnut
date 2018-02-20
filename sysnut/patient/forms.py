@@ -5,6 +5,7 @@ from django import forms
 from .models import *
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm, PasswordResetForm
 from sysnut.food.models import MealItem, SubstituteItem, Food
+from datetime import datetime
 from multiupload.fields import MultiFileField
 from dal import autocomplete
 
@@ -34,28 +35,35 @@ class PatientForm(UserCreationForm):
 		fields = ['username', 'first_name', 'last_name', 'email', 'sex', 'birth_date', 'marital_status', 'phone', 'ocupation', 'observation', 'ethnicity']
 
 class PatientEditForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(PatientEditForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].required = True
-        self.fields['last_name'].required = True
-        self.fields['email'].required = True
+    
 
-    class Meta:
-        model = Patient
-        fields = ('username', 'first_name', 'last_name', 'email', 'sex', 'birth_date', 'marital_status', 'phone', 'ocupation', 'observation', 'ethnicity')
+    def __init__(self, *args, **kwargs):
+    	super(PatientEditForm, self).__init__(*args, **kwargs)
+    	self.fields['first_name'].required = True
+    	self.fields['last_name'].required = True
+    	self.fields['email'].required = True
+#'''
+    def clean_birth_date(self):
+    	my_date = self.cleaned_data['birth_date']
+    	my_date = ('%s' % (my_date))
+    	my_date = datetime.strptime(my_date, '%Y-%m-%d').date()
+    	if my_date > date.today():
+    		raise forms.ValidationError("Data inválida")
+    	return my_date
 
     def clean_email(self):
-        username = self.cleaned_data.get('username')
+        #username = self.fields('fields')
         email = self.cleaned_data.get('email')
-
         # Valido o email para ser obrigatório
         if email == '':
         	raise forms.ValidationError('O endereço de email é obrigatório.')
+        if email and User.objects.filter(email=email).count():
+            raise forms.ValidationError('Este endereço de email já está em uso. Por favor, use um e-mail difrerente.')
         return email
 
-        if email and User.objects.filter(email=email).exclude(username=username).count():
-            raise forms.ValidationError('Este endereço de email já está em uso. Por favor, use um email difrerente.')
-        return email
+    class Meta:
+    	model = Patient
+    	fields = ('username', 'first_name', 'last_name', 'email', 'sex', 'birth_date', 'marital_status', 'phone', 'ocupation', 'observation', 'ethnicity')
 
 class AddressForm(ModelForm):
 

@@ -33,7 +33,7 @@
   								<label class="control-label" >{{ field.label }}</label>
   								{{ field|add_class:"form-control input-md" }}
   								{% for error in field.errors%}
-  								<span class="help-inline error">{{ error}}</span>
+  								<small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
   								{% endfor%}
   							</div>
   							{%else%}
@@ -51,7 +51,7 @@
   								<label class="control-label" >{{ field.label }}</label>
   								{{ field|add_class:"form-control input-md" }}
   								{% for error in field.errors%}
-  								<span class="help-inline error">{{ error}}</span>
+  								<small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
   								{% endfor%}
   							</div>
   							{%else%}
@@ -66,7 +66,7 @@
 
   					<div class="form-group">
   						<button type="submit" value="Salvar" class="btn btn-primary">
-  							<span class="fa fa-save" aria-hidden="true"></span>
+  							<span class="fa fa-save" aria-hidden="true"></spann>
   							Salvar
   						</button>
   					</div>

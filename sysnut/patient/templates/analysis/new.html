@@ -276,7 +276,7 @@
                     <label class="control-label" >{{ field.label }}</label>
                     {{ field|add_class:"form-control input-md" }}
                     {% for error in field.errors%}
-                    <span class="help-inline error">{{ error}}</span>
+                    <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
                     {% endfor%}
                   </div>
                   {%else%}
@@ -301,7 +301,7 @@
               <label class="control-label" >{{ field.label }}</label>
               {{ field|add_class:"form-control input-md" }}
               {% for error in field.errors%}
-              <span class="help-inline error">{{ error}}</span>
+              <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
               {% endfor%}
             </div>
             {%else%}
@@ -309,7 +309,7 @@
               <div class="form-group">
                 <label class="control-label" >{{ field.label }}</label>
                 {% if field.label == "Unidade de Medida" %}
-                <small class="text-muted">Deixe em branco para padrao</small>
+                <span class="text-muted">Deixe em branco para padrao</span>
                 {% endif %}
                 {{ field|add_class:"form-control input-md" }}
               </div>
@@ -330,7 +330,7 @@
               <label class="control-label" >{{ field.label }}</label>
               {{ field|add_class:"form-control input-md" }}
               {% for error in field.errors%}
-              <span class="help-inline error">{{ error}}</span>
+              <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
               {% endfor%}
             </div>
             {%else%}
@@ -357,7 +357,7 @@
             <label class="control-label" >{{ field.label }}</label>
             {{ field|add_class:"input-md" }}
             {% for error in field.errors%}
-            <span class="help-inline error">{{ error}}</span>
+            <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
             {% endfor%}
           </div>
           {%else%}
@@ -377,7 +377,7 @@
               <label class="control-label" >{{ field.label }}</label>
               {{ field|add_class:"form-control input-md" }}
               {% for error in field.errors%}
-              <span class="help-inline error">{{ error}}</span>
+              <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
               {% endfor%}
             </div>
             {%else%}
