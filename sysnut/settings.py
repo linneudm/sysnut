@@ -30,7 +30,7 @@ SECRET_KEY = 'f^-7=a3d2irfx0ey5d$5rceq1t-t884cw=4l!$!%c@tzi%ry**'
 DEBUG = False
 COMPRESS_ENABLED = True
 SITE_ID = 1
-ALLOWED_HOSTS = ['sysnut.herokuapp.com', 'www.sysnut.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 LANGUAGES = [
     ('pt-br', _('Portuguese')),
