@@ -52,12 +52,12 @@ class PatientEditForm(forms.ModelForm):
     	return my_date
 
     def clean_email(self):
-        #username = self.fields('fields')
+        username = self.cleaned_data.get('username')
         email = self.cleaned_data.get('email')
         # Valido o email para ser obrigatório
         if email == '':
         	raise forms.ValidationError('O endereço de email é obrigatório.')
-        if email and User.objects.filter(email=email).count():
+        if email and User.objects.filter(email=email).exclude(username=username).count():
             raise forms.ValidationError('Este endereço de email já está em uso. Por favor, use um e-mail difrerente.')
         return email
 
