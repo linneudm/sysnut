@@ -20,13 +20,13 @@
 	{% block styles %}
 	<!-- CSS Comprimido -->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/select2-bootstrap.min.css' %}">
-	
+	{% compress css %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/formset.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% sass_src 'css/bootstrap.scss' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-	
+	{% endcompress %}
 	
 	
 
