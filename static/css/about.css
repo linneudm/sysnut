@@ -1,0 +1,193 @@
+/** 
+ * ======================
+ * Social Icon Style
+ * ======================
+ */
+.social-icon {
+  margin-top: 15px;
+  display: inline-block;
+}
+.social-icon li {
+  list-style: none;
+  float: left;
+  margin-bottom: 0px;
+}
+.social-icon li a {
+  font-size: 26px;
+  text-align: center;
+  width: 33px;
+  height: 33px;
+  padding: 2px;
+  margin-right: 15px;
+  background-color: transparent;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+.social-icon li a:hover,
+.social-icon li a:focus {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  border-color: #ffffff;
+}
+.social-icon li:last-child a {
+  margin-right: 0px;
+}
+/**
+
+/**
+ * ====================================
+ * Features Style 6
+ * ====================================
+ */
+
+.features-hover img{
+  border-radius: 50%;
+}
+
+.mask{
+  border-radius: 50%;
+}
+
+.features-section-6 .each-features {
+  margin-bottom: 0px;
+}
+@media (min-width: 767px) {
+  .features-section-6 .each-features:nth-last-child(-n + 4) .inner {
+    margin-bottom: 0px;
+  }
+}
+@media (max-width: 767px) {
+  .features-section-6 .each-features:nth-last-child(-n + 1) .inner {
+    margin-bottom: 0px;
+  }
+}
+.features-section-6 .each-features img {
+  width: 100%;
+}
+.features-section-6 .each-features .position,
+.features-section-6 .each-features .title {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 30px;
+}
+.features-section-6 .each-features .title {
+  color: rgba(255, 255, 255, 0.85);
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  -ms-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateX(0) translateY(-30px) translateZ(0) rotate(0deg) scale(1);
+  -o-transform: translateX(0) translateY(-30px) translateZ(0) rotate(0deg) scale(1);
+  -ms-transform: translateX(0) translateY(-30px) translateZ(0) rotate(0deg) scale(1);
+  -moz-transform: translateX(0) translateY(-30px) translateZ(0) rotate(0deg) scale(1);
+  -webkit-transform: translateX(0) translateY(-30px) translateZ(0) rotate(0deg) scale(1);
+}
+.features-section-6 .each-features .name {
+  margin: 0;
+}
+.features-section-6 .each-features .features-hover {
+  position: relative;
+}
+.features-section-6 .each-features .detail {
+  padding: 10px 10px;
+}
+.features-section-6 .each-features .mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(73, 39, 74, 0.65);
+  opacity: 0;
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  -o-transition: all 0.4s ease-out;
+  -ms-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.features-section-6 .each-features .mask .mask-inner {
+  position: absolute;
+  left: 0;
+  bottom: 25px;
+  width: 100%;
+}
+.features-section-6 .each-features .social-icon li {
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateX(0) translateY(60px) translateZ(0) rotate(0deg) scale(1);
+  -o-transform: translateX(0) translateY(60px) translateZ(0) rotate(0deg) scale(1);
+  -ms-transform: translateX(0) translateY(60px) translateZ(0) rotate(0deg) scale(1);
+  -moz-transform: translateX(0) translateY(60px) translateZ(0) rotate(0deg) scale(1);
+  -webkit-transform: translateX(0) translateY(60px) translateZ(0) rotate(0deg) scale(1);
+  opacity: 0;
+}
+.features-section-6 .each-features .social-icon li:nth-of-type(2) {
+  -webkit-transition-delay: 0.1s ;
+  -moz-transition-delay: 0.1s ;
+  -o-transition-delay: 0.1s ;
+  transition-delay: 0.1s ;
+}
+.features-section-6 .each-features .social-icon li:nth-of-type(3) {
+  -webkit-transition-delay: 0.2s ;
+  -moz-transition-delay: 0.2s ;
+  -o-transition-delay: 0.2s ;
+  transition-delay: 0.2s ;
+}
+.features-section-6 .each-features .social-icon li:nth-of-type(4) {
+  -webkit-transition-delay: 0.3s ;
+  -moz-transition-delay: 0.3s ;
+  -o-transition-delay: 0.3s ;
+  transition-delay: 0.3s ;
+}
+.features-section-6 .each-features .social-icon li:nth-of-type(5) {
+  -webkit-transition-delay: 0.4s ;
+  -moz-transition-delay: 0.4s ;
+  -o-transition-delay: 0.4s ;
+  transition-delay: 0.4s ;
+}
+.features-section-6 .each-features .inner:hover .mask {
+  opacity: 1;
+}
+.features-section-6 .each-features .inner:hover .title {
+  transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -o-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -ms-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -moz-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -webkit-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+}
+.features-section-6 .each-features .inner:hover .social-icon li {
+  transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -o-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -ms-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -moz-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  -webkit-transform: translateX(0) translateY(0) translateZ(0) rotate(0deg) scale(1);
+  opacity: 1;
+}
+.features-section-6 .each-features .inner:hover .position {
+  color: #49274a;
+}
