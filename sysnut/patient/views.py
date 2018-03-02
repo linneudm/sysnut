@@ -349,7 +349,7 @@ class PatientList(ListView):
 		self.queryset = super(PatientList, self).get_queryset()
 		if self.request.GET.get('search_box', False):
 			if not self.request.user.is_superuser:
-				self.queryset = self.queryset.filter(Q(user=self.request.user))
+				self.queryset = self.queryset.filter(Q(published=True))
 			self.queryset = self.queryset.filter(Q(first_name__icontains = self.request.GET['search_box']) | Q(last_name__icontains = self.request.GET['search_box']))
 		else:
 			if not self.request.user.is_superuser:
@@ -906,9 +906,14 @@ class FoodAnalysisUpdate(UpdateView):
 		context['badge_protein'] = ""
 		context['badge_carb'] = ""
 		context['badge_fat'] = ""
-		context['adequation_protein'] = (protein * 100 )/self.object.consultation.tee()
-		context['adequation_carb'] = (carb * 100 )/self.object.consultation.tee()
-		context['adequation_fat'] = (fat * 100 )/self.object.consultation.tee()
+		if(self.object.consultation.tee() != 0):
+			context['adequation_protein'] = (protein * 100 )/self.object.consultation.tee()
+			context['adequation_carb'] = (carb * 100 )/self.object.consultation.tee()
+			context['adequation_fat'] = (fat * 100 )/self.object.consultation.tee()
+		else:
+			context['adequation_protein'] = 0
+			context['adequation_carb'] = 0
+			context['adequation_fat'] = 0
 		if(self.object.consultation.nutrients == "OMS2008"):
 			if context['adequation_fat'] < 10:
 				context['badge_fat'] = "badge-warning"

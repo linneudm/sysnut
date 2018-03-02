@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Address(models.Model):
+	zip_code = models.CharField('CEP', max_length=10, blank=True, null=True)
 	city = models.CharField('Cidade', max_length=255, blank=True, null=True)
 	UF_CHOICES = (
 	    ('AC', 'Acre'),
@@ -48,7 +49,6 @@ class Address(models.Model):
 	street = models.CharField('Rua',max_length=255, blank=True, null=True)
 	number = models.CharField('Número', max_length=20, blank=True, null=True)
 	complement = models.CharField('Complemento', max_length=255, blank=True, null=True)
-	zip_code = models.CharField('CEP', max_length=10, blank=True, null=True)
 	reference_point = models.CharField('Ponto de Referência', max_length=255, blank=True, null=True)
 	neighborhood = models.CharField('Bairro', max_length=255, blank=True, null=True)
 	country = models.CharField('País', max_length=255, default='Brasil')

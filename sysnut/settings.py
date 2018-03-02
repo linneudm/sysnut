@@ -87,6 +87,8 @@ STATICFILES_FINDERS = [
     'compressor.finders.CompressorFinder',
 ]
 
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
+
 SASS_PRECISION = 8
 SASS_OUTPUT_STYLE = 'compact'
 

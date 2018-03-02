@@ -19,19 +19,18 @@
 
 	{% block styles %}
 	<!-- CSS Comprimido -->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/select2-bootstrap.min.css' %}">
-	{% compress css %}
+	
 	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/formset.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% sass_src 'css/bootstrap.scss' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-	{% endcompress %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/select2-bootstrap.min.css' %}">
 	
-	
-
+	{% compress js %}
 	<script type="text/javascript" src="{% static 'js/fontawesome-all.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	{% endcompress %}
 	{% endblock %}
 
 	<title>
@@ -115,6 +114,7 @@
 	</footer>
 
 	{% block scripts %}
+	{% compress js %}
 	<script type="text/javascript" src="{% static 'formset/jquery.formset.js' %}"></script>
 	
 	<script type="text/javascript" src="{% static 'js/chosen.jquery.min.js' %}"></script>
@@ -125,6 +125,7 @@
 	<script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/popover.js' %}"></script>
 	<script type="text/javascript" src="{% static 'js/tooltip.js' %}"></script>
+	{% endcompress %}
 	{% endblock %}
 
 </body>

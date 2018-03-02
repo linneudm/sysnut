@@ -1,6 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 {% load widget_tweaks %}
 {% block body %}
+<script type="text/javascript" src="{% static 'js/jquery.correios.min.js' %}"></script>
+
 
 <nav class="navbar navbar-light bg-light nav-item">
   <div class="container-fluid justify-content-center align-items-center">
@@ -90,6 +93,10 @@
   </div>
 </div>
 <script type="text/javascript">
+jQuery(function($){
+    correios.init( 'D7GaYIROkDQBebWL14Cu6YoEUFGKFSxc', 'JqSSVmdhLXIUZN59dxwA7XkTsv14gbHz7P2sZlSViN6f6qwG' );
+    $('#id_zip_code').correios( '#id_street', '#id_neighborhood', '#id_city', '#id_state', '#preloader2', false );
+});
 $(document).ready(function(){
   //$("#id_birth_date").attr("readonly", "true");
   $("#id_birth_date").datepicker({

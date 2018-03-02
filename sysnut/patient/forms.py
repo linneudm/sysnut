@@ -7,7 +7,9 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm, PasswordR
 from sysnut.food.models import MealItem, SubstituteItem, Food
 from datetime import datetime
 from multiupload.fields import MultiFileField
-from dal import autocomplete
+#from dal import autocomplete
+from .widgets import ModelSelect2MultipleBootstrap, ModelSelect2Bootstrap
+
 
 
 class PasswordResetForm(PasswordResetForm):
@@ -95,7 +97,7 @@ class BiochemicalForm(ModelForm):
 		model = BiochemicalExam
 		exclude = ['consultation']
 		widgets = {
-			'exam': autocomplete.ModelSelect2(url='patient:biochemical_autocomplete')
+			'exam': ModelSelect2Bootstrap(url='patient:biochemical_autocomplete')
 		}
 
 class EnergyCalcForm(ModelForm):
@@ -128,9 +130,9 @@ class ConsultationForm(ModelForm):
 		model = Consultation
 		exclude = ['patient', 'bodycirc', 'energycalc', 'skinfold', 'bioimpedance', 'bonediameter', 'biochemical']
 		widgets = {
-    		'patology': autocomplete.ModelSelect2Multiple(url='patient:patology_autocomplete'),
-    		#'supplement': autocomplete.ModelSelect2Multiple(url='patient:supplement_autocomplete'),
-    		'vitamin': autocomplete.ModelSelect2Multiple(url='patient:vitamin_autocomplete')
+    		'patology': ModelSelect2MultipleBootstrap(url='patient:patology_autocomplete'),
+    		'supplement': ModelSelect2MultipleBootstrap(url='patient:supplement_autocomplete'),
+    		'vitamin': ModelSelect2MultipleBootstrap(url='patient:vitamin_autocomplete')
 		}
 ExamFormSet = forms.inlineformset_factory(Consultation, Exam, fields=('description','path'),extra=1)
 
@@ -144,8 +146,8 @@ class FoodAnalysisForm(ModelForm):
 		model = FoodAnalysis
 		fields = ['description', 'published', 'guidance']
 		widgets = {
-    		'guidance': autocomplete.ModelSelect2Multiple(url='nutritionist:guidance_autocomplete')
-    		#'guidanceaux': autocomplete.ModelSelect2Multiple(url='patient:guidanceaux_autocomplete')
+    		'guidance': ModelSelect2MultipleBootstrap(url='nutritionist:guidance_autocomplete'),
+    		'guidanceaux': ModelSelect2MultipleBootstrap(url='patient:guidanceaux_autocomplete')
 		}
 
 class UploadGuidanceForm(ModelForm):
@@ -160,7 +162,7 @@ class MealForm(ModelForm):
 		model = MealItem
 		fields = ['meal', 'weight', 'original_food', 'home_measure', 'measure_unity']
 		widgets = {
-    		'original_food': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
+    		'original_food': ModelSelect2Bootstrap(url='patient:food_autocomplete'),
 		}
 
 class SubstituteMealForm(ModelForm):
@@ -168,7 +170,7 @@ class SubstituteMealForm(ModelForm):
 		model = SubstituteItem
 		fields = ['weight_substitute', 'food_substitute', 'unity_substitute', 'meal_substitute']
 		widgets = {
-    		'food_substitute': autocomplete.ModelSelect2(url='patient:food_autocomplete'),
+    		'food_substitute': ModelSelect2Bootstrap(url='patient:food_autocomplete'),
 		}
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
