@@ -1,0 +1,11 @@
+> WebDiet
+
+- Registro de sinais e sintomas do paciente;
+- Rastreamento metabólico através de envio de formulário para o paciente para preenchimento por ele próprio;
+- Registro de exames e suas possíveis observações clínicas;
+- Comparativo de evolução do paciente com base nas suas consultas;
+- Cálculo de planejamento calórico utilizando várias fórmulas como Harris-Benedict, Cunningham, Henry & Rees;
+- Cadastro de alimentos no cardápio com base nas suas categorias (carnes e proteínas, vegetais A ou folheosos, etc.);
+- Cadastro de orientações para o paciente, como lista de siglas, alimentos com alto teor de gordura, etc.
+- Escolha de layout e materiais de consulta para disposição do paciente.
+

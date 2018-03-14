@@ -178,6 +178,8 @@ class Formula(models.Model):
     			return (decimal.Decimal('447.593') + (decimal.Decimal('9.247') * wa) + (decimal.Decimal('3.098') * (h)) - (decimal.Decimal('4.330') * a))
     	elif(self.name == "CUNNINGHAN(1996)"):
     		return (370 + decimal.Decimal('21.6') * lean_mass)
+    	else:
+    		return 0
 
 class FormulaValue(models.Model):
     formula = models.ForeignKey(Formula, verbose_name="Formula", related_name="value_formula", on_delete=models.CASCADE)
@@ -319,12 +321,13 @@ class Consultation(models.Model):
 		else:
 			wa = ideal 
 		if self.energycalc.formula != None:
+			#print(self.energycalc.formula.calculator(sex, h, wa, lm, a))
 			return self.energycalc.formula.calculator(sex, h, wa, lm, a)
 		else:
 			return 0
 
 	def tee(self):
-		if self.energycalc.activity_factor != None:
+		if self.energycalc.activity_factor != None and self.mbr() != None:
 			result = self.mbr() * decimal.Decimal(self.energycalc.activity_factor.value)
 		else:
 			result = 0

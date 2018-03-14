@@ -650,7 +650,7 @@ class ConsultationUpdate(UpdateView):
 		self.object.biochemical = biochemical_form.save(commit=False)
 		self.object.biochemical.consultation = self.object
 		self.object.energycalc = energycalc_form.save(commit=False)
-		self.object.energycalc.mbr = decimal.Decimal(self.object.mbr())
+		self.object.energycalc.mbr = self.object.mbr()
 		self.object.energycalc.tee = self.object.tee()
 		self.object.energycalc = energycalc_form.save()
 		self.object.skinfold = skinfold_form.save()

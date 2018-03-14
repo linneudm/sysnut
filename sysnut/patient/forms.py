@@ -7,8 +7,8 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm, PasswordR
 from sysnut.food.models import MealItem, SubstituteItem, Food
 from datetime import datetime
 from multiupload.fields import MultiFileField
-#from dal import autocomplete
 from .widgets import ModelSelect2MultipleBootstrap, ModelSelect2Bootstrap
+#from dal import autocomplete
 
 
 

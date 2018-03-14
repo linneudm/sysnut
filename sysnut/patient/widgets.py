@@ -7,14 +7,14 @@ class Select2BootstrapWidgetMixin(object):
 
     def build_attrs(self, *args, **kwargs):
         attrs = super(Select2BootstrapWidgetMixin, self).build_attrs(*args, **kwargs)
-        #attrs.setdefault('data-theme','bootstrap')
+        attrs.setdefault('data-theme','bootstrap')
         return attrs
 
     class Media:
         css = {
             'all': (
                 'autocomplete_light/vendor/select2/dist/css/select2.css', # The one from dal_select2.widgets.Select2WidgetMixin
-                #'css/select2-bootstrap.min.css'  # Bootstrap theme itself
+                'css/select2-bootstrap.min.css'  # Bootstrap theme itself
             )
         }
 
