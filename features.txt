@@ -9,3 +9,19 @@
 - Cadastro de orientações para o paciente, como lista de siglas, alimentos com alto teor de gordura, etc.
 - Escolha de layout e materiais de consulta para disposição do paciente.
 
+> NutWin
+
+- Ao cadastrar um novo indivíduo será gerada uma ficha com 7 guias para navegação: Dados Pessoais, Endereço, Anamnese Nutricional, Exames, Antropometria, Inquérito e Plano Alimentar;
+- Gerar Avaliações Antropométricas, contemplando crianças, adolescentes, adultos, gestantes, nutrizes, idosos e portadores de deficiência física; 
+- Alertas em cor diferenciada quando os limites das variáveis antropométricas forem ultrapassados;
+- Elaborar Planos Alimentares com Equivalentes Protéicos e de Energia e calcular inquéritos alimentares recordatórios;
+- Acompanhar até 77 nutrientes ou itens disponíveis na tabela, durante a elaboração dos cálculos alimentáres;
+- Trabalhar com alimentos quantificados em medidas caseiras; 
+- Buscar, incluir, modificar e excluir os alimentos cadastrados, os indivíduos e as tabelas auxiliares do programa; 
+- Incluir uma receita (preparação), utilizando os alimentos cadastrados e armazená-la na tabela de composição de alimentos do programa; 
+- Gerar diversos relatórios dos cadastros, das consultas, dos inquéritos e dos planos alimentares como: listagem dos alimentos, grupo alimentar, medidas caseiras, nutrientes, % de gordura, IMC-adulto, IMC-adolescente, circunferência do braço, gráfico de recomendação nutricional, % de energia, itens alimentares, macronutrientes, relações nutricionais, etc.
+- Configurar a tela do programa, senha, ordem dos nutrientes, padronização da naturalidade, nacionalidade, cor, sexo, cidade, entre outras opções;
+- Cadastrar Modelos para Anamnese e Exames Bioquímicos, facilitando e agilizando o trabalho do profissional;
+- Permite a organização através de Pastas, dos dados dos indivíduos cadastrados para uso posterior;
+- Possibilita a exportação de dados para outros aplicativos, tais como Excel, Word e Access.
+- A Calculadora Nutricional pode ser usada independente do Organizador, para efetuar rapidamente um cálculo.
