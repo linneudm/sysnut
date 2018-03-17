@@ -36,15 +36,19 @@
               Café da Manhã
             </div>
             <ul class="list-group list-group-flush">
-              <div class="cafe"> <!-- Div do AJAX -->
               {% for meal in object.meal_analysis.all %}
+              
               {% if meal.meal == "CAFÉ DA MANHÃ" %}
+              <div class="cafe">
                 <li class="list-group-item">{{meal.original_food}}
                   <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
                   <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                   </a>
                 </li>
+              </div>
+
+
               {% endif %}
               <!-- MODAL -->
               <div class="modal fade" id="modal-id-{{ meal.id }}">
@@ -94,7 +98,6 @@
               </div>       
               <!-- /MODAL -->
               {% endfor %}
-              </div><!-- /End DIV do Ajax -->
             </ul>
           </div>
         </div>
@@ -104,18 +107,18 @@
               Lanche I
             </div>
             <ul class="list-group list-group-flush">
-              <div class="lanche1">
               {% for meal in object.meal_analysis.all %}
               {% if meal.meal == "LANCHE I" %}
+              <div class="lanche1">
               <li class="list-group-item">{{meal.original_food}} 
                 <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
                 <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
               </li>
+              </div>
               {% endif %}
               {% endfor %}
-              </div>
             </ul>
           </div>
         </div>
@@ -125,18 +128,18 @@
               Almoço
             </div>
             <ul class="list-group list-group-flush">
-              <div class="almoco">
               {% for meal in object.meal_analysis.all %}
               {% if meal.meal == "ALMOÇO" %}
+              <div class="almoco">
               <li class="list-group-item">{{meal.original_food}} 
                 <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
                 <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
               </li>
+              </div>
               {% endif %}
               {% endfor %}
-            </div>
             </ul>
           </div>
         </div>
@@ -149,18 +152,18 @@
               Lanche II
             </div>
             <ul class="list-group list-group-flush">
-              <div class="lanche2">
               {% for meal in object.meal_analysis.all %}
               {% if meal.meal == "LANCHE II" %}
+              <div class="lanche2">
               <li class="list-group-item">{{meal.original_food}} 
                 <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
                 <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
               </li>
+              </div>
               {% endif %}
               {% endfor %}
-            </div>
             </ul>
           </div>
         </div>
@@ -170,18 +173,18 @@
               Jantar
             </div>
             <ul class="list-group list-group-flush">
-              <div class="jantar">
               {% for meal in object.meal_analysis.all %}
               {% if meal.meal == "JANTAR" %}
+              <div class="jantar">
               <li class="list-group-item">{{meal.original_food}} 
                 <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
                 <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
               </li>
+              </div>
               {% endif %}
               {% endfor %}
-            </div>
             </ul>
           </div>
         </div>
@@ -191,18 +194,18 @@
               Ceia
             </div>
             <ul class="list-group list-group-flush">
-              <div class="ceia">
               {% for meal in object.meal_analysis.all %}
               {% if meal.meal == "CEIA" %}
+              <div class="ceia">
               <li class="list-group-item">{{meal.original_food}} 
                 <a class="btn btn-danger pull-right" href="{% url 'patient:meal_delete' meal.pk %}"><i class="fa fa-trash"></i></a>
                 <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
               </li>
+              </div>
               {% endif %}
               {% endfor %}
-            </div>
             </ul>
           </div>
         </div>
@@ -218,7 +221,7 @@
           </div>
         </div>
         <div class="col-lg-12">
-          <div class="alert-jquery alert 
+          <div class="alert 
           {% if object.result.val == 0 %}
           alert-success 
           {% elif object.result.val == -1 or object.result.val == 1 %}
@@ -228,14 +231,14 @@
           {% endif %}
           alert-dismissible" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <strong>Calorias encontradas</strong>: <span id="energy_found">{{object.energy}}</span>
-          
+          <strong>Calorias encontradas</strong>: {{object.energy}}
+          {% if object.result.val == 0 or object.result.val > 0 %}
           <p>
             <strong>Percentual de adequação:</strong> 
-            <span id="percent_found">{{object.result.percent|floatformat:"1"}}%</span>
+            {{object.result.percent|floatformat:"1"}}%
           </p>
-          
-          <p><strong>Situação:</strong> <span id="situation">{{object.result.msg}}</span></p>
+          {% endif %}
+          <p><strong>Situação:</strong> {{object.result.msg}}</p>
         </div>
       </div>
     </div>
@@ -302,12 +305,6 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div id="message">
-            
-          </div>
-        </div>
-        {% if "edit" in request.path|cut:"/" %}
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <div class="form-row">
             {% for field in meal_form %}
             {% if field.errors %}
@@ -359,7 +356,6 @@
           </div>
         </div>
         </div>
-        {% endif %}
       </div>
       <div class="pt-4"></div>
 
@@ -665,25 +661,8 @@
 
 <script type="text/javascript" src="{% static 'js/jquery.form.js' %}"></script>
 <script type="text/javascript">
-    var energy = parseFloat({{object.energy}});
-    function measure_class(string){
-      switch(string){
-        case "CAFÉ DA MANHÃ":
-          return "cafe";
-        case "LANCHE I":
-          return "lanche1";
-        case "ALMOÇO":
-          return "almoco";
-        case "LANCHE II":
-          return "lanche2";
-        case "JANTAR":
-          return "jantar";
-        case "CEIA":
-          return "ceia";
-      }
-    }
     function msg(tag, type, content, flagContent=1){
-      var result = '<div class="alert alert-'+ type +' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>ATENÇAO!</strong> '+ content +'.</div>';
+      var result = '<div class="alert alert-'+ type +' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><center><strong>ATENÇAO!</strong> '+ content +'.</div></center>';
       if(flagContent == 1)
         $( tag ).append(result);
       else if(flagContent == 2)
@@ -691,63 +670,39 @@
       else
         $( tag ).html(result);
     }
-    {% if "edit" in request.path|cut:"/" %}
     $('.form_save').on('submit',function(e) {
       e.preventDefault();
-
       $(e.target).ajaxSubmit({
         url  : "{% url 'patient:analysis_edit' object.id %}",
         type : 'POST',
         dataType: 'json',
         error: function(responseText) {
-          msg("#message", "danger", "Erro ao adicionar a refeição. Fale com um Administrador.");
+          msg("#message", "danger", "Erro ao adicionar o alimento. Fale com um Administrador.");
         },
         success: function(responseText){
-          var url = "{% url 'patient:meal_delete' 999 %}".replace(999, responseText.food_id);
+          var url = "{% url 'patient:meal_delete' 999 %}'".replace(999, responseText.food_id);
           if(responseText.msg == 1){
-            msg("#message", "success", "Refeição adicionada com sucesso!");
+            msg("#message", "success", "Alimento adicionado com sucesso!");
             var msg2 =`<li class="list-group-item"> ${responseText.food}<a class="btn btn-danger pull-right" href="`+ url +`"><i class="fa fa-trash"></i></a>
+                <a href="#modal-id-{{ meal.id }}" class="btn btn-outline-primary pull-right" title="Detalhar" data-toggle="modal">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
                 </a></li>`;
 
-            energy += parseFloat(responseText.food_energy);
-            percent = (energy * 100) / {{consultation.tee}};
-            percent = percent.toFixed(1);
-            $("#energy_found").text(energy);
-            $("#percent_found").text(percent+"%");
-            if(percent < 90){
-              $("#situation").text("Inadequado. Abaixo do recomendado.");
-              $(".alert-jquery").addClass("alert-danger");
-              $(".alert-jquery").removeClass("alert-success");
-              $(".alert-jquery").removeClass("alert-secondary");
-            }
-            else if(percent > 110){
-              $("#situation").text("Inadequado. Acima do recomendado.");
-              $(".alert-jquery").addClass("alert-danger");
-              $(".alert-jquery").removeClass("alert-success");
-              $(".alert-jquery").removeClass("alert-secondary");
-            }
-            else{
-              $("#situation").text("Adequado.");
-              $(".alert-jquery").addClass("alert-success");
-              $(".alert-jquery").removeClass("alert-danger");
-              $(".alert-jquery").removeClass("alert-secondary");
-            }
           }
           else if(responseText.msg == 10){
           }
           else{
-          msg("#message", "danger", "Erro ao adicionar a refeição.");
+          msg("#message", "danger", "Erro ao adicionar o comentario.");
           }
           if($('#commentEmpty').length-1 == 0){
             $('#commentEmpty').remove();
           }
 
-          $('.' + measure_class(responseText.food_measure)).append(msg2);
+          $('.cafe').append(msg2);
+          alert("OK!");
         }
       });
     });
-
-  {% endif %}
   $("#id_original_food").change(function () {
     var url = $("#form-analysis").attr("data-measure-url");  // get the url of the `load_cities` view
     var foodId = $(this).val();  // get the selected country ID from the HTML input
