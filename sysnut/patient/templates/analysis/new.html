@@ -683,7 +683,7 @@
       }
     }
     function msg(tag, type, content, flagContent=1){
-      var result = '<div class="alert alert-'+ type +' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>ATENÇAO!</strong> '+ content +'.</div>';
+      var result = '<div class="mt-3 alert-add alert alert-'+ type +' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>ATENÇAO!</strong> '+ content +'</div>';
       if(flagContent == 1)
         $( tag ).append(result);
       else if(flagContent == 2)
@@ -699,6 +699,13 @@
         url  : "{% url 'patient:analysis_edit' object.id %}",
         type : 'POST',
         dataType: 'json',
+        beforeSend: function () {
+            //Aqui adicionas o loader
+            $(".loading").html("<div class='loading-bg'><img class='mx-auto my-auto d-block' src='{% static 'img/preloader3.gif' %}'><p class='sysnut text-center'>Carregando...</p></div>");
+        }, 
+        complete: function(){
+          $('.loading-bg').delay(1700).fadeOut(800);
+        },   
         error: function(responseText) {
           msg("#message", "danger", "Erro ao adicionar a refeição. Fale com um Administrador.");
         },
@@ -743,7 +750,10 @@
           }
 
           $('.' + measure_class(responseText.food_measure)).append(msg2);
+          $('.alert-add').delay(2700).fadeOut(800);
+
         }
+
       });
     });
 
