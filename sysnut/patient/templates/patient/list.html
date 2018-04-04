@@ -15,7 +15,19 @@
 		</form>
 	</div>
 	<ul class="nav justify-content-end">
-		<li class"nav-item">
+		<li class="nav-item">
+			<a class="btn btn-outline-primary float-right" href="{% url 'patient:pdf_patient' %}">
+				<i class="far fa-file-pdf" aria-hidden="true"></i>
+				Pacientes
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="btn btn-outline-danger float-right" href="{% url 'patient:pdf_consultation' %}">
+				<i class="far fa-file-pdf" aria-hidden="true"></i>
+				Consultas
+			</a>
+		</li>
+		<li class="nav-item">
 			<a class="btn btn-outline-secondary float-right" href="{% url 'patient:create' %}">
 				<i class="fa fa-plus" aria-hidden="true"></i>
 				Novo

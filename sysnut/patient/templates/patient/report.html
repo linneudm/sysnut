@@ -13,6 +13,11 @@
           Voltar
         </a>
       </li>
+      <li class="nav-item">
+        <a class="btn btn-outline-info float-right" title="Clique aqui para imprimir" href="{% url 'patient:print' object.id %}">
+          <i class="fa fa-print"></i> Imprimir
+        </a>
+      </li>
     </ul>
   </nav>
 </div>
@@ -261,7 +266,7 @@
             </div>
           </div>
           {% else %}
-         <div role="tabpanel" class="tab-pane fade show active" id="tab-{{cons.id}}">
+         <div role="tabpanel" class="tab-pane fade" id="tab-{{cons.id}}">
           <div class="card">
             <div class="card-body">
               <p class="card-text">

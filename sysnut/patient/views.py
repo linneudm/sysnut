@@ -28,6 +28,7 @@ import os
 #from sysnut.nutritionist.views import is_nutritionist
 import decimal
 from sysnut.food.models import Measure
+import json, xlsxwriter
 # Create your views here.
 
 # class StaffRequiredMixin(object):
@@ -227,6 +228,58 @@ def load_activity(request):
 
 # CRUD Patient
 #@method_decorator(is_nutritionist, name='dispatch')
+
+def pdf_patient(request):
+	# Create an new Excel file and add a worksheet.
+	file_path = "media/upload/patient/"
+	if not os.path.exists(file_path):
+		os.makedirs(file_path)
+	workbook = xlsxwriter.Workbook('media/upload/patient/pacientes.xlsx')
+	worksheet = workbook.add_worksheet()
+
+	# Widen the first column to make the text clearer.
+	worksheet.set_column('A:A', 40)
+	worksheet.set_column('B:B', 20)
+	worksheet.set_column('C:C', 20)
+	worksheet.set_column('D:D', 40)
+	worksheet.set_column('E:E', 20)
+
+	# Add a bold format to use to highlight cells.
+	bold = workbook.add_format({'bold': True})
+
+	# Write some simple text.
+	worksheet.write('A1', 'Pacientes', bold)
+	worksheet.write('B1', 'Sexo', bold)
+	worksheet.write('C1', 'Dt. de Nascimento', bold)
+	worksheet.write('D1', 'E-mail', bold)
+	worksheet.write('E1', 'Nutricionista', bold)
+
+	if(request.user.is_superuser):
+		patients = Patient.objects.all()
+	else:
+		patients = Patient.objects.filter(user=request.user)
+
+
+	for i, patient in enumerate(patients):
+		row = i+1
+		name = ("{} {}").format(patient.first_name, patient.last_name)
+		worksheet.write(row,0, name)
+		worksheet.write(row,1, patient.sex)
+		worksheet.write(row,2, "{:%d/%m/%Y}".format(patient.birth_date))
+		worksheet.write(row,3, patient.email)
+		worksheet.write(row,4, patient.user.username)
+
+	workbook.close()
+
+	path = 'media/upload/patient/pacientes.xlsx'
+	if os.path.exists(path):
+		with open(path, 'rb') as excel:
+			data = excel.read()
+	response = HttpResponse(data,content_type='application/vnd.ms-excel')
+	response['Content-Disposition'] = 'attachment; filename=pacientes.xlsx'
+
+	return response
+
 class PatientCreate(CreateView):
 
 	model = Patient
@@ -410,6 +463,21 @@ class PatientReport(DetailView):
 		return context
 
 
+class PatientPrint(DetailView):
+	model = Patient
+	template_name = 'patient/print.html'
+
+	def get_context_data(self,**kwargs): 
+		context = super(PatientPrint, self).get_context_data(**kwargs)
+		if Consultation.objects.count() > 0:
+			context['consultation'] = []
+			#Adiciona a consulta do paciente a uma lista
+			for cons in self.object.patient_consultation.all():
+				if(cons.patient.id == self.object.id):
+					context['consultation'].append(cons)
+		return context
+
+
 @method_decorator(login_required, name='dispatch')
 class PatientDelete(DeleteView):
 	model = Patient
@@ -419,6 +487,62 @@ class PatientDelete(DeleteView):
 
 
 # CRUD Consultation
+
+def pdf_consultation(request):
+	# Create an new Excel file and add a worksheet.
+	file_path = "media/upload/patient/"
+	if not os.path.exists(file_path):
+		os.makedirs(file_path)
+	workbook = xlsxwriter.Workbook('media/upload/patient/consultas.xlsx')
+	worksheet = workbook.add_worksheet()
+
+	# Widen the first column to make the text clearer.
+	worksheet.set_column('A:A', 40)
+	worksheet.set_column('B:B', 30)
+	worksheet.set_column('C:C', 30)
+	worksheet.set_column('D:D', 20)
+	worksheet.set_column('E:E', 40)
+
+	# Add a bold format to use to highlight cells.
+	bold = workbook.add_format({'bold': True})
+
+	# Write some simple text.
+	worksheet.write('A1', 'Paciente', bold)
+	worksheet.write('B1', 'Dt. Consulta', bold)
+	worksheet.write('C1', 'Objetivo', bold)
+	worksheet.write('D1', 'IMC', bold)
+	worksheet.write('E1', 'Observações', bold)
+
+	if(request.user.is_superuser):
+		consultations = Consultation.objects.all()
+	else:
+		consultations = Consultation.objects.filter(patient__user=request.user)
+
+	for i, consultation in enumerate(consultations):
+		row = i+1
+		name = ("{} {}").format(consultation.patient.first_name, consultation.patient.last_name)
+		imc = consultation.imc()
+		if consultation.observation != None:
+			observation = consultation.observation
+		else:
+			observation = "Nenhuma observação registrada."
+		worksheet.write(row,0, name)
+		worksheet.write(row,1, "{:%d/%m/%Y}".format(consultation.date))
+		worksheet.write(row,2, consultation.objective)
+		worksheet.write(row,3, imc['val'])
+		worksheet.write(row,4, consultation.observation)
+
+	workbook.close()
+
+	path = 'media/upload/patient/consultas.xlsx'
+	if os.path.exists(path):
+		with open(path, 'rb') as excel:
+			data = excel.read()
+	response = HttpResponse(data,content_type='application/vnd.ms-excel')
+	response['Content-Disposition'] = 'attachment; filename=consultas.xlsx'
+
+	return response
+
 
 @method_decorator(login_required, name='dispatch')
 class ConsultationCreate(CreateView):
@@ -1008,7 +1132,9 @@ class FoodAnalysisUpdate(UpdateView):
 			msg = 1
 			code = 200
 			#Quero retornar a descrição do alimento cadastrado
-			response = JsonResponse({'food_energy': self.object.original_food.energy, 'food_measure':self.object.meal,'food_id':self.object.id,'food':self.object.original_food.description,'msg': msg, 'code': code}, safe=False)
+			food = {'description': self.object.original_food.description, 'energy': self.object.original_food.energy}
+			meal = {'id': self.object.id, 'meal_name': self.object.meal}
+			response = JsonResponse({'food': food, 'meal': meal,'msg': msg, 'code': code}, safe=False)
 			return response
 			#return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))

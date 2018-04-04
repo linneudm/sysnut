@@ -26,7 +26,7 @@ body {
 }
 
 .loading-bg{
-  margin-top: 550px;
+  padding-top: 550px;
   position: absolute;
   z-index: 1;
   width: 100%;

@@ -33,11 +33,13 @@ SITE_ID = 1
 ALLOWED_HOSTS = ['.herokuapp.com']
 
 LANGUAGES = [
-    ('pt-br', _('Portuguese')),
-    ('en', _('English')),
-    ('es', _('Spanish')),
+    ('pt-BR', _('Portuguese')),
+#    ('en', _('English')),
+#    ('es', _('Spanish')),
 ]
 LANGUAGE_CODE = 'pt-BR'
+
+DATE_INPUT_FORMATS = ['%d/%m/%Y']
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale/')

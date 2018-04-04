@@ -710,13 +710,13 @@
           msg("#message", "danger", "Erro ao adicionar a refeição. Fale com um Administrador.");
         },
         success: function(responseText){
-          var url = "{% url 'patient:meal_delete' 999 %}".replace(999, responseText.food_id);
+          var url = "{% url 'patient:meal_delete' 999 %}".replace(999, responseText.meal.id);
           if(responseText.msg == 1){
             msg("#message", "success", "Refeição adicionada com sucesso!");
-            var msg2 =`<li class="list-group-item"> ${responseText.food}<a class="btn btn-danger pull-right" href="`+ url +`"><i class="fa fa-trash"></i></a>
+            var msg2 =`<li class="list-group-item"> ${responseText.food.description}<a class="btn btn-danger pull-right" href="`+ url +`"><i class="fa fa-trash"></i></a>
                 </a></li>`;
 
-            energy += parseFloat(responseText.food_energy);
+            energy += parseFloat(responseText.food.energy);
             percent = (energy * 100) / {{consultation.tee}};
             percent = percent.toFixed(1);
             $("#energy_found").text(energy);
@@ -749,7 +749,7 @@
             $('#commentEmpty').remove();
           }
 
-          $('.' + measure_class(responseText.food_measure)).append(msg2);
+          $('.' + measure_class(responseText.meal.meal_name)).append(msg2);
           $('.alert-add').delay(2700).fadeOut(800);
 
         }

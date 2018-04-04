@@ -13,12 +13,15 @@ urlpatterns = [
     url(r'^edit/(?P<pk>[0-9]+)/$',permission_required('patient.add_patient', raise_exception=True)(PatientUpdate.as_view()), name='edit'),
     # Duplicar item, ver tratamento no HTML "new.html"
     url(r'^duplicate/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(PatientUpdate.as_view()), name='duplicate'),
+    url(r'^pdf/$', permission_required('patient.add_patient', raise_exception=True)(pdf_patient), name='pdf_patient'),
 	url(r'^list/$', permission_required('patient.add_patient', raise_exception=True)(PatientList.as_view()), name='list'),
     url(r'^details/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(PatientDetail.as_view()), name='details'),
     url(r'^report/(?P<pk>[0-9]+)/$',PatientReport.as_view(), name='report'),
+    url(r'^print/(?P<pk>[0-9]+)/$',PatientPrint.as_view(), name='print'),
     url(r'^delete/(?P<pk>[0-9]+)/$',permission_required('patient.add_patient', raise_exception=True)(PatientDelete.as_view()), name='delete'),
 
     #Consultation
+    url(r'^consultation/pdf/$', permission_required('patient.add_patient', raise_exception=True)(pdf_consultation), name='pdf_consultation'),
     url(r'^consultation/add/(?P<patient>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(ConsultationCreate.as_view()), name='consultation_create'),
     url(r'^consultation/edit/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(ConsultationUpdate.as_view()), name='consultation_edit'),
     url(r'^consultation/duplicate/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(ConsultationUpdate.as_view()), name='consultation_duplicate'),

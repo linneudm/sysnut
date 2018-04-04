@@ -304,7 +304,7 @@ class Consultation(models.Model):
 			'result': result,
 			}
 		return imc
-
+	#taxa metabolica basal (tmb)
 	def mbr(self):
 		w = (self.weight)#peso
 		h = (self.height)#altura
@@ -325,19 +325,127 @@ class Consultation(models.Model):
 			return self.energycalc.formula.calculator(sex, h, wa, lm, a)
 		else:
 			return 0
-
+	#gasto energetico total (get)
 	def tee(self):
 		if self.energycalc.activity_factor != None and self.mbr() != None:
 			result = self.mbr() * decimal.Decimal(self.energycalc.activity_factor.value)
 		else:
 			result = 0
 		return result
+	#relacao cintura quadril (rcq)
+	def whp(self):
+		whp = 0
+		result = "Nada cadastrado."
+		tag="secondary"
+		if self.bodycirc.waist_circ != 0 and self.bodycirc.hip_circ != 0:
+			age = (self.patient.created_at.year - self.patient.birth_date.year)
+			sex = self.patient.sex
+			whp = self.bodycirc.waist_circ / self.bodycirc.hip_circ
+			if age >= 50:
+				if sex == 'M':
+					if age < 60 and age >= 50:
+						if whp < 0.9:
+							result = "Baixo."
+							tag = "info"
+						elif whp <= 0.96:
+							result = "Moderado."
+							tag = "warning"
+						elif whp <= 1.02:
+							result = "Alto."
+							tag = "danger"
+						else:
+							result = "Muito alto."
+							tag = "danger"
+					if age < 70 and age >= 60:
+						if whp < 0.91:
+							result = "Baixo."
+							tag = "info"
+						elif whp <= 0.98:
+							result = "Moderado."
+							tag = "warning"
+						elif whp <= 1.03:
+							result = "Alto."
+							tag = "danger"
+						else:
+							result = "Muito alto."
+							tag = "danger"
+				else:
+					if age < 60 and age >= 50:
+						if whp < 0.74:
+							result = "Baixo."
+							tag = "info"
+						elif whp <= 0.81:
+							result = "Moderado."
+							tag = "warning"
+						elif whp <= 0.88:
+							result = "Alto."
+							tag = "danger"
+						else:
+							result = "Muito alto."
+							tag = "danger"
+					if age < 70 and age >= 60:
+						if whp < 0.76:
+							result = "Baixo."
+							tag = "info"
+						elif whp <= 0.83:
+							result = "Moderado."
+							tag = "warning"
+						elif whp <= 0.90:
+							result = "Alto."
+							tag = "danger"
+						else:
+							result = "Muito alto."
+							tag = "danger"
+			else:
+				result = "Não aplicável."
+				tag = "secondary"
+				whp = 0
+
+		else:
+			result = "Valores da Circ. da Cintura e/ou Circ. do Quadril não definidos."
+		whp = {
+			"val": whp,
+			"result": result,
+			"tag": tag,
+		}
+		return whp
+	#relacao cintura altura
+	def whr(self):
+		whr = 0
+		result = "Nada cadastrado."
+		tag="secondary"
+		if self.bodycirc.waist_circ != 0 and self.height != 0:
+			sex = self.patient.sex
+			whr = self.bodycirc.waist_circ / (self.height * 100)
+			if sex == 'M':
+				if whr > 0.52:
+					result = "Aumentado."
+					tag = "danger"
+				else:
+					result = "Normal."
+					tag = "info"
+			else:
+				if whr > 0.53:
+					result = "Aumentado."
+					tag = "danger"
+				else:
+					result = "Normal."
+					tag = "info"
+
+		else:
+			result = "Valores da Circ. da Cintura e/ou altura não definidos."
+		whr = {
+			"val": whr,
+			"result": result,
+			"tag": tag,
+		}
+		return whr
 
 	def get_absolute_url(self):
 		return reverse('patient:consultation_list', kwargs={'id': self.pk})
 
 	def __str__(self):
-		return self.patient.name
+		return self.patient.first_name
 
 	class Meta:
 		verbose_name = 'Consulta'

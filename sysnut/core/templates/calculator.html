@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block styles %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}">
+{% endblock %}
+{% block body %}
+<div class="container">
+  <form id="calculator_form">
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <div style="margin-top: 3em;">
+        </div>
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item"><a class="nav-link active" href="#tab-harris" aria-controls="tab-harris" role="tab" data-toggle="tab">HARRIS-BENEDICT</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tab-cunningham" aria-controls="tab-cunningham" role="tab" data-toggle="tab">CUNNINGHAM</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tab-rcq" aria-controls="tab-rcq" role="tab" data-toggle="tab">RCQ</a></li>
+        </ul>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade show active" id="tab-harris">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" >Peso
+                    <input id="weight" class="form-control" type="number" step="0.01">
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label"> Sexo
+                    <select id="sex" class="form-control">
+                      <option value="M" selected>Masculino</option>
+                      <option value="F">Feminino</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" >Altura
+                    <input id="height" class="form-control" type="number" step="0.01">
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" >Idade
+                    <input id="age" class="form-control" type="number" step="1">
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="control-label" >Fator de Atividade
+                    <input id="activity_factor" class="form-control" type="number" step="0.01">
+                  </label>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary calculate_hb float-right" type="submit"><i class="fa fa-calculator fa-fw"></i>Calcular (H.B)</button>
+          </div>
+
+          <div role="tabpanel" class="tab-pane fade" id="tab-cunningham">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" >Massa Livre
+                    <input id="lean_mass" class="form-control" type="number" step="0.01">
+                    <small class="text-muted">Necessário somente para Cunningham</small>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary calculate_c float-right" type="submit"><i class="fa fa-calculator fa-fw"></i>Calcular (C)</button>
+          </div>
+          <div role="tabpanel" class="tab-pane fade show" id="tab-rcq">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" >Cintura
+                    <input id="waist" class="form-control" type="number" step="0.01">
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" >Quadril
+                    <input id="hip" class="form-control" type="number" step="0.01">
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label" >Idade
+                    <input id="age_whp" class="form-control" type="number" step="1">
+                  </label>
+                </div>
+              <div class="form-group">
+                <label class="control-label"> Sexo
+                  <select id="sex_whp" class="form-control">
+                    <option value="M" selected>Masculino</option>
+                    <option value="F">Feminino</option>
+                  </select>
+                </label>
+              </div>
+              </div>
+            </div>
+            <button class="btn btn-primary calculate_whp float-right" type="submit"><i class="fa fa-calculator fa-fw"></i>Calcular (RCQ)</button>
+          </div>
+
+
+        </div>
+
+        
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div style="margin-top: 3em;">
+        </div>
+        <div class="form-group">
+          <div class="control-label">Resultado</div>
+          <div id="result">
+            <p class="tmb"></p>
+            <p class="get"></p>
+          </div>
+          <div id="alert-rcq" class="alert">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{{block.super}}
+
+<script>
+  $(document).ready(function(){  
+    $('.calculate_hb').click(function(e){
+      e.preventDefault();
+      var weight = parseFloat($('#weight').val());
+      var activity_factor = parseFloat($('#activity_factor').val());
+      var height = parseFloat($('#height').val());
+      var age = parseInt($('#age').val());
+      var sex = $('#sex option:selected').val();
+      var ideal = 24 * (height * height);
+      var imc = weight / (height * height);
+      var wa;
+      if (imc > 30){
+        wa = (weight - ideal) * 0.25 + ideal;
+      }
+      else if (imc < 18){
+        wa = (ideal - weight) * 0.25 + weight;
+      }
+      else{
+        wa = ideal
+      }
+
+      if(sex == 'M'){
+        result = 66 + 13.7 * wa + (5 * height) - (6.8 * age);
+      }
+      else{
+        result = 0;
+      }
+      get = result * activity_factor;
+      var text = "<div>"
+      var mbr = "A TMB resultante é: " + result;
+      var tee = "O GET resultante é: " + get;
+      text = mbr + tee + "</div>";
+      $('.tmb').text(mbr);
+      $('.get').text(tee);
+    });
+  });
+  $(document).ready(function(){  
+    $('.calculate_c').click(function(e){
+      e.preventDefault();
+      var lean_mass = parseFloat($('#lean_mass').val());
+      result = (370 + 21.6) * lean_mass
+    //var result = $('#sex option:selected').text();
+    $('#result').text(result);
+  });
+  });
+  $(document).ready(function(){  
+    $('.calculate_whp').click(function(e){
+      e.preventDefault();
+      var waist = parseFloat($('#waist').val());
+      var hip = parseFloat($('#hip').val());
+      var age = parseInt($('#age_whp').val());
+      var sex = $('#sex_whp option:selected').val();
+      var tag = "";
+      var result = "";
+      whp = (waist / hip);
+
+      if (sex == 'M'){
+        if (age < 60 && age >= 50){
+          if (whp < 0.9){
+            result = "Baixo.";
+            tag = "alert-info";
+          }
+          else if (whp <= 0.96){
+            result = "Moderado.";
+            tag = "alert-warning";
+          }
+          else if (whp <= 1.02){
+            result = "Alto.";
+            tag = "alert-danger";
+          }
+          else{
+            result = "Muito alto.";
+            tag = "danger";
+          }
+       }
+      else if (age < 70 && age >= 60){
+            if (whp < 0.91){
+              result = "Baixo.";
+              tag = "alert-info";
+            }
+            else if (whp <= 0.98){
+              result = "Moderado.";
+              tag = "alert-warning";
+            }
+            else if (whp <= 1.03){
+              result = "Alto.";
+              tag = "alert-danger";
+            }
+            else{
+              result = "Muito alto.";
+              tag = "alert-danger";
+            }
+          }
+        else{
+          result = "Não aplicável.";
+          tag = "alert-secondary";
+        }
+      }
+      else{
+        if (age < 60 && age >= 50){
+          if (whp < 0.74){
+            result = "Baixo.";
+            tag = "alert-info";
+          }
+          else if (whp <= 0.81){
+            result = "Moderado.";
+            tag = "alert-warning";
+          }
+          else if (whp <= 0.88){
+            result = "Alto.";
+            tag = "alert-danger";
+          }
+          else{
+            result = "Muito alto.";
+            tag = "alert-danger";
+          }
+        }
+        else if (age < 70 && age >= 60){
+            if (whp < 0.76){
+              result = "Baixo.";
+              tag = "alert-info";
+            }
+            else if (whp <= 0.83){
+              result = "Moderado.";
+              tag = "alert-warning";
+            }
+            else if (whp <= 0.90){
+              result = "Alto.";
+              tag = "alert-danger";
+            }
+            else{
+              result = "Muito alto.";
+              tag = "alert-danger";
+            }
+          }
+        else{
+          result = "Não aplicável.";
+          tag = "alert-secondary";
+        }
+      }
+
+    result = "RCQ: " + whp + " - " + result;
+
+    //var result = $('#sex option:selected').text();
+
+    $('#alert-rcq').removeClass("alert-danger");
+    $('#alert-rcq').removeClass("alert-info");
+    $('#alert-rcq').removeClass("alert-warning");
+    $('#alert-rcq').removeClass("alert-secondary");
+
+    $('#alert-rcq').addClass(tag);
+    $('#alert-rcq').text(result);
+  });
+  });
+</script>
+
+{% endblock %}

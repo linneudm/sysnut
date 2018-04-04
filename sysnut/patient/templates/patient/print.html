@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<style type="text/css" media="print">
+@page { 
+  size: portrait;
+  size: auto;   /* auto is the initial value */ 
+
+  /* this affects the margin in the printer settings */ 
+  margin: 25mm 15mm 25mm 15mm;  
+
+}
+</style>
+<div class="container">
+  <nav class="navbar navbar-light bg-light">
+    <div class="navbar-header">
+      <a class="navbar-brand text-center" href="#">Impressão de Relatório</a>
+    </div>
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="btn btn-outline-secondary float-right" href="javascript:window.history.go(-1)">
+          Voltar
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-outline-info" title="Clique aqui para imprimir" onclick="window.print();">
+          <i class="fa fa-print"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </nav>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="header-print">
+        <center>
+          Sistema de Apoio ao Nutricionista - SysNut <br>
+          Relatório <br>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="print-page">
+  <div class="container cardapio-print">
+    <div class="row">
+      <div class="col-md-9">
+      <p><b>Nome do Paciente: </b>{{object.first_name}} {{object.last_name}}</p>
+      </div>
+      <div class="col-md-3">
+      <p><b>Idade: </b>{{object.age}}</p>
+      </div>
+    </div>
+    {% for cons in consultation %}
+    <div class="row">
+      <div class="col-md-12">
+    <p><b>Data da consulta: </b>{{cons.date|date:"d/m/Y"}}</p>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <p><b>Peso: </b>{{cons.weight}} kg.</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>Altura: </b>{{cons.height}} metros.</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>Peso: </b>{{cons.weight}} kg.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <p><b>IMC: </b>{{cons.imc.val|floatformat:"2"}} <span class="badge badge-{{cons.imc.tag}}">{{cons.imc.result}}</span></p>
+      </div>
+      <div class="col-md-4">
+        <p><b>Peso Ideal: </b>{{cons.imc.ideal|floatformat:"2"}} kg</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>Peso ajustado: </b>{{cons.imc.adjust|floatformat:"2"}} kg.</p>
+      </div>
+    </div>
+    <p><b>Cálculos Energéticos</b></p>
+    <div class="row">
+      <div class="col-md-4">
+        <p><b>Formula: </b>{{cons.energycalc.activity_factor.formula}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>TMB: </b>{{cons.energycalc.mbr|floatformat:"2"}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><b>GET: </b>{{cons.energycalc.tee|floatformat:"2"}}</p>
+      </div>
+      <div class="col-md-12">
+        <p><b>Fator de Atividade: </b>{{cons.energycalc.activity_factor}} - {{cons.energycalc.activity_factor.value}}</p>
+      </div>
+    </div>
+    <p><b>Exames</b></p>
+    <div class="row">
+      {% for exam in cons.consultation_biochemical.all %}
+      <div class="col-md-4">
+      <p><b>{{exam.exam}}: </b>
+        {{exam.condiction}}
+      </p>
+      </div>
+      {% endfor %}    
+  </div>
+  <p><b>Risco de Desenvolvimento de Doenças Cardiovasculares</b></p>
+    <div class="row">
+      <div class="col-md-4">
+        <p><b>RCQ: </b>{{cons.whp.val|floatformat:"2"}} <span class="badge badge-{{cons.whp.tag}}">{{cons.whp.result}}</span></p>
+      </div>
+      <div class="col-md-4">
+        <p><b>RCE: </b>{{cons.whr.val|floatformat:"2"}} <span class="badge badge-{{cons.whr.tag}}">{{cons.whr.result}}</span></p>
+      </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
