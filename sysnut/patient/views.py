@@ -945,6 +945,21 @@ class FoodAnalysisPrint(DetailView):
 	model = FoodAnalysis
 	template_name = 'analysis/print.html'
 
+class FoodAnalysisGuidance(UpdateView):
+	model = FoodAnalysis
+	template_name = 'analysis/guidance.html'
+	form_class = FoodAnalysisGuidanceForm
+
+	def get_context_data(self, **kwargs):
+		context = super(FoodAnalysisGuidance, self).get_context_data(**kwargs)
+		context['consultation_id'] = self.object.consultation.id
+		context['consultation'] = Consultation.objects.get(id = self.object.consultation.id)
+		#context['guidanceaux_form'] = GuidanceAux.objects.all()
+		return context
+
+	def get_success_url(self):
+		return reverse_lazy('patient:analysis_list', kwargs={'consultation': self.object.consultation.id})
+
 @method_decorator(login_required, name='dispatch')
 class FoodAnalysisCreate(CreateView):
 	model = FoodAnalysis
@@ -974,7 +989,6 @@ class FoodAnalysisCreate(CreateView):
 			messages.add_message(request, messages.SUCCESS, 'Cardápio adicionado com sucesso!')
 			return self.form_valid(form)
 		else:
-			print("AASDAWEQW>>>>")
 			return self.form_invalid(form)
 
 	def form_valid(self, form):
@@ -986,8 +1000,7 @@ class FoodAnalysisCreate(CreateView):
 		#substitute.food_analysis_substitute = analysis
 		#if substitute.food_substitute is not None:
 			#substitute.save()
-		for item in form.cleaned_data['guidance']:
-			analysis.guidance.add(item)
+
 #		for item in form.cleaned_data['guidanceaux']:
 #			analysis.guidanceaux.add(item)
 		#self.object.food_analysis = analysis
@@ -1110,19 +1123,18 @@ class FoodAnalysisUpdate(UpdateView):
 	def form_valid(self, form, meal_form, substitute_meal_form):
 		self.object = meal_form.save(commit=False)
 		analysis = form.save(commit=False)
-		analysis.guidance = {}
-		for item in form.cleaned_data['guidance']:
-			analysis.guidance.add(item)
 		analysis.save()
 		self.object.food_analysis = analysis
 		#Verifica se existe alguma refeição cadastrada, se nao salva somente dados do cardapio
 		substitute = substitute_meal_form.save(commit=False)
 		substitute.food_analysis_substitute = analysis
 		save = 0
+		if analysis.description != None:
+			save = 2
 		#Verifica se existe um alimento substituto selecionado
 		if substitute.food_substitute is not None and substitute.meal_substitute:
 			substitute.save()
-			save = 1
+			save = 3
 		#Verifica se existe um alimento selecionado
 		if self.object.original_food is not None:
 			self.object.save()
@@ -1136,6 +1148,23 @@ class FoodAnalysisUpdate(UpdateView):
 			meal = {'id': self.object.id, 'meal_name': self.object.meal}
 			response = JsonResponse({'food': food, 'meal': meal,'msg': msg, 'code': code}, safe=False)
 			return response
+		elif save == 2:
+			msg = 2
+			code = 200
+			food = {'description': None, 'energy': None}
+			meal = {'id': None, 'meal_name': None}
+			response = JsonResponse({'food': food, 'meal': meal,'msg': msg, 'code': code}, safe=False)
+			return response
+		if save == 3:
+			#Se existe pelo menos um objeto a ser salvo, salva retorna pra mesma pagina com JSON
+			msg = 3
+			code = 200
+			#Quero retornar a descrição do alimento cadastrado
+			food = {'description': None, 'energy': None}
+			meal = {'id': None, 'meal_name': None}
+			response = JsonResponse({'food': food, 'meal': meal,'msg': msg, 'code': code}, safe=False)
+			return response
+
 			#return HttpResponseRedirect(reverse('patient:analysis_edit', kwargs={'pk':analysis.pk}))
 		return HttpResponseRedirect(reverse('patient:analysis_list', kwargs={'consultation':analysis.consultation.id}))
 

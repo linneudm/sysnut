@@ -145,9 +145,13 @@ class FoodAnalysisForm(ModelForm):
 	class Meta:
 		model = FoodAnalysis
 		fields = ['description', 'published', 'guidance']
+
+class FoodAnalysisGuidanceForm(ModelForm):
+	class Meta:
+		model = FoodAnalysis
+		fields = ['guidance']
 		widgets = {
-    		'guidance': ModelSelect2MultipleBootstrap(url='nutritionist:guidance_autocomplete'),
-    		'guidanceaux': ModelSelect2MultipleBootstrap(url='patient:guidanceaux_autocomplete')
+			'guidance': ModelSelect2MultipleBootstrap(url='nutritionist:guidance_autocomplete'),
 		}
 
 class UploadGuidanceForm(ModelForm):

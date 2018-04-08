@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block body %}
+<div class="clearfix"></div>
+<nav class="navbar navbar-light bg-light nav-item">
+	<div class="container-fluid justify-content-center align-items-center">
+		<div class="navbar-header">
+			<a class="navbar-brand text-center" href="#">Orientações do Cardápio</a>
+		</div>
+		<ul class="navbar-nav navbar-right">
+			<li class="nav-item">
+				<a class="btn btn-outline-secondary" href="{% url 'patient:analysis_list' consultation_id %}">Voltar</a>
+			</li>
+		</div>
+	</ul>
+</nav>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<form action="." method="post">{% csrf_token %}
+				<fieldset>
+					<div class="form-row">
+						{% for field in form %}
+						{% if field.errors %}
+						<div class="col-lg-6">
+							<div class="form-group error" >
+								<label class="control-label" >{{ field.label }}</label>
+								{{ field|add_class:"form-control input-md" }}
+								{% for error in field.errors%}
+								<small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
+								{% endfor%}
+							</div>
+						</div>
+						{%else%}
+						<div class="form-group">
+							<label class="control-label" >{{ field.label }}</label>
+							{{ field|add_class:"form-control input-md" }}
+						</div>
+					</div>
+					{%endif%}
+					{% endfor %}
+				</div>
+				<div class="form-group">
+					<button type="submit" value="Salvar" class="btn btn-primary">
+						<span class="fa fa-save" aria-hidden="true"></span>
+						Salvar
+					</button>
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+</div>
+</div>
+{{form.media}}
+{% endblock %}

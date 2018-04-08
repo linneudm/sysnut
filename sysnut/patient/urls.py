@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^analysis/publish/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(publish_analysis), name='publish_analysis'),
     url(r'^analysis/add/(?P<consultation>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisCreate.as_view()), name='analysis_create'),
     url(r'^analysis/edit/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisUpdate.as_view()), name='analysis_edit'),
+    url(r'^analysis/guidance/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisGuidance.as_view()), name='analysis_guidance'),
     url(r'^analysis/duplicate/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisUpdate.as_view()), name='analysis_duplicate'),
     url(r'^analysis/list/(?P<consultation>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(FoodAnalysisList.as_view()), name='analysis_list'),
     url(r'^analysis/details/(?P<pk>[0-9]+)/$',FoodAnalysisDetail.as_view(), name='analysis_details'),

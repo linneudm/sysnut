@@ -20,7 +20,6 @@
 <div class="container-fluid">
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item"><a class="nav-link active" href="#tab-cardapio" aria-controls="tab-cardapio" role="tab" data-toggle="tab">Cardápio</a></li>
-    <li class="nav-item"><a class="nav-link" href="#tab-orientacao" aria-controls="tab-orientacao" role="tab" data-toggle="tab">Gerar Orientação</a></li>
     <li class="nav-item"><a class="nav-link" href="#tab-orientacao2" aria-controls="tab-orientacao2" role="tab" data-toggle="tab">Orientação dada</a></li>
   </ul>
 </div>
@@ -363,51 +362,6 @@
       </div>
       <div class="pt-4"></div>
 
-      <div role="tabpanel" class="tab-pane fade" id="tab-orientacao">
-        <div class="container-fluid">
-          {% for field in form %}
-          {% if field.label == "Orientação pré-definida" or field.label == "Orientação" %}
-          {% if field.errors %}
-          <div class="form-group error" >
-            <label class="control-label" >{{ field.label }}</label>
-            {{ field|add_class:"input-md" }}
-            {% for error in field.errors%}
-            <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
-            {% endfor%}
-          </div>
-          {%else%}
-          <div class="form-group">
-            <label class="control-label pb-2" >{{ field.label }}
-              {{ field|add_class:"input-md" }}
-            </label>
-          </div>
-          {%endif%}
-          {%endif%}
-          {% endfor %}
-
-          <div class="form-inline">
-            {% for field in guidanceaux_form %}
-            {% if field.errors %}
-            <div class="form-group error" >
-              <label class="control-label" >{{ field.label }}</label>
-              {{ field|add_class:"form-control input-md" }}
-              {% for error in field.errors%}
-              <small class="form-text text-muted"><i class="fa fa-exclamation-circle fa-fw" color="red"></i>{{ error}}</small>
-              {% endfor%}
-            </div>
-            {%else%}
-            <div class="col-lg-6">
-              <div class="form-group">
-                <label class="control-label pb-2" >{{ field.label }}
-                  {{ field|add_class:"form-control input-md" }}
-                </label>
-              </div>
-            </div>
-            {%endif%}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
       <div role="tabpanel" class="tab-pane fade" id="tab-orientacao2">
         <div class="container-fluid">
 
@@ -655,13 +609,13 @@
 </div>
 </div>
 
+{{ meal_form.media }}
 
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
 
-{{ form.media }}
 
 <script type="text/javascript" src="{% static 'js/jquery.form.js' %}"></script>
 <script type="text/javascript">
@@ -740,7 +694,11 @@
               $(".alert-jquery").removeClass("alert-secondary");
             }
           }
-          else if(responseText.msg == 10){
+          else if(responseText.msg == 2){
+            msg("#message", "success", "Cardápio alterado com sucesso!");  
+          }
+          else if(responseText.msg == 3){
+            msg("#message", "success", "Alimento substituto adicionado com sucesso!");  
           }
           else{
           msg("#message", "danger", "Erro ao adicionar a refeição.");
