@@ -243,9 +243,9 @@ def pdf_patient(request):
 	pdf.cell(w=70,h=10, txt="Relação de Pacientes", border=0)
 	#Quebra a linha
 	pdf.multi_cell(w=200,h=10, txt="", border=0)
-	pdf.cell(w=70,h=10, txt="Nome do Paciente", border=0)
+	pdf.cell(w=50,h=10, txt="Nome do Paciente", border=0)
 	pdf.cell(w=20,h=10, txt="Sexo", border=0)
-	pdf.cell(w=60,h=10, txt="E-mail", border=0)
+	pdf.cell(w=80,h=10, txt="E-mail", border=0)
 	pdf.cell(w=50,h=10, txt="Nutricionista", border=0)
 	#Quebra a linha
 	pdf.multi_cell(w=200,h=10, txt="", border=0)
@@ -255,9 +255,9 @@ def pdf_patient(request):
 	else:
 		patients = Patient.objects.filter(user=request.user)
 	for patient in patients:
-		pdf.cell(w=70,h=10, txt="{} {}".format(patient.first_name, patient.last_name), border=0)
+		pdf.cell(w=50,h=10, txt="{} {}".format(patient.first_name, patient.last_name), border=0)
 		pdf.cell(w=20,h=10, txt=patient.sex, border=0)
-		pdf.cell(w=60,h=10, txt=patient.email, border=0)
+		pdf.cell(w=80,h=10, txt=patient.email, border=0)
 		pdf.cell(w=50,h=10, txt=patient.user.username, border=0)
 		#Quebra a linha
 		pdf.multi_cell(w=200,h=10, txt="", border=0)
@@ -544,11 +544,11 @@ def pdf_consultation(request):
 	pdf.cell(w=70,h=10, txt="Relação de Consultas", border=0)
 	#Quebra a linha
 	pdf.multi_cell(w=200,h=10, txt="", border=0)
-	pdf.cell(w=60,h=10, txt="Nome do Paciente", border=0)
+	pdf.cell(w=50,h=10, txt="Nome do Paciente", border=0)
 	pdf.cell(w=40,h=10, txt="Dt. Consulta", border=0)
 	pdf.cell(w=30,h=10, txt="Objetivo", border=0)
 	pdf.cell(w=20,h=10, txt="IMC", border=0)
-	pdf.cell(w=50,h=10, txt="Observações", border=0)
+	pdf.cell(w=60,h=10, txt="Observações", border=0)
 	#Quebra a linha
 	pdf.multi_cell(w=200,h=10, txt="", border=0)
 	pdf.set_font('arial','',12.0)
@@ -560,11 +560,11 @@ def pdf_consultation(request):
 		imc = consultation.imc()
 		if consultation.observation == None:
 			consultation.observation = "N/a."
-		pdf.cell(w=60,h=10, txt="{} {}".format(consultation.patient.first_name, consultation.patient.last_name), border=0)
+		pdf.cell(w=50,h=10, txt="{} {}".format(consultation.patient.first_name, consultation.patient.last_name), border=0)
 		pdf.cell(w=40,h=10, txt="{:%d/%m/%Y}".format(consultation.date), border=0)
 		pdf.cell(w=30,h=10, txt=consultation.objective, border=0)
 		pdf.cell(w=20,h=10, txt="{0:.2f}".format(imc['val']), border=0)
-		pdf.cell(w=50,h=10, txt=consultation.observation, border=0)
+		pdf.cell(w=60,h=10, txt=consultation.observation, border=0)
 		#Quebra a linha
 		pdf.multi_cell(w=200,h=10, txt="", border=0)
 	pdf.output(file_path, 'F')
