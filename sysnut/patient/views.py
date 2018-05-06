@@ -230,7 +230,10 @@ def load_activity(request):
 #@method_decorator(is_nutritionist, name='dispatch')
 
 def pdf_patient(request):
-	file_path = "staticfiles/pacientes.pdf"
+	file_path = "media/upload/patient/"
+	if not os.path.exists(file_path):
+		os.makedirs(file_path)
+	file_path = "media/upload/patient/pacientes.pdf"
 	from fpdf import FPDF
 
 	pdf = FPDF()
@@ -528,6 +531,9 @@ class PatientDelete(DeleteView):
 # CRUD Consultation
 
 def pdf_consultation(request):
+	file_path = "media/upload/patient/"
+	if not os.path.exists(file_path):
+		os.makedirs(file_path)
 	file_path = "media/upload/patient/consultas.pdf"
 	from fpdf import FPDF
 
