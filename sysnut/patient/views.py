@@ -230,7 +230,7 @@ def load_activity(request):
 #@method_decorator(is_nutritionist, name='dispatch')
 
 def pdf_patient(request):
-	file_path = "media/upload/patient/pacientes.pdf"
+	file_path = "staticfiles/pacientes.pdf"
 	from fpdf import FPDF
 
 	pdf = FPDF()
