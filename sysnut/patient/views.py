@@ -263,7 +263,6 @@ def pdf_patient(request):
 	if os.path.exists(file_path):
 		with open(file_path, 'rb') as pdf:
 			data = pdf.read()
-			print(data)
 	response = HttpResponse(data, content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="pacientes.pdf"'
 	return response
@@ -567,7 +566,6 @@ def pdf_consultation(request):
 	if os.path.exists(file_path):
 		with open(file_path, 'rb') as pdf:
 			data = pdf.read()
-			print(data)
 	response = HttpResponse(data, content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename="consultas.pdf"'
 	return response
