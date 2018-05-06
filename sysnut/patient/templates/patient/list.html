@@ -16,16 +16,30 @@
 	</div>
 	<ul class="nav justify-content-end">
 		<li class="nav-item">
-			<a class="btn btn-outline-primary float-right" href="{% url 'patient:pdf_patient' %}">
-				<i class="far fa-file-pdf" aria-hidden="true"></i>
-				Pacientes
-			</a>
+			<div class="btn-group" role="group">
+				<a class="btn btn-outline-primary float-right" href="{% url 'patient:pdf_patient' %}" title="Gerar PDF">
+					<i class="far fa-file-pdf" aria-hidden="true"></i>
+				</a>
+				<a class="btn btn-outline-primary float-right" href="{% url 'patient:excel_patient' %}" title="Gerar Planilha">
+					<i class="far fa-file-excel" aria-hidden="true"></i>
+				</a>
+				<span class="btn btn-primary">
+					Pacientes
+				</a>
+			</div>
 		</li>
 		<li class="nav-item">
-			<a class="btn btn-outline-danger float-right" href="{% url 'patient:pdf_consultation' %}">
-				<i class="far fa-file-pdf" aria-hidden="true"></i>
-				Consultas
-			</a>
+			<div class="btn-group" role="group">
+				<a class="btn btn-outline-danger float-right" href="{% url 'patient:pdf_consultation' %}" title="Gerar PDF">
+					<i class="far fa-file-pdf" aria-hidden="true"></i>
+				</a>
+				<a class="btn btn-outline-danger float-right" href="{% url 'patient:excel_consultation' %}" title="Gerar Planilha">
+					<i class="far fa-file-excel" aria-hidden="true"></i>
+				</a>
+				<span class="btn btn-danger">
+					Consultas
+				</a>
+			</div>
 		</li>
 		<li class="nav-item">
 			<a class="btn btn-outline-secondary float-right" href="{% url 'patient:create' %}">

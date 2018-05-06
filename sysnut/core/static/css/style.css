@@ -111,6 +111,18 @@ body {
 }
 
 
+.sysnut-link{
+  color: white;
+  font-weight: bold;
+  transition: 0.3s all;
+}
+
+.sysnut-link:hover{
+  color: #ccc;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 .sysnut{
   color: #49274a;
   font-weight: bold;

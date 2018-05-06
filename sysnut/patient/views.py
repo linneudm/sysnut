@@ -230,6 +230,46 @@ def load_activity(request):
 #@method_decorator(is_nutritionist, name='dispatch')
 
 def pdf_patient(request):
+	file_path = "media/upload/patient/pacientes.pdf"
+	from fpdf import FPDF
+
+	pdf = FPDF()
+	pdf.add_page()
+	pdf.set_xy(10,10)
+	pdf.set_font('arial', 'B', 14.0)
+	pdf.cell(w=70,h=10, txt="Relação de Pacientes", border=0)
+	#Quebra a linha
+	pdf.multi_cell(w=200,h=10, txt="", border=0)
+	pdf.cell(w=70,h=10, txt="Nome do Paciente", border=0)
+	pdf.cell(w=20,h=10, txt="Sexo", border=0)
+	pdf.cell(w=60,h=10, txt="E-mail", border=0)
+	pdf.cell(w=50,h=10, txt="Nutricionista", border=0)
+	#Quebra a linha
+	pdf.multi_cell(w=200,h=10, txt="", border=0)
+	pdf.set_font('arial','',12.0)
+	if(request.user.is_superuser):
+		patients = Patient.objects.all()
+	else:
+		patients = Patient.objects.filter(user=request.user)
+	for patient in patients:
+		pdf.cell(w=70,h=10, txt="{} {}".format(patient.first_name, patient.last_name), border=0)
+		pdf.cell(w=20,h=10, txt=patient.sex, border=0)
+		pdf.cell(w=60,h=10, txt=patient.email, border=0)
+		pdf.cell(w=50,h=10, txt=patient.user.username, border=0)
+		#Quebra a linha
+		pdf.multi_cell(w=200,h=10, txt="", border=0)
+	pdf.output(file_path, 'F')
+
+	if os.path.exists(file_path):
+		with open(file_path, 'rb') as pdf:
+			data = pdf.read()
+			print(data)
+	response = HttpResponse(data, content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="pacientes.pdf"'
+	return response
+
+
+def excel_patient(request):
 	# Create an new Excel file and add a worksheet.
 	file_path = "media/upload/patient/"
 	if not os.path.exists(file_path):
@@ -489,6 +529,50 @@ class PatientDelete(DeleteView):
 # CRUD Consultation
 
 def pdf_consultation(request):
+	file_path = "media/upload/patient/consultas.pdf"
+	from fpdf import FPDF
+
+	pdf = FPDF()
+	pdf.add_page()
+	pdf.set_xy(10,10)
+	pdf.set_font('arial', 'B', 14.0)
+	pdf.cell(w=70,h=10, txt="Relação de Consultas", border=0)
+	#Quebra a linha
+	pdf.multi_cell(w=200,h=10, txt="", border=0)
+	pdf.cell(w=60,h=10, txt="Nome do Paciente", border=0)
+	pdf.cell(w=40,h=10, txt="Dt. Consulta", border=0)
+	pdf.cell(w=30,h=10, txt="Objetivo", border=0)
+	pdf.cell(w=20,h=10, txt="IMC", border=0)
+	pdf.cell(w=50,h=10, txt="Observações", border=0)
+	#Quebra a linha
+	pdf.multi_cell(w=200,h=10, txt="", border=0)
+	pdf.set_font('arial','',12.0)
+	if(request.user.is_superuser):
+		consultations = Consultation.objects.all()
+	else:
+		consultations = Consultation.objects.filter(patient__user=request.user)
+	for consultation in consultations:
+		imc = consultation.imc()
+		if consultation.observation == None:
+			consultation.observation = "N/a."
+		pdf.cell(w=60,h=10, txt="{} {}".format(consultation.patient.first_name, consultation.patient.last_name), border=0)
+		pdf.cell(w=40,h=10, txt="{:%d/%m/%Y}".format(consultation.date), border=0)
+		pdf.cell(w=30,h=10, txt=consultation.objective, border=0)
+		pdf.cell(w=20,h=10, txt="{0:.2f}".format(imc['val']), border=0)
+		pdf.cell(w=50,h=10, txt=consultation.observation, border=0)
+		#Quebra a linha
+		pdf.multi_cell(w=200,h=10, txt="", border=0)
+	pdf.output(file_path, 'F')
+
+	if os.path.exists(file_path):
+		with open(file_path, 'rb') as pdf:
+			data = pdf.read()
+			print(data)
+	response = HttpResponse(data, content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="consultas.pdf"'
+	return response
+
+def excel_consultation(request):
 	# Create an new Excel file and add a worksheet.
 	file_path = "media/upload/patient/"
 	if not os.path.exists(file_path):
