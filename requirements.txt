@@ -16,7 +16,6 @@ libsass==0.13.4
 lml==0.0.1
 openpyxl==2.4.8
 Pillow==5.1.0
-pkg-resources==0.0.0
 psycopg2==2.7.3.2
 pyexcel==0.5.4
 pyexcel-io==0.5.1
