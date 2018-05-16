@@ -29,6 +29,16 @@
 	</nav>
 </div>
 
+<div class="mt-2"></div>
+<div class="container-fuid">
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    <i class="fa fa-info-circle fa-fw"></i>Veja os tutoriais: <a href="https://www.youtube.com/watch?v=GS9M_b1iecM&list=PL1c1UZQarm9DRhJwxf94a4_lIqbTywIBp&index=5" class="alert-link">Impressão de Cardápio</a> e <a href="https://www.youtube.com/watch?v=pqjK48sMp7s&list=PL1c1UZQarm9DRhJwxf94a4_lIqbTywIBp&index=10" class="alert-link">Gerar Orientação no Cardápio</a>.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>
+
 <div class="container-fluid">
 	<div class="row">
 		{% if object_list.count > 0 %}
@@ -60,7 +70,7 @@
 					<a href="{% url 'patient:analysis_duplicate' analysis.id %}" class="btn btn-outline-info" title="Duplicar">
 						Duplicar
 					</a>
-					<a href="{% url 'patient:analysis_guidance' analysis.id %}" class="btn btn-outline-primary" title="Exibir">
+					<a href="{% url 'patient:analysis_guidance' analysis.id %}" class="btn btn-outline-primary" title="Gerar Orientação">
 						Orientações
 					</a>
 					<a href="{% url 'patient:analysis_details' analysis.id %}" class="btn btn-outline-primary" title="Exibir">
