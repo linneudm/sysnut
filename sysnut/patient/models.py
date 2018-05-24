@@ -64,12 +64,12 @@ class Patient(User):
 	def is_upperclass(self):
 		return self.sex in (self.MALE, self.FEMALE)
 
-	MARRIED = 'CASADO'
-	SINGLE = 'SOLTEIRO'
-	SEPARATED = 'SEPARADO'
-	WINDOWER = 'VIUVO'
-	DIVORCED = 'DIVORCIADO'
-	MARITAL_STATUS_CHOICES = ((MARRIED, 'Casado'), (SINGLE, 'Solteiro'), (SEPARATED, 'Seprado'), (WINDOWER, 'Viuvo'), (DIVORCED, 'Divorciado'),)
+	MARRIED = 'CASADO(A)'
+	SINGLE = 'SOLTEIRO(A)'
+	SEPARATED = 'SEPARADO(A)'
+	WINDOWER = 'VIUVO(A)'
+	DIVORCED = 'DIVORCIADO(A)'
+	MARITAL_STATUS_CHOICES = ((MARRIED, 'Casado(a)'), (SINGLE, 'Solteiro(a)'), (SEPARATED, 'Separado(a)'), (WINDOWER, 'Viuvo(a)'), (DIVORCED, 'Divorciado(a)'),)
 	marital_status = models.CharField('Estado Cívil', max_length=10, choices=MARITAL_STATUS_CHOICES, default=SINGLE, blank=False, null=True)
 
 	def is_upperclass(self):
@@ -80,13 +80,13 @@ class Patient(User):
 	ocupation = models.CharField('Ocupação', max_length=16, blank=True, null=True)
 	observation = models.CharField('Observação sobre o paciente', max_length=200, blank=True, null=True)
 
-	WHITE = 'BRANCO'
-	BLACK = 'NEGRO'
-	INDIGENOUS = 'INDÍGENA'
-	BROWN = 'PARDO'
-	MULATTO = 'MULATO'
+	WHITE = 'BRANCO(A)'
+	BLACK = 'NEGRO(A)'
+	INDIGENOUS = 'INDÍGENA(A)'
+	BROWN = 'PARDO(A)'
+	MULATTO = 'MULATO(A)'
 	OTHER = 'OUTRO'
-	ETHNICITY_CHOICES = ((WHITE, 'Branco'), (BLACK, 'Negro'), (INDIGENOUS, 'Indígena'), (BROWN, 'Pardo'), (MULATTO, 'Mulato'), (OTHER, 'Outro'),)
+	ETHNICITY_CHOICES = ((WHITE, 'Branco(a)'), (BLACK, 'Negro(a)'), (INDIGENOUS, 'Indígeno(a)'), (BROWN, 'Pardo(a)'), (MULATTO, 'Mulato(a)'), (OTHER, 'Outro'),)
 	ethnicity = models.CharField('Etnia', max_length=10, choices=ETHNICITY_CHOICES, default=None, blank=False, null=False)
 	#email = models.EmailField('E-mail', blank=True, null=True)
 	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='patient_address', on_delete=models.CASCADE, null=True)
