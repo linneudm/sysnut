@@ -28,7 +28,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^messages/', include('django_messages.urls')),
+    #url(r'^messages/', include('django_messages.urls')),
     url(r'^', include(core_urls, namespace='core')),
     url(r'^account/', include(account_urls, namespace='account')),
     url(r'^nutritionist/', include(nutritionist_urls, namespace='nutritionist')),

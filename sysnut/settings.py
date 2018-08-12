@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'xlrd',
     'multiupload',
-    'django_messages',
+    #'django_messages',
     #My apps
     'sysnut.core',
     'sysnut.account',
@@ -122,7 +122,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                'django_messages.context_processors.inbox',
+                #'django_messages.context_processors.inbox',
                 'django.template.context_processors.i18n',
             ],
         },
