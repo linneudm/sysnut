@@ -14,7 +14,12 @@ class NutritionistForm(UserCreationForm):
 
 	class Meta:
 		model = Nutritionist
-		fields = ['username', 'first_name', 'last_name', 'email', 'sex', 'crn', 'birth_date', 'phone']
+		fields = ['username', 'first_name', 'last_name', 'email', 'brand', 'sex', 'crn', 'birth_date', 'phone']
+
+class LogoForm(ModelForm):
+	class Meta:
+		model = Nutritionist
+		fields = ['brand']
 
 class AddressForm(ModelForm):
 

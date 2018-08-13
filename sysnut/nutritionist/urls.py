@@ -8,6 +8,7 @@ urlpatterns = [
     # Nutritionist
     url(r'^add/$', NutritionistCreate.as_view(), name='create'),
     url(r'^edit/(?P<pk>[0-9]+)/$', permission_required('nutritionist:edit', raise_exception=True)(NutritionistUpdate.as_view()), name='edit'),
+    url(r'^logo/(?P<pk>[0-9]+)/$', permission_required('patient.add_patient', raise_exception=True)(NutritionistLogo.as_view()), name='logo'),
 	url(r'^list/$', permission_required('nutritionist:list', raise_exception=True)(NutritionistList.as_view()), name='list'),
     url(r'^details/(?P<pk>[0-9]+)/$', permission_required('nutritionist:details', raise_exception=True)(NutritionistDetail.as_view()), name='details'),
     url(r'^delete/(?P<pk>[0-9]+)/$', permission_required('nutritionist:delete', raise_exception=True)(NutritionistDelete.as_view()), name='delete'),

@@ -20,7 +20,7 @@ from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.forms import formset_factory
 from datetime import date, datetime
 from sysnut.account.models import Nutritionist, Address, User
-from .forms import NutritionistForm, AddressForm, GuidanceForm
+from .forms import NutritionistForm, AddressForm, GuidanceForm, LogoForm
 from dal import autocomplete
 #from .decorators import odontology_required, Nutritionist_show_required
 from django.template.response import TemplateResponse
@@ -182,6 +182,26 @@ class NutritionistUpdate(UpdateView):
 
 	def get_success_url(self):
 		return reverse('account:login')
+
+@method_decorator(login_required, name='dispatch')
+class NutritionistLogo(UpdateView):
+	model = Nutritionist
+	template_name = 'nutritionist/new.html'
+	form_class = LogoForm
+
+	def form_valid(self, form):
+		form.save()
+		return HttpResponseRedirect(self.get_success_url())
+
+	def form_invalid(self, form):
+		return self.render_to_response(
+			self.get_context_data(
+				form=form
+			)
+		)
+
+	def get_success_url(self):
+		return reverse('core:index')
 
 @method_decorator(login_required, name='dispatch')
 class NutritionistList(ListView):

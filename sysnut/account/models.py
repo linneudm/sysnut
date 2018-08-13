@@ -72,6 +72,7 @@ class Nutritionist(User, AuditModel):
 		return self.sex in (self.MALE, self.FEMALE)
 
 	birth_date = models.DateField('Data Nascimento')
+	brand = models.FileField(u'Logomarca (opcional)', upload_to='upload/brand', blank=True, null=True)
 	crn = models.CharField('CRN', max_length=6, null=False,)
 	phone = models.CharField('Telefone', max_length=16)
 	address = models.ForeignKey(Address, verbose_name='Endereço', related_name='employees_address', on_delete=models.CASCADE, null=True)

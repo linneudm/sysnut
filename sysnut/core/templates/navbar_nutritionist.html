@@ -70,6 +70,10 @@
     </a>
     <div class="dropdown-menu dropdown-menu-right">
       <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="{% url 'nutritionist:logo' user.pk %}">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+        Inserir Logo
+      </a>
       <a class="dropdown-item" href="{% url 'account:edit' %}">
         <i class="fa fa-edit" aria-hidden="true"></i>
         Editar
